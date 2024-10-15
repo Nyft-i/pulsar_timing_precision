@@ -15,9 +15,9 @@ def compare_to_master(par, master_traits):
     cols = ["Element Name", "Value", "Fitting", "Error"]
     properties = pandas.read_csv(par, sep="\s+", names=cols)
     
-    perc_f0 = (properties.loc[properties['Element Name'] == "GLF0_1"]['Value'] - master_traits[0])*100/master_traits[0] 
-    perc_f1 = (properties.loc[properties['Element Name'] == "GLF1_1"]['Value'] - master_traits[1])*100/master_traits[1] 
-    ph = properties.loc[properties['Element Name'] == "GLPH_1"]['Value']
+    perc_f0 = (float(properties.loc[properties['Element Name'] == "GLF0_1"]['Value']) - master_traits[0])*100/master_traits[0] 
+    perc_f1 = (float(properties.loc[properties['Element Name'] == "GLF1_1"]['Value']) - master_traits[1])*100/master_traits[1] 
+    ph = float(properties.loc[properties['Element Name'] == "GLPH_1"]['Value'])
     
     return perc_f0, perc_f1, ph
 
@@ -88,7 +88,7 @@ subprocess.run([
 cols = ["Element Name", "Value", "Fitting", "Error"]
 master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
 
-master_traits = master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']
+master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
 
 results = compare_to_master("new.par", master_traits)
 print("results: ")
