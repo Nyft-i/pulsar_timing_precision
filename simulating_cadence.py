@@ -9,6 +9,7 @@ import tim_sampling
 import numpy as np
 import subprocess
 import pandas
+import matplotlib.pyplot as plt
 
 def compare_to_master(par, master_traits):
     # f0 % diff
@@ -32,7 +33,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
     
     if sequence_type == 'logarithmic':
-        results = np.zeros((0,3))
+        results = np.zeros((0,4))
         while curr_iter<sim_args[2]:
             curr_iter += 1
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
@@ -58,11 +59,15 @@ def simulate(toas, sequence_type, const_args, sim_args):
                 ])
 
             print("retrieving results")
-            results = np.vstack((results, compare_to_master("new.par", master_traits)))
+            compare = compare_to_master("new.par", master_traits)
+            curr_results = curr_log_const, compare[0], compare[1], compare[2]
+            results = np.vstack((results, curr_results))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
             print("(log_const is now "+str(curr_log_const)+")")
         print(results)
+        plt.plot(results[:,0], results[:,1])
+        plt.savefig("results 15/20/24.png", dpi=400)
         return
     else:
         print("you should never see this")
