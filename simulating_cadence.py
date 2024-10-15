@@ -50,7 +50,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
                 "-fit", "GLF0_1",
                 "-fit", "GLF1_1",
                 "-fit", "GLPH_1",
-                "-newpar"
+                "-newpar", "-noWarnings"
                 ])
 
             results = np.vstack(results, compare_to_master("new.par", master_traits))
