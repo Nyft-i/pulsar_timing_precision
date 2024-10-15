@@ -74,7 +74,9 @@ subprocess.run([
 # properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
 cols = ["Element Name", "Value", "Fitting", "Error"]
 properties = pandas.read_csv("new.par", sep="\s+", names=cols)
-print(properties)
+
+print(properties.loc[properties['Element Name'] == "GLF0_1"])
+    
 
 
 
