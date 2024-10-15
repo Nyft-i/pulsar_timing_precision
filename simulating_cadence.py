@@ -35,8 +35,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
         results = np.zeros((0,3))
         while curr_iter<=sim_args[2]:
             curr_iter += 1
-            current_log_const += step
-            passed_args = const_args, current_log_const
+            curr_log_const += step
+            passed_args = const_args, curr_log_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             new_filename = sequence_type + "_toas.tim"
             tim_sampling.gen_new_tim(timfile, indexes, new_filename)
