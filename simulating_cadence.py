@@ -81,7 +81,7 @@ verbose = False
 #simulation parameters
 log_const_min = 0
 log_const_max = 1
-num_iterations = 10
+num_iterations = 100
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
