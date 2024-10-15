@@ -72,7 +72,8 @@ subprocess.run([
 
 # properties = np.zeros((0,4))
 # properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
-properties = pandas.read_csv("new.par", sep="\s+")
+cols = ["Element Name", "Value", "Fitting", "Error"]
+properties = pandas.read_csv("new.par", sep="\s+", names=cols)
 print(properties)
 
 
