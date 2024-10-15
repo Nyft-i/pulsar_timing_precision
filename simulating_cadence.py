@@ -70,7 +70,7 @@ subprocess.run([
     ])
 
 
-properties = np.genfromtxt("new.par", skip_header=0, delimiter=" ", dtype=str)
+properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
 print(properties)
 
 
