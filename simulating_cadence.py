@@ -24,7 +24,7 @@ def compare_to_master(par, master_traits):
 def simulate(toas, sequence_type, const_args, sim_args):
     curr_iter = 0
     curr_log_const = sim_args[0]
-    step = np.abs(sim_args[1] - sim_args[0])/sim_args[2]
+    step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
     master_par = "master_file.par"
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
@@ -33,7 +33,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     
     if sequence_type == 'logarithmic':
         results = np.zeros((0,3))
-        while curr_iter<sim_args[2]:
+        while curr_iter<=sim_args[2]:
             curr_iter += 1
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             #print(toas)
@@ -59,8 +59,9 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
             print("retrieving results")
             results = np.vstack((results, compare_to_master("new.par", master_traits)))
-            print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step)+" (it is currently "+str(curr_log_const)+")")
+            print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
+            print("(log_const is now "+str(curr_log_const)+")"))
         print(results)
         return
     else:
