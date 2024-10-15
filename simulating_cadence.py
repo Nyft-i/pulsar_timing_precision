@@ -69,7 +69,7 @@ subprocess.run([
     "-newpar"
     ])
 
-
+properties = np.zeros((0,4))
 properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
 print(properties)
 
