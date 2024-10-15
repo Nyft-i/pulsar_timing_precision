@@ -65,9 +65,11 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
             print("(log_const is now "+str(curr_log_const)+")")
-        print(results)
         results = results.astype('float64')
-        plt.plot(results[:,0], results[:,1])
+        print(results)
+        x = results[:,0].astype('float64')
+        y = results[:,1].astype('float64')
+        plt.plot(x,y)
         plt.savefig("results 15/20/24.png", dpi='400')
         return
     else:
