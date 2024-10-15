@@ -66,7 +66,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             curr_log_const += step
             print("(log_const is now "+str(curr_log_const)+")")
         print(results)
-        plt.plot(float(results[:,0]), float(results[:,1]))
+        plt.plot(results[:,0].astype(float), results[:,1].astype(float))
         plt.savefig("results 15/20/24.png", dpi='400')
         return
     else:
@@ -86,7 +86,7 @@ verbose = False
 #simulation parameters
 log_const_min = 0
 log_const_max = 1
-num_iterations = 100
+num_iterations = 10
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
