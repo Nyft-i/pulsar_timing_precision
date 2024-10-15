@@ -69,7 +69,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         print(results)
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
-        plt.plot(x,y)
+        plt.plot(x,np.abs(y))
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
@@ -83,7 +83,7 @@ toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 SEQUENCE_TYPE = 'logarithmic'
 cadence_start = 0.5
 marker_offset = 0
-max_gap = 20
+max_gap = 3.8
 verbose = False
 
 #simulation parameters
