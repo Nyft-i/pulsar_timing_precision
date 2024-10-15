@@ -7,6 +7,7 @@ Created on Tue Oct 15 12:33:34 2024
 
 import tim_sampling
 import numpy as np
+import subprocess
 
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
@@ -55,4 +56,25 @@ print("number of toas: " + str(len(indexes)))
 
 new_filename = SEQUENCE_TYPE + "_toas.tim"
 tim_sampling.gen_new_tim(timfile, indexes, new_filename)
+
+par, tim = "master_file_noglitch.par", new_filename
+
+subprocess.run([
+    "tempo2",
+    "-f", par, tim,
+    "-nofit",
+    "-fit", "GLF0_1",
+    "-fit", "GLF1_1",
+    "-fit", "GLPH_1",
+    "-newpar", "temp.par"
+    ])
+
+
+properties = np.genfromtxt("temp.par", skip_header=0, usecols=[0,1,2])
+print(properties)
+
+
+
+
+
 
