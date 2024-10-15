@@ -21,9 +21,49 @@ def compare_to_master(par, master_traits):
     
     return perc_f0, perc_f1, ph
 
-    
-    
+def simulate(toas, sequence_type, const_args, sim_args):
+    curr_iter = 0
+    curr_log_const = sim_args[0]
+    step = np.abs(sim_args[1] - sim_args[0])/sim_args[2]
+    master_par = "master_file.par"
+    cols = ["Element Name", "Value", "Fitting", "Error"]
+    master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
+    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
 
+    
+    if sequence_type == 'logarithmic':
+        results = np.zeros((0,3))
+        while curr_iter<=sim_args[2]:
+            curr_iter += 1
+            current_log_const += step
+            passed_args = const_args, current_log_const
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
+            new_filename = sequence_type + "_toas.tim"
+            tim_sampling.gen_new_tim(timfile, indexes, new_filename)
+
+            # run tempo2
+            par, tim = "master_file_noglitch.par", new_filename
+
+            subprocess.run([
+                "tempo2",
+                "-f", par, tim,
+                "-nofit",
+                "-fit", "GLF0_1",
+                "-fit", "GLF1_1",
+                "-fit", "GLPH_1",
+                "-newpar"
+                ])
+
+            results = np.append(results, compare_to_master("new.par", master_traits))
+            print("successfully simulated #", curr_iter)
+        print(results)
+            
+
+
+
+    else return
+        
+    
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
@@ -34,6 +74,11 @@ cadence_start = 0.5
 marker_offset = 0
 max_gap = 20
 verbose = False
+
+#simulation parameters
+log_const_min = 0
+log_const_max = 1
+num_iterations = 10
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
@@ -51,46 +96,29 @@ multiplicative_increase = 2 # factor time between observations is multiplied by 
 # these parameters are only used if SEQUENCE_TYPE is 'periodic'
 period = 1
 
+
 if SEQUENCE_TYPE == 'logarithmic':
-    args = (cadence_start, marker_offset, max_gap, log_const)
-    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
+    const_args = (cadence_start, marker_offset, max_gap)
+    sim_args = (log_const_min, log_const_max, num_iterations)
+#    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
 elif SEQUENCE_TYPE == 'arithmetic':
     args = (cadence_start, marker_offset, max_gap, sequential_increase)
-    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
+ #   indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
 elif SEQUENCE_TYPE == 'geometric':
     args = (cadence_start, marker_offset, max_gap, multiplicative_increase)
-    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
+  #  indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
 elif SEQUENCE_TYPE == 'periodic':
     args = (cadence_start, marker_offset, max_gap, period)
-    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
+   # indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
 else:
     print("invalid sequence type. doing nothing.")    
 
+simulate(toas, sequence_type, const_args, sim_args)
 
-print("number of toas: " + str(len(indexes)))
+#print("number of toas: " + str(len(indexes)))
 
-new_filename = SEQUENCE_TYPE + "_toas.tim"
-tim_sampling.gen_new_tim(timfile, indexes, new_filename)
 
-par, tim = "master_file_noglitch.par", new_filename
-master_par = "master_file.par"
 
-subprocess.run([
-    "tempo2",
-    "-f", par, tim,
-    "-nofit",
-    "-fit", "GLF0_1",
-    "-fit", "GLF1_1",
-    "-fit", "GLPH_1",
-    "-newpar"
-    ])
-
-cols = ["Element Name", "Value", "Fitting", "Error"]
-master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
-
-master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
-
-results = compare_to_master("new.par", master_traits)
 print("results: ")
 print(results[0])
 print(results[1])
