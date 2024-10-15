@@ -62,7 +62,8 @@ def gen_new_tim(timfile, indexes, newfile):
     #file_name = str(start_cadence) + "_day_("+str(marker_offset)+"_offset).tim"
     np.savetxt(newfile, new_lines, fmt="%s")
 
-
+#print("i do this!")
+"""
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
@@ -110,4 +111,4 @@ print("number of toas: " + str(len(indexes)))
 
 new_filename = SEQUENCE_TYPE + "_toas.tim"
 gen_new_tim(timfile, indexes, new_filename)
-
+"""

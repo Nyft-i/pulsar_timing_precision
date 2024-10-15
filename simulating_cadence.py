@@ -17,7 +17,7 @@ SEQUENCE_TYPE = 'periodic'
 cadence_start = 0.5
 marker_offset = 0
 max_gap = 20
-verbose = True
+verbose = False
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
