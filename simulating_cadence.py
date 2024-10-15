@@ -38,6 +38,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             print("index array made")
+            print(indexes)
             new_filename = sequence_type + "_toas.tim"
             tim_sampling.gen_new_tim(timfile, indexes, new_filename)
             print("new toas generated, running tempo2")
