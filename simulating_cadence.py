@@ -10,6 +10,20 @@ import numpy as np
 import subprocess
 import pandas
 
+def compare_to_master(par, master_traits):
+    # f0 % diff
+    cols = ["Element Name", "Value", "Fitting", "Error"]
+    properties = pandas.read_csv(par, sep="\s+", names=cols)
+    
+    perc_f0 = (properties.loc[properties['Element Name'] == "GLF0_1"][1] - master_traits[0])*100/master_traits[0] 
+    perc_f1 = (properties.loc[properties['Element Name'] == "GLF1_1"][1] - master_traits[1])*100/master_traits[1] 
+    ph = properties.loc[properties['Element Name'] == "GLPH_1"] 
+    
+    return perc_f0, perc_f1, ph
+
+    
+    
+
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
@@ -59,6 +73,7 @@ new_filename = SEQUENCE_TYPE + "_toas.tim"
 tim_sampling.gen_new_tim(timfile, indexes, new_filename)
 
 par, tim = "master_file_noglitch.par", new_filename
+master_par = "master_file.par"
 
 subprocess.run([
     "tempo2",
@@ -70,12 +85,13 @@ subprocess.run([
     "-newpar"
     ])
 
-# properties = np.zeros((0,4))
-# properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
 cols = ["Element Name", "Value", "Fitting", "Error"]
-properties = pandas.read_csv("new.par", sep="\s+", names=cols)
+master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
 
-print(properties.loc[properties['Element Name'] == "GLF0_1"])
+master_traits = master_properties.loc[master_properties['Element Name'] == "GLF0_1"][1], master_properties.loc[master_properties['Element Name'] == "GLF1_1"][1], master_properties.loc[master_properties['Element Name'] == "GLPH_1"]
+
+print(compare_to_master("new.par", master_traits))
+
     
 
 
