@@ -36,7 +36,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         while curr_iter<=sim_args[2]:
             curr_iter += 1
             curr_log_const += step
-            passed_args = const_args, curr_log_const
+            passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             new_filename = sequence_type + "_toas.tim"
             tim_sampling.gen_new_tim(timfile, indexes, new_filename)
