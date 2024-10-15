@@ -109,16 +109,9 @@ elif SEQUENCE_TYPE == 'periodic':
 else:
     print("invalid sequence type. doing nothing.")    
 
-simulate(toas, sequence_type, const_args, sim_args)
+simulate(toas, SEQUENCE_TYPE, const_args, sim_args)
 
 #print("number of toas: " + str(len(indexes)))
-
-
-
-print("results: ")
-print(results[0])
-print(results[1])
-print(results[2])
 
     
 
