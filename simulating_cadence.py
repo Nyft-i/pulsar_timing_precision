@@ -61,7 +61,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             results = np.vstack((results, compare_to_master("new.par", master_traits)))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
-            print("(log_const is now "+str(curr_log_const)+")"))
+            print("(log_const is now "+str(curr_log_const)+")")
         print(results)
         return
     else:
