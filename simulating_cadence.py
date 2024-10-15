@@ -88,7 +88,7 @@ subprocess.run([
 cols = ["Element Name", "Value", "Fitting", "Error"]
 master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
 
-master_traits = master_properties.loc[master_properties['Element Name'] == "GLF0_1"][1], master_properties.loc[master_properties['Element Name'] == "GLF1_1"][1], master_properties.loc[master_properties['Element Name'] == "GLPH_1"]
+master_traits = master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']
 
 print(compare_to_master("new.par", master_traits))
 
