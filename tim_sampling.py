@@ -36,7 +36,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
             # Ads the index also to avoid double counting
             indexes = np.append(indexes, closest_index)
             # Removes the ToA from the list so it cant be picked again, does this by setting its value to infinity so it is never picked again.
-            toas[closest_index] = float("inf")
+            #toas[closest_index] = float("inf")
             cadence_list = np.append(cadence_list, cadence)
         
         if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
@@ -47,6 +47,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
         if(cadence > max_gap): cadence = cadence_start
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
+                
     return indexes
 
 def gen_new_tim(timfile, indexes, newfile):
