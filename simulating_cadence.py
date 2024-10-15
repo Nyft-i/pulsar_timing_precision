@@ -43,7 +43,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
 
-            subprocess.Popen([
+            subprocess.run([
                 "tempo2",
                 "-f", par, tim,
                 "-nofit",
@@ -53,7 +53,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
                 "-newpar", "-noWarnings"
                 ])
 
-            results = np.vstack(results, compare_to_master("new.par", master_traits))
+            results = np.vstack((results, compare_to_master("new.par", master_traits)))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
         print(results)
