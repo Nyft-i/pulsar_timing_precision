@@ -35,7 +35,6 @@ def simulate(toas, sequence_type, const_args, sim_args):
         results = np.zeros((0,3))
         while curr_iter<=sim_args[2]:
             curr_iter += 1
-            curr_log_const += step
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             new_filename = sequence_type + "_toas.tim"
@@ -44,7 +43,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
 
-            subprocess.run([
+            subprocess.Popen([
                 "tempo2",
                 "-f", par, tim,
                 "-nofit",
@@ -55,7 +54,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
                 ])
 
             results = np.append(results, compare_to_master("new.par", master_traits))
-            print("successfully simulated #", curr_iter)
+            print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
+            curr_log_const += step
         print(results)
     else:
         print("you should never see this")
