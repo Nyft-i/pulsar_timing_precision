@@ -57,12 +57,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
             results = np.append(results, compare_to_master("new.par", master_traits))
             print("successfully simulated #", curr_iter)
         print(results)
-            
-
-
-
-    else return
-        
+    else:
+        print("you should never see this")
     
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
