@@ -33,7 +33,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     
     if sequence_type == 'logarithmic':
         results = np.zeros((0,3))
-        while curr_iter<=sim_args[2]:
+        while curr_iter<sim_args[2]:
             curr_iter += 1
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             #print(toas)
