@@ -65,7 +65,7 @@ toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
 # User changeable 
 # 'logarithmic', 'arithmetic', 'geometric', 'periodic'
-SEQUENCE_TYPE = 'periodic'
+SEQUENCE_TYPE = 'logarithmic'
 cadence_start = 0.5
 marker_offset = 0
 max_gap = 20
