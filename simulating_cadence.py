@@ -8,6 +8,7 @@ Created on Tue Oct 15 12:33:34 2024
 import tim_sampling
 import numpy as np
 import subprocess
+import pandas
 
 timfile = "master_toas.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
@@ -69,13 +70,10 @@ subprocess.run([
     "-newpar"
     ])
 
-properties = np.zeros((0,4))
-properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
+# properties = np.zeros((0,4))
+# properties = np.genfromtxt("new.par", skip_header=0, dtype=str)
+properties = pandas.read_csv("new.par", sep="\s+")
 print(properties)
-
-
-
-
 
 
 
