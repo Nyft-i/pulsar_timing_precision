@@ -90,7 +90,11 @@ master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
 
 master_traits = master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value'], master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']
 
-print(compare_to_master("new.par", master_traits))
+results = compare_to_master("new.par", master_traits)
+print("results: ")
+print(results[0])
+print(results[1])
+print(results[2])
 
     
 
