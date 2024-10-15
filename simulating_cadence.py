@@ -25,6 +25,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     curr_iter = 0
     curr_log_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/sim_args[2]
+    temp_toas = toas
     master_par = "master_file.par"
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
@@ -36,7 +37,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         while curr_iter<=sim_args[2]:
             curr_iter += 1
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
+            indexes = tim_sampling.sample_from_toas(temp_toas, sequence_type, passed_args)
             new_filename = sequence_type + "_toas.tim"
             tim_sampling.gen_new_tim(timfile, indexes, new_filename)
 
@@ -55,6 +56,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
             results = np.vstack((results, compare_to_master("new.par", master_traits)))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
+            temp_toas = toas
             curr_log_const += step
         print(results)
         return
