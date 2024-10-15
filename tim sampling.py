@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# hi 
 def sample_from_toas(toas, sequence_type, args, verbose=False):
     # Setup
     end = np.max(toas)
