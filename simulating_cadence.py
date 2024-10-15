@@ -56,7 +56,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
                 "-fit", "GLF1_1",
                 "-fit", "GLPH_1",
                 "-newpar", "-noWarnings"
-                ])
+                ] stderr=None, stdout=None)
 
             print("retrieving results")
             compare = compare_to_master("new.par", master_traits)
@@ -67,7 +67,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("(log_const is now "+str(curr_log_const)+")")
         print(results)
         plt.plot(results[:,0], results[:,1])
-        plt.savefig("results 15/20/24.png", dpi=400)
+        plt.savefig("results 15/20/24.png", dpi='400')
         return
     else:
         print("you should never see this")
