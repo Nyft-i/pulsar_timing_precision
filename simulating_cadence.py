@@ -70,7 +70,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
         plt.plot(x,y)
-        plt.savefig("results 15/20/24.png", dpi=400)
+        plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
         print("you should never see this")
