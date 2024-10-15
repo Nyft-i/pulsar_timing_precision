@@ -15,9 +15,9 @@ def compare_to_master(par, master_traits):
     cols = ["Element Name", "Value", "Fitting", "Error"]
     properties = pandas.read_csv(par, sep="\s+", names=cols)
     
-    perc_f0 = (properties.loc[properties['Element Name'] == "GLF0_1"][1] - master_traits[0])*100/master_traits[0] 
-    perc_f1 = (properties.loc[properties['Element Name'] == "GLF1_1"][1] - master_traits[1])*100/master_traits[1] 
-    ph = properties.loc[properties['Element Name'] == "GLPH_1"] 
+    perc_f0 = (properties.loc[properties['Element Name'] == "GLF0_1"]['Value'] - master_traits[0])*100/master_traits[0] 
+    perc_f1 = (properties.loc[properties['Element Name'] == "GLF1_1"]['Value'] - master_traits[1])*100/master_traits[1] 
+    ph = properties.loc[properties['Element Name'] == "GLPH_1"]['Value']
     
     return perc_f0, perc_f1, ph
 
