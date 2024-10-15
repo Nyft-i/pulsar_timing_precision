@@ -33,13 +33,13 @@ def simulate(toas, sequence_type, const_args, sim_args):
     
     if sequence_type == 'logarithmic':
         results = np.zeros((0,3))
-        while curr_iter<=sim_args[2]:
+        while curr_iter<sim_args[2]:
             curr_iter += 1
             passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
-            print(toas)
+            #print(toas)
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             print("index array made")
-            print(indexes)
+            #print(indexes)
             new_filename = sequence_type + "_toas.tim"
             tim_sampling.gen_new_tim(timfile, indexes, new_filename)
             print("new toas generated, running tempo2")
@@ -59,7 +59,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
             print("retrieving results")
             results = np.vstack((results, compare_to_master("new.par", master_traits)))
-            print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
+            print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step)+" (it is currently "+str(curr_log_const)+")")
             curr_log_const += step
         print(results)
         return
