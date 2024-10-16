@@ -10,6 +10,7 @@ import numpy as np
 import subprocess
 import pandas
 import matplotlib.pyplot as plt
+import scipy as sp
 
 def compare_to_master(par, master_traits):
     # f0 % diff
@@ -70,6 +71,11 @@ def simulate(toas, sequence_type, const_args, sim_args):
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
         plt.plot(x,np.abs(y))
+        plt.xlabel("log constant")
+        plt.ylable("absolute value of percentage difference of retrieved and actual GLF0")
+        min_constant = sp.signal.find_peaks(-y , distance= 1000)
+        print(y[min_constant])
+        plt.scatter(x[min_constant],y[min_constant], marker="x")
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
