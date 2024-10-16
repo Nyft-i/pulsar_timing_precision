@@ -74,9 +74,9 @@ def simulate(toas, sequence_type, const_args, sim_args):
         plt.plot(x,np.abs(y))
         plt.xlabel("log constant")
         plt.ylabel("absolute value of percentage difference of retrieved and actual GLF0")
-        min_constant = find_peaks(-y, distance= 1000)
-        print(y[min_constant])
-        plt.scatter(x[min_constant],y[min_constant], marker="x")
+        min_constant = find_peaks(-y, distance= 2000)
+        print(y[int(min_constant)])
+        plt.scatter(x[int(min_constant)],y[int(min_constant)], marker="x")
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
