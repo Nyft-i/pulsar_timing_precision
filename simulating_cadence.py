@@ -79,6 +79,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             traits = run_fit(par, tim)
+            print(traits)
             
             
             print("retrieving results")
@@ -119,7 +120,7 @@ verbose = False
 #simulation parameters
 log_const_min = 0
 log_const_max = 3.8
-num_iterations = 100
+num_iterations = 10
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
