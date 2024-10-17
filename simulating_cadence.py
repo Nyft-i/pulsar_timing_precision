@@ -26,7 +26,7 @@ def compare_to_master(traits, master_traits):
 
     ph = float(traits[4])
     
-    return perc_f0, perc_f0_em perc_f1, perc_f1_e, ph
+    return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
 def run_fit(par, tim):
     command = [
