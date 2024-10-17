@@ -98,7 +98,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         y = results[:,1].astype('float64')
         scaled_z = (results[:,4] - results[:,4].min()) / results[:,4].ptp()
         #colours = plt.cm.Greys(scaled_z)
-        plt.scatter(x,np.abs(y),cm='gist_gray',c=scaled_z)
+        plt.scatter(x,np.abs(y),cmap='gist_gray',c=scaled_z)
         plt.colorbar()
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
