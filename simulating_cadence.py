@@ -158,8 +158,8 @@ multiplicative_increase_max = 4 # factor time between observations is multiplied
 
 ## PERIODIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period_min = 1
-period_max = 1
+period_min = 0.5
+period_max = 20
 
 
 if SEQUENCE_TYPE == 'logarithmic':
@@ -168,7 +168,7 @@ if SEQUENCE_TYPE == 'logarithmic':
 #    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
 elif SEQUENCE_TYPE == 'arithmetic':
     const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (log_const_min, log_const_max, num_iterations)
+    sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
 #    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
 elif SEQUENCE_TYPE == 'geometric':
     const_args = (cadence_start, marker_offset, max_gap)
@@ -176,7 +176,7 @@ elif SEQUENCE_TYPE == 'geometric':
 #    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
 elif SEQUENCE_TYPE == 'periodic':
     const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (log_const_min, log_const_max, num_iterations)
+    sim_args = (period_min, period_max, num_iterations)
 #    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
 else:
     print("invalid sequence type. doing nothing.")    
