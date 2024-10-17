@@ -101,7 +101,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         #scaled_z = (z - z.min()) / z.ptp()
         #colours = plt.cm.Greys(scaled_z)
         plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,4],norm=colors.LogNorm(),edgecolors='gray')
-        plt.colorbar()
+        plt.colorbar(label="Num. of ToAs")
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
         minimum = find_peaks(-np.abs(y), distance= 2000)
