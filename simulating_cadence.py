@@ -135,7 +135,7 @@ verbose = False
 #simulation parameters
 log_const_min = 0
 log_const_max = 1
-num_iterations = 100
+num_iterations = 250
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
