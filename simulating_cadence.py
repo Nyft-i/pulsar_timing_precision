@@ -70,16 +70,16 @@ def simulate(toas, sequence_type, const_args, sim_args):
         results = np.zeros((0,5))
         while curr_iter<sim_args[2]:
             curr_iter += 1
-            passed_args = const_args[0], const_args[1], const_args[2], curr_log_const
             #print(toas)
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
-            print("index array made")
             #print(indexes)
             # adds some 5d random variation so that we dont run into issues with the sample being the same every time
             start_randomiser = np.array([(const_args[1] + random.randint(0, 50)/10),
                                 (const_args[1] + random.randint(0, 50)/10),
                                 (const_args[1] + random.randint(0, 50)/10)])
             for offset in start_randomiser:
+                passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_log_const
+                indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
+                print("index array made")   
                 new_filename = sequence_type + "_toas.tim"
                 num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
                 print("new toas generated, running tempo2")
@@ -135,7 +135,7 @@ verbose = False
 #simulation parameters
 log_const_min = 0
 log_const_max = 1
-num_iterations = 250
+num_iterations = 100
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
