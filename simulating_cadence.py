@@ -12,6 +12,7 @@ import pandas
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import sys
+import random
 from scipy.signal import find_peaks
 
 def compare_to_master(traits, master_traits):
@@ -74,21 +75,27 @@ def simulate(toas, sequence_type, const_args, sim_args):
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
             print("index array made")
             #print(indexes)
-            new_filename = sequence_type + "_toas.tim"
-            num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
-            print("new toas generated, running tempo2")
-
-            # run tempo2
-            par, tim = "master_file_noglitch.par", new_filename
-            traits = run_fit(par, tim)
-            #print(traits)
-            
-            
-            print("retrieving results")
-            compare = compare_to_master(traits, master_traits)
-            #print(compare)
-            curr_results = curr_log_const, compare[0], compare[1], compare[2], num_toas
-            results = np.vstack((results, curr_results))
+            # adds some 5d random variation so that we dont run into issues with the sample being the same every time
+            start_randomiser = [const_args + random.randint(0, 50)/10,
+                                const_args + random.randint(0, 50)/10,
+                                const_args + random.randint(0, 50)/10]
+            for offset in start_randomiser:
+                new_filename = sequence_type + "_toas.tim"
+                num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
+                print("new toas generated, running tempo2")
+    
+                # run tempo2
+                par, tim = "master_file_noglitch.par", new_filename
+                traits = run_fit(par, tim)
+                #print(traits)
+                
+                
+                print("retrieving results")
+                compare = compare_to_master(traits, master_traits)
+                #print(compare)
+                curr_results = curr_log_const, compare[0], compare[1], compare[2], num_toas
+                results = np.vstack((results, curr_results))
+                
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
             print("(log_const is now "+str(curr_log_const)+")")
