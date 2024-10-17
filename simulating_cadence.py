@@ -104,7 +104,6 @@ def simulate(toas, sequence_type, const_args, sim_args):
         min_constant = minimum[0]
         print(y[min_constant])
         plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
-        plt.show()
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
