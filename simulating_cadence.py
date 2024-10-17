@@ -10,6 +10,7 @@ import numpy as np
 import subprocess
 import pandas
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 import sys
 from scipy.signal import find_peaks
 
@@ -99,7 +100,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         #z = np.log(results[:,4])
         #scaled_z = (z - z.min()) / z.ptp()
         #colours = plt.cm.Greys(scaled_z)
-        plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,4],norm=plt.colors.LogNorm())
+        plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,4],norm=colors.LogNorm())
         plt.colorbar()
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
