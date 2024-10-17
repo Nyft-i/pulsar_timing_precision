@@ -10,19 +10,48 @@ import numpy as np
 import subprocess
 import pandas
 import matplotlib.pyplot as plt
-import scipy as sp
+import sys
 from scipy.signal import find_peaks
 
-def compare_to_master(par, master_traits):
+def compare_to_master(traits, master_traits):
     # f0 % diff
-    cols = ["Element Name", "Value", "Fitting", "Error"]
-    properties = pandas.read_csv(par, sep="\s+", names=cols)
+
     
-    perc_f0 = (float(properties.loc[properties['Element Name'] == "GLF0_1"]['Value']) - master_traits[0])*100/master_traits[0] 
-    perc_f1 = (float(properties.loc[properties['Element Name'] == "GLF1_1"]['Value']) - master_traits[1])*100/master_traits[1] 
-    ph = float(properties.loc[properties['Element Name'] == "GLPH_1"]['Value'])
+    perc_f0 = (traits[0] - master_traits[0])*100/master_traits[0] 
+    perc_f1 = (traits[2]) - master_traits[1])*100/master_traits[1] 
+    ph = traits[4]
     
     return perc_f0, perc_f1, ph
+
+def run_fit(par, tim):
+    command = [
+        "tempo2",
+        "-f", par, tim,
+        "-nofit",
+        "-fit", "GLF0_1",
+        "-fit", "GLF1_1",
+        "-fit", "GLPH_1",
+        "-newpar", "-noWarnings", ">&", "/dev/null"
+        ]
+    print(' '.join(command), file=sys.stderr)
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
+    out, err = proc.communicate()
+    all_fields = out.split("\n")
+    for this_field in all_fields:
+        fields = this_field.split()
+        if len(fields) > 2.0:
+            if fields[0] == "GLF0_1":
+                f0 = fields[3]
+                f0_e = fields[4]
+            if fields[0] == "GLF1_1":
+                f1 = fields[3]
+                f1_e = fields[4]
+            if fields[0] == "GLPH_1":
+                ph = fields[3]
+    try:
+        return f0, f0_e, f1, f1_e, ph
+    except UnboundLocalError:
+        return None
 
 def simulate(toas, sequence_type, const_args, sim_args):
     curr_iter = 0
@@ -49,24 +78,17 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
-
-            subprocess.run([
-                "tempo2",
-                "-f", par, tim,
-                "-nofit",
-                "-fit", "GLF0_1",
-                "-fit", "GLF1_1",
-                "-fit", "GLPH_1",
-                "-newpar", "-noWarnings", ">&", "/dev/null"
-                ])
-
+            traits = run_fit(par, tim)
+            
+            
             print("retrieving results")
-            compare = compare_to_master("new.par", master_traits)
+            compare = compare_to_master(traits, master_traits)
             curr_results = curr_log_const, compare[0], compare[1], compare[2]
             results = np.vstack((results, curr_results))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
             print("(log_const is now "+str(curr_log_const)+")")
+        # Below are settings used to generate a graphh.
         results = results.astype('float64')
         print(results)
         x = results[:,0].astype('float64')
