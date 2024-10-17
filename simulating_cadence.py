@@ -76,9 +76,9 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("index array made")
             #print(indexes)
             # adds some 5d random variation so that we dont run into issues with the sample being the same every time
-            start_randomiser = [(const_args + random.randint(0, 50)/10),
+            start_randomiser = np.array([(const_args + random.randint(0, 50)/10),
                                 (const_args + random.randint(0, 50)/10),
-                                (const_args + random.randint(0, 50)/10)]
+                                (const_args + random.randint(0, 50)/10)])
             for offset in start_randomiser:
                 new_filename = sequence_type + "_toas.tim"
                 num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
