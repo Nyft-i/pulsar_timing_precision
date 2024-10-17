@@ -69,7 +69,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
 
 
-    results = np.zeros((0,5))
+    results = np.zeros((0,7))
     while curr_iter<sim_args[2]:
         curr_iter += 1
         #print(toas)
