@@ -20,9 +20,9 @@ def compare_to_master(traits, master_traits):
 
     
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
-    perc_f0_e = float(traits[1]) * 100 / master_traits[0] 
+    perc_f0_e = float(traits[1])/float(traits[0]) * perc_f0
     perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
-    perc_f1_e = float(traits[3]) * 100 / master_traits[0] 
+    perc_f1_e = float(traits[3])/float(traits[2]) * perc_f1
 
     ph = float(traits[4])
     
@@ -113,7 +113,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    plt.errorbar(x,np.abs(y),yerr=y_err)
+    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
