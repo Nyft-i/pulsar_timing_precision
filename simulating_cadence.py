@@ -39,7 +39,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
@@ -108,7 +108,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     else:
         print("you should never see this")
     
-timfile = "master_toas.tim"
+timfile = "master_toas_2.tim"
 toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
 # User changeable 
