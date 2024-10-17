@@ -20,10 +20,13 @@ def compare_to_master(traits, master_traits):
 
     
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
+    perc_f0_e = traits[1] * 100 / master_traits[0] 
     perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
+    perc_f1_e = traits[3] * 100 / master_traits[0] 
+
     ph = float(traits[4])
     
-    return perc_f0, perc_f1, ph
+    return perc_f0, perc_f0_em perc_f1, perc_f1_e, ph
 
 def run_fit(par, tim):
     command = [
@@ -79,15 +82,9 @@ def simulate(toas, sequence_type, const_args, sim_args):
         for offset in start_randomiser:
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
-
             
-            
-            
-            
-                
             print("index array made")   
             new_filename = "temp_toas.tim"
-            
             
             num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
             print("new toas generated, running tempo2")
@@ -97,11 +94,10 @@ def simulate(toas, sequence_type, const_args, sim_args):
             traits = run_fit(par, tim)
             #print(traits)
             
-            
             print("retrieving results")
             compare = compare_to_master(traits, master_traits)
             #print(compare)
-            curr_results = curr_sim_const, compare[0], compare[1], compare[2], num_toas
+            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
             results = np.vstack((results, curr_results))
             
         print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
@@ -112,10 +108,11 @@ def simulate(toas, sequence_type, const_args, sim_args):
     #print(results)
     x = results[:,0].astype('float64')
     y = results[:,1].astype('float64')
+    y_err = results[:,2]
     #z = np.log(results[:,4])
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,4],norm=colors.LogNorm(),edgecolors='gray')
+    plt.errorbar(x,np.abs(y),yerr=,cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
