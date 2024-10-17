@@ -17,9 +17,9 @@ def compare_to_master(traits, master_traits):
     # f0 % diff
 
     
-    perc_f0 = (traits[0] - master_traits[0])*100/master_traits[0] 
-    perc_f1 = (traits[2] - master_traits[1])*100/master_traits[1] 
-    ph = traits[4]
+    perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
+    perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
+    ph = float(traits[4])
     
     return perc_f0, perc_f1, ph
 
