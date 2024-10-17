@@ -132,7 +132,7 @@ toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
 # User changeable 
 # 'logarithmic', 'arithmetic', 'geometric', 'periodic'
-SEQUENCE_TYPE = 'periodic'
+SEQUENCE_TYPE = 'arithmetic'
 cadence_start = 0.5
 marker_offset = 0
 max_gap = 20
@@ -148,8 +148,8 @@ log_const_max = 3
 
 ## ARITHMETIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
-sequential_increase_min = 2 # num. of days per observation that time between observations increases by
-sequential_increase_max = 2 # num. of days per observation that time between observations increases by
+sequential_increase_min = 1.2 # num. of days per observation that time between observations increases by
+sequential_increase_max = 4 # num. of days per observation that time between observations increases by
 
 ## GEOMETRIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'geometric'
