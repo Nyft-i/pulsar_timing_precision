@@ -42,13 +42,13 @@ def run_fit(par, tim):
         print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
-                f0 = fields[3]
-                f0_e = fields[4]
+                f0 = fields[2]
+                f0_e = fields[3]
             if fields[0] == "GLF1_1":
-                f1 = fields[3]
-                f1_e = fields[4]
+                f1 = fields[2]
+                f1_e = fields[3]
             if fields[0] == "GLPH_1":
-                ph = fields[3]
+                ph = fields[2]
     try:
         return f0, f0_e, f1, f1_e, ph
     except UnboundLocalError:
