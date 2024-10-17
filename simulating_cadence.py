@@ -122,13 +122,13 @@ toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 SEQUENCE_TYPE = 'logarithmic'
 cadence_start = 0.5
 marker_offset = 0
-max_gap = 20
+max_gap = 50
 verbose = False
 
 #simulation parameters
 log_const_min = 0
-log_const_max = 3.8
-num_iterations = 100
+log_const_max = 20
+num_iterations = 250
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
