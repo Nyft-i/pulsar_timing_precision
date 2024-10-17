@@ -74,7 +74,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("index array made")
             #print(indexes)
             new_filename = sequence_type + "_toas.tim"
-            tim_sampling.gen_new_tim(timfile, indexes, new_filename)
+            num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
             print("new toas generated, running tempo2")
 
             # run tempo2
@@ -86,7 +86,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("retrieving results")
             compare = compare_to_master(traits, master_traits)
             print(compare)
-            curr_results = curr_log_const, compare[0], compare[1], compare[2]
+            curr_results = curr_log_const, compare[0], compare[1], compare[2], num_toas
             results = np.vstack((results, curr_results))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
             curr_log_const += step
@@ -96,13 +96,15 @@ def simulate(toas, sequence_type, const_args, sim_args):
         print(results)
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
-        plt.plot(x,np.abs(y))
+        plt.scatter(x,np.abs(y),c=results[:,4])
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
+        plt.gray()
         minimum = find_peaks(-np.abs(y), distance= 2000)
         min_constant = minimum[0]
         print(y[min_constant])
         plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
+        plt.show()
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
