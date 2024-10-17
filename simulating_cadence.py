@@ -96,7 +96,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         #print(results)
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
-        colour = results[:,4]
+        colour = results[:,4]/6000
         print(colour)
         plt.scatter(x,np.abs(y),c=colour,cmap='gray')
         plt.xlabel("log constant")
