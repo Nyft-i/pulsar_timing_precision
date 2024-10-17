@@ -98,10 +98,9 @@ def simulate(toas, sequence_type, const_args, sim_args):
         y = results[:,1].astype('float64')
         colour = results[:,4]
         print(colour)
-        plt.scatter(x,np.abs(y),c=colour)
+        plt.scatter(x,np.abs(y),c=colour,cmap='gray')
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
-        plt.gray()
         minimum = find_peaks(-np.abs(y), distance= 2000)
         min_constant = minimum[0]
         print(y[min_constant])
