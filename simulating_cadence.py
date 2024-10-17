@@ -80,12 +80,12 @@ def simulate(toas, sequence_type, const_args, sim_args):
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             traits = run_fit(par, tim)
-            print(traits)
+            #print(traits)
             
             
             print("retrieving results")
             compare = compare_to_master(traits, master_traits)
-            print(compare)
+            #print(compare)
             curr_results = curr_log_const, compare[0], compare[1], compare[2], num_toas
             results = np.vstack((results, curr_results))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
@@ -93,10 +93,12 @@ def simulate(toas, sequence_type, const_args, sim_args):
             print("(log_const is now "+str(curr_log_const)+")")
         # Below are settings used to generate a graphh.
         results = results.astype('float64')
-        print(results)
+        #print(results)
         x = results[:,0].astype('float64')
         y = results[:,1].astype('float64')
-        plt.scatter(x,np.abs(y),c=results[:,4])
+        colour = results[:,4]
+        print(colour)
+        plt.scatter(x,np.abs(y),c=colour)
         plt.xlabel("log constant")
         plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
         plt.gray()
@@ -104,6 +106,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         min_constant = minimum[0]
         print(y[min_constant])
         plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
+        plt.tight_layout()
         plt.savefig("results_15_20_24.png", dpi=400)
         return
     else:
