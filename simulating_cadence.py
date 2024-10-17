@@ -84,6 +84,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             
             print("retrieving results")
             compare = compare_to_master(traits, master_traits)
+            print(compare)
             curr_results = curr_log_const, compare[0], compare[1], compare[2]
             results = np.vstack((results, curr_results))
             print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
