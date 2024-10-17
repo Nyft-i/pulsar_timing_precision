@@ -127,7 +127,7 @@ verbose = False
 
 #simulation parameters
 log_const_min = 0
-log_const_max = 20
+log_const_max = 4.5
 num_iterations = 250
 
 ## LOGARITHMIC - 
