@@ -126,8 +126,8 @@ max_gap = 50
 verbose = False
 
 #simulation parameters
-log_const_min = 1.5
-log_const_max = 2.5
+log_const_min = 0
+log_const_max = 1
 num_iterations = 250
 
 ## LOGARITHMIC - 
