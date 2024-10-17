@@ -62,6 +62,7 @@ def gen_new_tim(timfile, indexes, newfile):
     # Puts the new tim file array into an actual tim file, ready to be read by tempo2.
     #file_name = str(start_cadence) + "_day_("+str(marker_offset)+"_offset).tim"
     np.savetxt(newfile, new_lines, fmt="%s")
+    return len(indexes)
 
 #print("i do this!")
 """
