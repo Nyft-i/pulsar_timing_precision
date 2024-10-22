@@ -55,7 +55,7 @@ def epoch_finder(par, tim):
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
-            mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
+            mid_point = ((residuals[counter,0] + residuals[(counter -1),0])/2) + residuals[(counter -1),0]
             break 
             
         else :
@@ -93,7 +93,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
