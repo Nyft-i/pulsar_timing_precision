@@ -74,7 +74,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        #print(fields)
+        print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
