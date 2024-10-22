@@ -32,6 +32,7 @@ def compare_to_master(traits, master_traits):
     return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
 def tempo_nofit(par,tim):
+    print("using tempo2 no fit")
     command_nofit = [
         "tempo2",
         "-f", par, tim,
@@ -45,6 +46,7 @@ def tempo_nofit(par,tim):
 
 def epoch_finder(par, tim):
     #runs tempo2 without a fit
+    print("running tempo not fit")
     tempo_nofit(par, tim)
     #reads tempo2 generated residuals
     residuals = np.genfromtxt("residuals.dat")
