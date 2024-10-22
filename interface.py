@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 #import threading
 import numpy as np
+from datetime import datetime
 
 import simulating_cadence
 
@@ -38,8 +39,9 @@ def period_frame_command():
 
 def simulate():
     
-    timfile = "master_toas_2.tim"
-    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+    save_file_name = file_name.get()
+    toa_file_name = toa_file_name.get()
+    toas = np.genfromtxt(toa_file_name, skip_header=1, usecols=[2])
     retrieved_sequence_type = SEQUENCE_TYPE.get()
 
     const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
@@ -61,8 +63,9 @@ def simulate():
     print(sim_args)
     print("sequence type:", retrieved_sequence_type)
     
+    
     app.quit()
-    simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args)
+    simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args, save_png=save_file_name)
     
 
 frame_radio = tk.Frame(app, width=200, height=100)
@@ -173,10 +176,13 @@ num_iterations.grid(column=0, row=7, sticky="ew", padx=5)
 toa_file_name_label = tk.Label(frame_sim_sets, text="TOA File Name").grid(row=0, column=1, sticky="ew", padx=5)
 toa_file_name = ttk.Entry(frame_sim_sets, width=10)
 toa_file_name.grid(column=1, row=1, sticky="ew", padx=5)
+toa_file_name.insert(0, "master_toas.tim")
 
 file_name_label = tk.Label(frame_sim_sets, text="PNG Save File Name").grid(row=2, column=1, sticky="ew", padx=5)
 file_name = ttk.Entry(frame_sim_sets, width=10)
 file_name.grid(column=1, row=3, sticky="ew", padx=5)
+title = datetime.now().strftime("%Y-%m-%d_%H-%M") + "_cadence_sim.png"
+file_name.insert(0, title)
 
 
 sim_button = ttk.Button(frame_sim_sets, text="Simulate", command=simulate)
