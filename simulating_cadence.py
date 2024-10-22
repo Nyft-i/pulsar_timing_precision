@@ -157,6 +157,7 @@ def simulate(toas, sequence_type, const_args, sim_args, timfile, verbose = False
             editting_par(par, initial_GLEP, cols)
             print("given par file initial guess")
             
+            print(master_traits)
             new_GLEP = epoch_finder(par, tim, master_traits)
             print(new_GLEP)
             editting_par(par, new_GLEP, cols)
