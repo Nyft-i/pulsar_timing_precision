@@ -98,7 +98,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
     master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
 
-
+    print("running simulation for "+sequence_type+" sequence type\n[",end="")
     results = np.zeros((0,7))
     while curr_iter<steps:
         curr_iter += 1
@@ -113,13 +113,13 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
-            print("index array made")
+            #print("index array made")
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
-            print("new toas generated, running tempo2")
+            #print("new toas generated, running tempo2")
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
@@ -127,16 +127,18 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             traits = run_fit(par, tim)
             #print(traits)
             
-            print("retrieving results")
+            #print("retrieving results")
             compare = compare_to_master(traits, master_traits)
             #print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
             results = np.vstack((results, curr_results))
             
-        print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
+        print(+str(curr_iter)+".", end="")
+        #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
         if (sim_bar != None) : sim_bar.step(100/steps)
-        print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
+        #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
+    print("done")
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
     x = results[:,0].astype('float64')
@@ -154,7 +156,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
     plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
     minimum = find_peaks(-np.abs(y), distance= 2000)
     min_constant = minimum[0]
-    print(y[min_constant])
+    #print(y[min_constant])
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("/figures/"+save_png, dpi=400)
