@@ -53,7 +53,6 @@ def simulate():
     retrieved_sequence_type = SEQUENCE_TYPE.get()
     print("sequence type:", retrieved_sequence_type)
     
-    app.quit()
     simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args, sim_bar=simprogress, verbose=True)
     
 
