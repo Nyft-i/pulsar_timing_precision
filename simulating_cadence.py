@@ -52,7 +52,7 @@ def epoch_finder(par, tim):
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
-        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
+        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 5 * error:
             mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
             break 
             
