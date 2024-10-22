@@ -160,7 +160,7 @@ multiplicative_increase_max = 4 # factor time between observations is multiplied
 
 ## PERIODIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period_min = 0.5
+period_min = 5
 period_max = 20
 
 
