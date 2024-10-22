@@ -20,7 +20,7 @@ def compare_to_master(traits, master_traits):
 
     
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
-    print(float(traits[0]))
+    #print(float(traits[0]))
     perc_f0_e = float(traits[1])/float(traits[0]) * perc_f0
     perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
     perc_f1_e = float(traits[3])/float(traits[2]) * perc_f1
@@ -45,7 +45,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        #print(fields)
+        print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
@@ -106,7 +106,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
         print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
-    print(results)
+    #print(results)
     x = results[:,0].astype('float64')
     y = results[:,1].astype('float64')
     y_err = results[:,2]
@@ -141,7 +141,7 @@ max_gap = 20
 verbose = False
 
 #simulation parameters
-num_iterations = 10
+num_iterations = 1
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
