@@ -147,6 +147,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             compare = compare_to_master(traits, master_traits)
             print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
+            print(curr_results)
             results = np.vstack((results, curr_results))
             
         print(str(curr_iter)+".", end="")
