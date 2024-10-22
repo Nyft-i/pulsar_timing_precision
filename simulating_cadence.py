@@ -148,6 +148,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             results = np.vstack((results, curr_results))
             
         print(str(curr_iter)+".", end="")
+        sys.stdout.flush()
         #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
         if (sim_bar != None) : sim_bar.step(100/steps)
