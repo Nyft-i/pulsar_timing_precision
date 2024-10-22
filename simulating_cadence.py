@@ -135,6 +135,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             print("index array made")
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
+            print(new_filename)
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
@@ -143,9 +144,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
-              
-            min_MJD = round(np.min(toas))
-            max_MJD = round(np.max(toas))
+            min_MJD = round(np.min(tim))
+            max_MJD = round(np.max(tim))
             
             initial_GLEP = random.randint(min_MJD,max_MJD)
             editting_par(par, initial_GLEP, cols)
