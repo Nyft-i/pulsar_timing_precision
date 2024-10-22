@@ -37,7 +37,7 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
-        "-newpar", "-noWarnings", ">&", "/dev/null"
+        "-noWarnings", ">&", "/dev/null"
         ]
     print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
