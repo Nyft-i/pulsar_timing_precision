@@ -111,14 +111,13 @@ def simulate(toas, sequence_type, const_args, sim_args):
             counter = 1
             error = 0.0001
             while counter <= len(residuals):
-                if residuals[1,counter] - residuals[1,(counter -1)] > 3 * error:
+                if np.abs(residuals[1,counter] - residuals[1,(counter -1)]) > 3 * error:
                     mid_point = (residuals[1,counter] + residuals[1,(counter -1)])/2
                     print(mid_point)
+                    break 
                     
                 else :
-                    counter +=1
-                    print(counter)
-            
+                    counter += 1
             
             traits = run_fit(par, tim)
             #print(traits)
