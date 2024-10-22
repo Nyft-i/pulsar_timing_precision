@@ -65,8 +65,7 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
-        "noWarnings", ">&", "/dev/null",
-        "-residuals"
+        "noWarnings",
         ]
     print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
@@ -114,7 +113,8 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
-            print("index array made")   
+            print("index array made")
+            if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
             num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
