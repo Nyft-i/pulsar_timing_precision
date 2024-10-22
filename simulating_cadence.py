@@ -103,7 +103,7 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False, master_tim="master_toas.tim", save_png = "results.png"):
+def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png"):
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -153,7 +153,6 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
         sys.stdout.flush()
         #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
-        if (sim_bar != None) : sim_bar.step(100/steps)
         #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
     print("] - done!")
     # Below are settings used to generate a graphh.
