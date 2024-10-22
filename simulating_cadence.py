@@ -19,7 +19,7 @@ def compare_to_master(traits, master_traits):
     # f0 % diff
 
     
-    print("calcing f0...", traits[0], master_traits[0])
+    #print("calcing f0...", traits[0], master_traits[0])
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
     #print(float(traits[0]))
     perc_f0_e = float(traits[1])/float(traits[0]) * perc_f0
