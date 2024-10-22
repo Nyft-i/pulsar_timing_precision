@@ -38,7 +38,7 @@ def tempo_nofit(par,tim):
         "noWarnings", ">&", "/dev/null",
         "-residuals"
         ]
-    print(' '.join(command_nofit), file=sys.stderr)
+    #print(' '.join(command_nofit), file=sys.stderr)
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
 
@@ -65,9 +65,9 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
-        "noWarnings",
+        "-noWarnings",
         ]
-    print(' '.join(command), file=sys.stderr)
+    #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
