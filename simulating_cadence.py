@@ -107,8 +107,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
-    y = results[:,1].astype('float64')
-    y_err = results[:,2]
+    y = results[:,3].astype('float64')
+    y_err = results[:,4]
     #z = np.log(results[:,4])
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
@@ -124,7 +124,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     print(y[min_constant])
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
-    plt.savefig("results_15_20_24.png", dpi=400)
+    plt.savefig("results_22_10_24.png", dpi=400)
     return
     
 timfile = "master_toas_2.tim"
