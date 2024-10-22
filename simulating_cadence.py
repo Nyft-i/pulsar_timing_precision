@@ -45,7 +45,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
@@ -114,7 +114,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    #plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
+    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
@@ -141,7 +141,7 @@ max_gap = 20
 verbose = False
 
 #simulation parameters
-num_iterations = 1
+num_iterations = 50
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
@@ -160,7 +160,7 @@ multiplicative_increase_max = 4 # factor time between observations is multiplied
 
 ## PERIODIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period_min = 5
+period_min = 0.5
 period_max = 20
 
 
