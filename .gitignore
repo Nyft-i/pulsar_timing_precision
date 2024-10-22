@@ -1,0 +1,4 @@
+# Ignore all .tim files
+*.tim
+
+__pycache__/
