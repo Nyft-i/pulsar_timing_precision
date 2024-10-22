@@ -20,7 +20,7 @@ def compare_to_master(traits, master_traits):
 
     
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
-    print(perc_f0)
+    print(float(traits[0]))
     perc_f0_e = float(traits[1])/float(traits[0]) * perc_f0
     perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
     perc_f1_e = float(traits[3])/float(traits[2]) * perc_f1
