@@ -113,8 +113,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
             error = 0.0001
             print(residuals[4,1])
             while counter <= len(residuals):
-                if np.abs(residuals[1,counter] - residuals[1,(counter -1)]) < 10 * error:
-                    mid_point = (residuals[1,counter] + residuals[1,(counter -1)])/2
+                if np.abs(residuals[counter,1] - residuals[(counter -1),1]) < 10 * error:
+                    mid_point = (residuals[counter,1] + residuals[(counter -1),1])/2
                     print(mid_point)
                     break 
                     
