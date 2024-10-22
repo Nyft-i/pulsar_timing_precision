@@ -139,7 +139,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
-            
+
             traits = run_fit(par, tim)
             print(traits)
             
