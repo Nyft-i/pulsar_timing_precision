@@ -32,8 +32,8 @@ def period_frame_command():
 
 def simulate():
 
-    const_args = (start_cadence.get(), start_offset.get(), max_gap.get())
-    sim_args = (log_const_min.get(), log_const_max.get(), num_iterations.get())
+    const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
+    sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
     print("simulating with following args:")
     print("const_args: ")
     print(const_args)
