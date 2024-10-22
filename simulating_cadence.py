@@ -119,7 +119,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
                     break 
                     
                 else :
-                    counter += 1
+                    counter += 5
             
             traits = run_fit(par, tim)
             #print(traits)
