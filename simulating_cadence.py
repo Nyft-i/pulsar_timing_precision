@@ -143,6 +143,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
+            print(tim)
+            
             min_MJD = round(np.min(tim))
             max_MJD = round(np.max(tim))
             
