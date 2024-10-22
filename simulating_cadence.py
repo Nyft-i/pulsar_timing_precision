@@ -141,7 +141,7 @@ max_gap = 20
 verbose = False
 
 #simulation parameters
-num_iterations = 50
+num_iterations = 1
 
 ## LOGARITHMIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
