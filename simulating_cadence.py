@@ -57,7 +57,7 @@ def epoch_finder(par, tim):
             break 
             
         else :
-            counter += 5
+            counter += 1
     
     return mid_point
 
