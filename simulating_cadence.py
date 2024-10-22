@@ -69,7 +69,7 @@ def editting_par(parfile,GLEP,cols):
         if "GLEP_1" not in line :
             new_line = np.append(new_line,line)
       
-    new_line = np.append(new_line,"GLEP_1 " + str(GLEP))    
+    new_line = np.append(new_line,"GLEP_1          " + str(GLEP))    
 
     #saves it over the old par file
     np.savetxt(parfile, new_line, fmt="%s")
