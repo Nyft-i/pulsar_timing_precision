@@ -34,9 +34,9 @@ def run_fit(par, tim):
         "tempo2",
         "-f", par, tim,
         "-nofit",
-        "-fit", "GLF0_1",
-        "-fit", "GLF1_1",
-        "-fit", "GLPH_1",
+        #"-fit", "GLF0_1",
+        #"-fit", "GLF1_1",
+        #"-fit", "GLPH_1",
         "noWarnings", ">&", "/dev/null",
         "-residuals"
         ]
