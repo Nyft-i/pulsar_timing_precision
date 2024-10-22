@@ -48,6 +48,7 @@ def epoch_finder(par, tim):
     tempo_nofit(par, tim)
     #reads tempo2 generated residuals
     residuals = np.genfromtxt("residuals.dat")
+    print[residuals]
     counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
