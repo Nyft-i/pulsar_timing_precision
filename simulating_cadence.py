@@ -37,7 +37,8 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
-        "noWarnings", ">&", "/dev/null"
+        "noWarnings", ">&", "/dev/null",
+        "-residuals"
         ]
     print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
@@ -126,7 +127,10 @@ def simulate(toas, sequence_type, const_args, sim_args):
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
-    #print(y)
+    
+    residuals = np.genfromtxt("residuals.dat")
+    plt.plot(residuals[:,0], residuals[:,1])
+    plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
 timfile = "master_toas_2.tim"
