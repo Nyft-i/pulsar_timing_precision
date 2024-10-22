@@ -136,6 +136,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             #if verbose: print(indexes)
             print(indexes)
             new_filename = "temp_toas.tim"
+            tim_sampling.gen_new_tim(toas, indexes, new_filename)
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
