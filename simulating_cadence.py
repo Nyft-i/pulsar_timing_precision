@@ -19,6 +19,7 @@ def compare_to_master(traits, master_traits):
     # f0 % diff
 
     
+    print("calcing f0...", traits[0], master_traits[0])
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
     #print(float(traits[0]))
     perc_f0_e = float(traits[1])/float(traits[0]) * perc_f0
@@ -40,6 +41,21 @@ def tempo_nofit(par,tim):
     print(' '.join(command_nofit), file=sys.stderr)
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
+
+def epoch_finder(par, tim):
+    tempo_nofit(par, tim)
+    residuals = np.genfromtxt("residuals.dat")
+    counter = 1
+    error = 0.0001
+    while counter <= len(residuals):
+        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
+            mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
+            print(mid_point)
+            break 
+            
+        else :
+            counter += 5
+
 
 def run_fit(par, tim):
     command = [
@@ -107,19 +123,6 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
-            tempo_nofit(par, tim)
-            residuals = np.genfromtxt("residuals.dat")
-            counter = 1
-            error = 0.0001
-            while counter <= len(residuals):
-                if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
-                    mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
-                    print(mid_point)
-                    break 
-                    
-                else :
-                    counter += 5
-            
             traits = run_fit(par, tim)
             #print(traits)
             
@@ -155,10 +158,10 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
     
-    plt.clf()
-    plt.plot(residuals[:,0], residuals[:,1])
-    plt.axvline(x = mid_point)
-    plt.savefig("results_22_10_24_2.png", dpi=400)
+    #plt.clf()
+    #plt.plot(residuals[:,0], residuals[:,1])
+    #plt.axvline(x = mid_point)
+    #plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
 timfile = "master_toas_2.tim"
