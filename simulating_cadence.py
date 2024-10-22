@@ -157,7 +157,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
     print(y[min_constant])
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
-    plt.savefig("results_22_10_24.png", dpi=400)
+    plt.savefig("/figures/"+save_png, dpi=400)
     
     #plt.clf()
     #plt.plot(residuals[:,0], residuals[:,1])
