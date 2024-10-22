@@ -166,7 +166,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
+    plt.errorbar(x,np.abs(y),fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
