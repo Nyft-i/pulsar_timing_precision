@@ -187,7 +187,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
 def main():
     
-    timfile = "master_toas_2.tim"
+    timfile = "master_toas.tim"
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
     # User changeable 
