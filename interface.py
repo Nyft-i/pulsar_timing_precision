@@ -50,10 +50,11 @@ def simulate():
     print(const_args)
     print("sim_args: ")
     print(sim_args)
-    print("sequence type: ", SEQUENCE_TYPE.get(), SEQUENCE_TYPE)
+    retrieved_sequence_type = SEQUENCE_TYPE.get()
+    print("sequence type:", retrieved_sequence_type)
     
     app.quit()
-    simulating_cadence.simulate(toas, SEQUENCE_TYPE, const_args, sim_args, sim_bar=simprogress, verbose=True)
+    simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args, sim_bar=simprogress, verbose=True)
     
 
 frame_radio = tk.Frame(app, width=200, height=100)
