@@ -40,8 +40,8 @@ def period_frame_command():
 def simulate():
     
     save_file_name = file_name.get()
-    toa_file_name = toa_file_name.get()
-    toas = np.genfromtxt(toa_file_name, skip_header=1, usecols=[2])
+    retrieved_toa_file_name = toa_file_name.get()
+    toas = np.genfromtxt(retrieved_toa_file_name, skip_header=1, usecols=[2])
     retrieved_sequence_type = SEQUENCE_TYPE.get()
 
     const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
