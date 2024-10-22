@@ -143,10 +143,9 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
-            print(tim)
-            
-            min_MJD = round(np.min(tim))
-            max_MJD = round(np.max(tim))
+              
+            min_MJD = round(np.min(toas))
+            max_MJD = round(np.max(toas))
             
             initial_GLEP = random.randint(min_MJD,max_MJD)
             editting_par(par, initial_GLEP, cols)
