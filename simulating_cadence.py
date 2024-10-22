@@ -107,8 +107,8 @@ def simulate(toas, sequence_type, const_args, sim_args):
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
-    y = results[:,3].astype('float64')
-    y_err = results[:,4]
+    y = results[:,1].astype('float64')
+    y_err = results[:,2]
     #z = np.log(results[:,4])
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
