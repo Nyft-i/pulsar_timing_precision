@@ -62,14 +62,17 @@ def epoch_finder(par, tim):
     return mid_point
 
 def editting_par(parfile,GLEP,cols):
+    new_line = np.empty(0)
     #reads in old par file
-    lines = pandas.read_csv(parfile, sep="\s+", names=cols)
-    new_line = "GLEP_1 " + str(GLEP)
-    
-    #adds a line at the bottom with the estimated glitch epoch
-    new_par = np.hstack((lines,new_line))
+    lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
+    for line in lines :
+        if "GLEP_1" not in line :
+            new_line = np.append(new_line,line)
+      
+    new_line = np.append(new_line,"GLEP_1 " + str(GLEP))    
+
     #saves it over the old par file
-    np.savetxt(parfile, new_par, fmt="%s")
+    np.savetxt(parfile, new_line, fmt="%s")
     
 
 def run_fit(par, tim):
