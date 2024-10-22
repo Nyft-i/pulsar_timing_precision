@@ -52,7 +52,7 @@ def simulate():
     print(sim_args)
 
     app.quit()
-    simulating_cadence.simulate(toas, SEQUENCE_TYPE.get(), const_args, sim_args, simprogress)
+    simulating_cadence.simulate(toas, SEQUENCE_TYPE.get(), const_args, sim_args, sim_bar=simprogress, verbose=True)
     
 
 frame_radio = tk.Frame(app, width=200, height=100)
