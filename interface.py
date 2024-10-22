@@ -31,6 +31,10 @@ def period_frame_command():
     period_frame.grid(column=1, row=0)
 
 def simulate():
+    timfile = "master_toas_2.tim"
+    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+
+
 
     const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
     sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
@@ -41,7 +45,7 @@ def simulate():
     print(sim_args)
 
     app.quit()
-    simulating_cadence.simulate("master_toas.tim", SEQUENCE_TYPE.get(), const_args, sim_args)
+    simulating_cadence.simulate(toas, SEQUENCE_TYPE.get(), const_args, sim_args)
 
 frame_radio = Frame(app, width=200, height=200)
 frame_radio.grid(column=0, row=0)
