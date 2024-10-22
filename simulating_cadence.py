@@ -143,7 +143,10 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
-            initial_GLEP = random.randint(np.min(tim),np.max(tim))
+            min_MJD = round(np.min(tim))
+            max_MJD = round(np.max(tim))
+            
+            initial_GLEP = random.randint(min_MJD,max_MJD)
             editting_par(par, initial_GLEP, cols)
             
             new_GLEP = tempo_nofit(par, tim)
