@@ -147,6 +147,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             print(traits)
             
             print("retrieving results")
+            print("master traits: ", master_traits)
             compare = compare_to_master(traits, master_traits)
             print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
@@ -162,22 +163,22 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
     x = results[:,0].astype('float64')
-    y = results[:,1].astype('float64')
-    y_err = results[:,2]
+    y = results[:,3].astype('float64')
+    y_err = results[:,4]
     #z = np.log(results[:,4])
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
+    plt.errorbar(x,np.abs(y),fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
-    minimum = find_peaks(-np.abs(y), distance= 2000)
-    min_constant = minimum[0]
+    #minimum = find_peaks(-np.abs(y), distance= 2000)
+    #min_constant = minimum[0]
     #print(y[min_constant])
-    plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
+    #plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("figures/"+save_png, dpi=400)
     
@@ -189,7 +190,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
 def main():
     
-    timfile = "master_toas_2.tim"
+    timfile = "master_toas.tim"
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
     # User changeable 
