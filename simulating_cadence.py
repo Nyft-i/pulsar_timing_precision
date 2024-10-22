@@ -108,6 +108,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             
             tempo_nofit(par, tim)
             residuals = np.genfromtxt("residuals.dat")
+            print(residuals)
             counter = 1
             error = 0.0001
             while counter <= len(residuals):
