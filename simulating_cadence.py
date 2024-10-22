@@ -88,7 +88,7 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False):
+def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False, master_tim="master_toas.tim"):
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -117,7 +117,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
-            num_toas = tim_sampling.gen_new_tim(timfile, indexes, new_filename)
+            num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
             print("new toas generated, running tempo2")
 
             # run tempo2
@@ -164,65 +164,69 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
     #plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
-timfile = "master_toas_2.tim"
-toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
-
-# User changeable 
-# 'logarithmic', 'arithmetic', 'geometric', 'periodic'
-SEQUENCE_TYPE = 'periodic'
-cadence_start = 0.5
-marker_offset = 0
-max_gap = 20
-verbose = False
-
-#simulation parameters
-num_iterations = 10
-
-## LOGARITHMIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
-log_const_min = 0
-log_const_max = 3
-
-## ARITHMETIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
-sequential_increase_min = 1.2 # num. of days per observation that time between observations increases by
-sequential_increase_max = 4 # num. of days per observation that time between observations increases by
-
-## GEOMETRIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'geometric'
-multiplicative_increase_min = 1.2 # factor time between observations is multiplied by after an observation
-multiplicative_increase_max = 4 # factor time between observations is multiplied by after an observation
-
-## PERIODIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period_min = 5
-period_max = 20
-
-
-if SEQUENCE_TYPE == 'logarithmic':
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (log_const_min, log_const_max, num_iterations)
-#    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
-elif SEQUENCE_TYPE == 'arithmetic':
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
-#    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
-elif SEQUENCE_TYPE == 'geometric':
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (multiplicative_increase_min, multiplicative_increase_max, num_iterations)
-#    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
-elif SEQUENCE_TYPE == 'periodic':
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (period_min, period_max, num_iterations)
-#    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
-else:
-    print("invalid sequence type. doing nothing.")    
-
-simulate(toas, SEQUENCE_TYPE, const_args, sim_args)
-
-#print("number of toas: " + str(len(indexes)))
-
+def main():
     
+    timfile = "master_toas_2.tim"
+    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+
+    # User changeable 
+    # 'logarithmic', 'arithmetic', 'geometric', 'periodic'
+    SEQUENCE_TYPE = 'periodic'
+    cadence_start = 0.5
+    marker_offset = 0
+    max_gap = 20
+    verbose = False
+
+    #simulation parameters
+    num_iterations = 10
+
+    ## LOGARITHMIC - 
+    # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
+    log_const_min = 0
+    log_const_max = 3
+
+    ## ARITHMETIC - 
+    # these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
+    sequential_increase_min = 1.2 # num. of days per observation that time between observations increases by
+    sequential_increase_max = 4 # num. of days per observation that time between observations increases by
+
+    ## GEOMETRIC - 
+    # these parameters are only used if SEQUENCE_TYPE is 'geometric'
+    multiplicative_increase_min = 1.2 # factor time between observations is multiplied by after an observation
+    multiplicative_increase_max = 4 # factor time between observations is multiplied by after an observation
+
+    ## PERIODIC - 
+    # these parameters are only used if SEQUENCE_TYPE is 'periodic'
+    period_min = 5
+    period_max = 20
+
+
+    if SEQUENCE_TYPE == 'logarithmic':
+        const_args = (cadence_start, marker_offset, max_gap)
+        sim_args = (log_const_min, log_const_max, num_iterations)
+    #    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
+    elif SEQUENCE_TYPE == 'arithmetic':
+        const_args = (cadence_start, marker_offset, max_gap)
+        sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
+    #    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
+    elif SEQUENCE_TYPE == 'geometric':
+        const_args = (cadence_start, marker_offset, max_gap)
+        sim_args = (multiplicative_increase_min, multiplicative_increase_max, num_iterations)
+    #    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
+    elif SEQUENCE_TYPE == 'periodic':
+        const_args = (cadence_start, marker_offset, max_gap)
+        sim_args = (period_min, period_max, num_iterations)
+    #    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
+    else:
+        print("invalid sequence type. doing nothing.")    
+
+    simulate(toas, SEQUENCE_TYPE, const_args, sim_args)
+
+    #print("number of toas: " + str(len(indexes)))
+
+if __name__ == "__main__":
+    main()
+        
 
 
 
