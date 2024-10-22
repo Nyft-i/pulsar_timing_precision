@@ -133,7 +133,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
             print("index array made")
-            if verbose: print(indexes)
+            #if verbose: print(indexes)
+            print(indexes)
             new_filename = "temp_toas.tim"
             
             num_toas = len(indexes)
