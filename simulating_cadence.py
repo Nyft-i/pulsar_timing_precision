@@ -44,7 +44,7 @@ def tempo_nofit(par,tim):
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
 
-def epoch_finder(par, tim):
+def epoch_finder(par, tim, master_traits):
     #runs tempo2 without a fit
     print("running tempo not fit")
     tempo_nofit(par, tim)
@@ -55,8 +55,8 @@ def epoch_finder(par, tim):
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
-            print(residuals[counter,0])
-            mid_point = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
+            change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
+            mid_point = change + master_traits[4]
             break 
             
         else :
@@ -117,7 +117,7 @@ def simulate(toas, sequence_type, const_args, sim_args, timfile, verbose = False
     master_par = "master_file.par"
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
-    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
+    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value'])
 
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     results = np.zeros((0,7))
