@@ -113,7 +113,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
+    #plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
@@ -125,6 +125,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
+    print(y)
     return
     
 timfile = "master_toas_2.tim"
