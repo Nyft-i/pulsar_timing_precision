@@ -43,19 +43,33 @@ def tempo_nofit(par,tim):
     out, err = proc.communicate()
 
 def epoch_finder(par, tim):
+    #runs tempo2 without a fit
     tempo_nofit(par, tim)
+    #reads tempo2 generated residuals
     residuals = np.genfromtxt("residuals.dat")
     counter = 1
     error = 0.0001
+    #finds estimation of glitch epoch
     while counter <= len(residuals):
         if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
             mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
-            print(mid_point)
             break 
             
         else :
             counter += 5
+    
+    return mid_point
 
+def editting_par(parfile,GLEP,cols):
+    #reads in old par file
+    lines = pandas.read_csv(parfile, sep="\s+", names=cols)
+    new_line = "GLEP_1 " + str(GLEP)
+    
+    #adds a line at the bottom with the estimated glitch epoch
+    new_par = np.hstack((lines,new_line))
+    #saves it over the old par file
+    np.savetxt(parfile, new_par, fmt="%s")
+    
 
 def run_fit(par, tim):
     command = [
