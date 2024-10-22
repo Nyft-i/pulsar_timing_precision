@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import threading
+import numpy as np
 
 import simulating_cadence
 
