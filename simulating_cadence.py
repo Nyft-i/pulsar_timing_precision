@@ -113,11 +113,12 @@ def simulate(toas, sequence_type, const_args, sim_args):
             while counter <= len(residuals):
                 if residuals[1,counter] - residuals[1,(counter -1)] > 3 * error:
                     mid_point = (residuals[counter] + residuals[(counter -1)])/2
+                    print(mid_point)
                     
                 else :
                     counter +=1
+                    print(counter)
             
-            print(mid_point)
             
             traits = run_fit(par, tim)
             #print(traits)
