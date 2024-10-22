@@ -109,10 +109,8 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             
             tempo_nofit(par, tim)
             residuals = np.genfromtxt("residuals.dat")
-            print(residuals)
             counter = 1
             error = 0.0001
-            print(residuals[4,1])
             while counter <= len(residuals):
                 if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
                     mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
