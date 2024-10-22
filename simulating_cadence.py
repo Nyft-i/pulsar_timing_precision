@@ -29,6 +29,18 @@ def compare_to_master(traits, master_traits):
     
     return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
+def tempo_nofit(par,tim):
+    command_nofit = [
+        "tempo2",
+        "-f", par, tim,
+        "-nofit",
+        "noWarnings", ">&", "/dev/null",
+        "-residuals"
+        ]
+    print(' '.join(command_nofit), file=sys.stderr)
+    proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
+    out, err = proc.communicate()
+
 def run_fit(par, tim):
     command = [
         "tempo2",
@@ -93,6 +105,20 @@ def simulate(toas, sequence_type, const_args, sim_args):
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
+            
+            tempo_nofit(par, tim)
+            residuals = np.genfromtxt("residuals.dat")
+            counter = 1
+            error = 0.0001
+            while counter <= len(residuals):
+                if residuals[counter] - residuals[(counter -1)] > 3 * error:
+                    mid_point = (residuals[counter] + residuals[(counter -1)])/2
+                    
+                else :
+                    counter +=1
+            
+            print(mid_point)
+            
             traits = run_fit(par, tim)
             #print(traits)
             
@@ -127,7 +153,6 @@ def simulate(toas, sequence_type, const_args, sim_args):
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
     
-    #residuals = np.genfromtxt("residuals.dat")
     #plt.plot(residuals[:,0], residuals[:,1])
     #plt.savefig("results_22_10_24_2.png", dpi=400)
     return
