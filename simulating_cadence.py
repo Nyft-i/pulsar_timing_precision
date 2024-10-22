@@ -125,26 +125,27 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
                             (const_args[1] + random.randint(0, 50)/10)])
         
         for offset in start_randomiser:
+            print("inloop")
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
-            #print("index array made")
+            print("index array made")
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
-            #print("new toas generated, running tempo2")
+            print("new toas generated, running tempo2")
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
             traits = run_fit(par, tim)
-            #print(traits)
+            print(traits)
             
-            #print("retrieving results")
+            print("retrieving results")
             compare = compare_to_master(traits, master_traits)
-            #print(compare)
+            print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
             results = np.vstack((results, curr_results))
             
