@@ -88,7 +88,7 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False, master_tim="master_toas.tim"):
+def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False, master_tim="master_toas.tim", save_file_name = "results.png"):
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -117,7 +117,8 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
-            num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
+            num_toas = len(indexes)
+            #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
             print("new toas generated, running tempo2")
 
             # run tempo2
@@ -218,7 +219,7 @@ def main():
         sim_args = (period_min, period_max, num_iterations)
     #    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
     else:
-        print("invalid sequence type. doing nothing.")    
+        print("invalid sequence type. doing nothing.")
 
     simulate(toas, SEQUENCE_TYPE, const_args, sim_args)
 
