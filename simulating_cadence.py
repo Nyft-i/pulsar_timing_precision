@@ -112,7 +112,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             error = 0.0001
             while counter <= len(residuals):
                 if residuals[1,counter] - residuals[1,(counter -1)] > 3 * error:
-                    mid_point = (residuals[counter] + residuals[(counter -1)])/2
+                    mid_point = (residuals[1,counter] + residuals[1,(counter -1)])/2
                     print(mid_point)
                     
                 else :
@@ -189,7 +189,7 @@ multiplicative_increase_max = 4 # factor time between observations is multiplied
 
 ## PERIODIC - 
 # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period_min = 0.5
+period_min = 5
 period_max = 20
 
 
