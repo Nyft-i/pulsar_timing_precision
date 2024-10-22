@@ -28,6 +28,7 @@ def compare_to_master(traits, master_traits):
 
     ph = float(traits[4])
     
+    print(perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph)
     return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
 def tempo_nofit(par,tim):
@@ -102,7 +103,7 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False, master_tim="master_toas.tim", save_png = "results.png"):
+def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png"):
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -124,34 +125,35 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
                             (const_args[1] + random.randint(0, 50)/10)])
         
         for offset in start_randomiser:
+            print("inloop")
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
-            #print("index array made")
+            print("index array made")
             if verbose: print(indexes)
             new_filename = "temp_toas.tim"
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
-            #print("new toas generated, running tempo2")
+            print("new toas generated, running tempo2")
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
 
             traits = run_fit(par, tim)
-            #print(traits)
+            print(traits)
             
-            #print("retrieving results")
+            print("retrieving results")
             compare = compare_to_master(traits, master_traits)
-            #print(compare)
+            print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
+            print(curr_results)
             results = np.vstack((results, curr_results))
             
         print(str(curr_iter)+".", end="")
         sys.stdout.flush()
         #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
-        if (sim_bar != None) : sim_bar.step(100/steps)
         #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
     print("] - done!")
     # Below are settings used to generate a graphh.
