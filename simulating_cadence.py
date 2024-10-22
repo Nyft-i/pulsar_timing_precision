@@ -73,7 +73,7 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None):
+def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose = False):
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -96,7 +96,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None):
         
         for offset in start_randomiser:
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args)
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
             print("index array made")   
             new_filename = "temp_toas.tim"
