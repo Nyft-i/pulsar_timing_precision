@@ -138,7 +138,7 @@ def simulate(toas, sequence_type, const_args, sim_args, sim_bar = None, verbose 
         curr_sim_const += step
         if (sim_bar != None) : sim_bar.step(100/steps)
         #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
-    print("done")
+    print("] - done!")
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
     x = results[:,0].astype('float64')
