@@ -43,8 +43,6 @@ def simulate():
 
 
 
-    const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
-    sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
     print("simulating with following args:")
     print("const_args: ")
     print(const_args)
@@ -52,6 +50,19 @@ def simulate():
     print(sim_args)
     retrieved_sequence_type = SEQUENCE_TYPE.get()
     print("sequence type:", retrieved_sequence_type)
+    
+    
+    const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
+    if retrieved_sequence_type == 'logarithmic':
+        sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
+    elif retrieved_sequence_type == 'arithmetic':
+        sim_args = (float(arith_const_min.get()), float(arith_const_max.get()), int(num_iterations.get()))    
+    elif retrieved_sequence_type == 'geometric':
+        sim_args = (float(geom_const_min.get()), float(geom_const_max.get()), int(num_iterations.get()))    
+    elif retrieved_sequence_type == 'periodic':
+        sim_args = (float(period_const_min.get()), float(period_const_max.get()), int(num_iterations.get()))
+    else:
+        print("invalid sequence type. doing nothing.")
     
     simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args, sim_bar=simprogress, verbose=True)
     
