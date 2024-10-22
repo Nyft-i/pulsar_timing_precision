@@ -153,8 +153,10 @@ def simulate(toas, sequence_type, const_args, sim_args):
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
     
-    #plt.plot(residuals[:,0], residuals[:,1])
-    #plt.savefig("results_22_10_24_2.png", dpi=400)
+    plt.clf()
+    plt.plot(residuals[:,0], residuals[:,1])
+    plt.axvline(x = mid_point)
+    plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
 timfile = "master_toas_2.tim"
