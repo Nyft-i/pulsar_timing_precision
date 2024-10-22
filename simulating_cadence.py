@@ -111,7 +111,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
             counter = 1
             error = 0.0001
             while counter <= len(residuals):
-                if residuals[counter] - residuals[(counter -1)] > 3 * error:
+                if residuals[1,counter] - residuals[1,(counter -1)] > 3 * error:
                     mid_point = (residuals[counter] + residuals[(counter -1)])/2
                     
                 else :
