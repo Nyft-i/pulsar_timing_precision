@@ -45,7 +45,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
@@ -73,7 +73,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     results = np.zeros((0,7))
     while curr_iter<sim_args[2]:
         curr_iter += 1
-        print(toas)
+        #print(toas)
         #print(indexes)
         # adds some 5d random variation so that we dont run into issues with the sample being the same every time
         start_randomiser = np.array([(const_args[1] + random.randint(0, 50)/10),
@@ -93,11 +93,11 @@ def simulate(toas, sequence_type, const_args, sim_args):
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             traits = run_fit(par, tim)
-            print(traits)
+            #print(traits)
             
             print("retrieving results")
             compare = compare_to_master(traits, master_traits)
-            print(compare)
+            #print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
             results = np.vstack((results, curr_results))
             
@@ -126,7 +126,7 @@ def simulate(toas, sequence_type, const_args, sim_args):
     plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("results_22_10_24.png", dpi=400)
-    print(y)
+    #print(y)
     return
     
 timfile = "master_toas_2.tim"
