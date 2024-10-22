@@ -3,7 +3,7 @@ from tkinter import ttk
 #import threading
 import numpy as np
 
-#import simulating_cadence
+import simulating_cadence
 
 app = tk.Tk()
 app.title("Pulsar Timer")
@@ -37,7 +37,7 @@ def period_frame_command():
     period_frame.grid_propagate(False)
 
 def simulate():
-    """
+    
     timfile = "master_toas_2.tim"
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
@@ -53,7 +53,7 @@ def simulate():
 
     app.quit()
     simulating_cadence.simulate(toas, SEQUENCE_TYPE.get(), const_args, sim_args, simprogress)
-    """
+    
 
 frame_radio = tk.Frame(app, width=200, height=100)
 frame_radio.grid(column=0, row=0,sticky="ew")
