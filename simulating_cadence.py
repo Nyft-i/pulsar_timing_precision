@@ -34,9 +34,9 @@ def run_fit(par, tim):
         "tempo2",
         "-f", par, tim,
         "-nofit",
-        #"-fit", "GLF0_1",
-        #"-fit", "GLF1_1",
-        #"-fit", "GLPH_1",
+        "-fit", "GLF0_1",
+        "-fit", "GLF1_1",
+        "-fit", "GLPH_1",
         "noWarnings", ">&", "/dev/null",
         "-residuals"
         ]
@@ -97,40 +97,39 @@ def simulate(toas, sequence_type, const_args, sim_args):
             #print(traits)
             
             print("retrieving results")
-            #compare = compare_to_master(traits, master_traits)
+            compare = compare_to_master(traits, master_traits)
             #print(compare)
-            #curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
-            #results = np.vstack((results, curr_results))
+            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
+            results = np.vstack((results, curr_results))
             
         print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
         print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
     # Below are settings used to generate a graphh.
-    #results = results.astype('float64')
-    #print(results)
-    #x = results[:,0].astype('float64')
-    #y = results[:,1].astype('float64')
-    #y_err = results[:,2]
+    results = results.astype('float64')
+    x = results[:,0].astype('float64')
+    y = results[:,1].astype('float64')
+    y_err = results[:,2]
     #z = np.log(results[:,4])
     #scaled_z = (z - z.min()) / z.ptp()
     #colours = plt.cm.Greys(scaled_z)
     
-    #plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
-    #plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
+    plt.errorbar(x,np.abs(y),yerr=y_err,fmt=',')
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
-    #plt.colorbar(label="num. of ToAs")
-    #plt.xlabel(sequence_type+" constant")
-   # plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
-    #minimum = find_peaks(-np.abs(y), distance= 2000)
-   # min_constant = minimum[0]
-   # print(y[min_constant])
-    #plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
-   # plt.tight_layout()
-   # plt.savefig("results_22_10_24.png", dpi=400)
+    plt.colorbar(label="num. of ToAs")
+    plt.xlabel(sequence_type+" constant")
+    plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
+    minimum = find_peaks(-np.abs(y), distance= 2000)
+    min_constant = minimum[0]
+    print(y[min_constant])
+    plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
+    plt.tight_layout()
+    plt.savefig("results_22_10_24.png", dpi=400)
     
-    residuals = np.genfromtxt("residuals.dat")
-    plt.plot(residuals[:,0], residuals[:,1])
-    plt.savefig("results_22_10_24_2.png", dpi=400)
+    #residuals = np.genfromtxt("residuals.dat")
+    #plt.plot(residuals[:,0], residuals[:,1])
+    #plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
 timfile = "master_toas_2.tim"
