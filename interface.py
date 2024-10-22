@@ -7,25 +7,6 @@ import simulating_cadence
 app = Tk()
 app.title("Pulsar Timer")
 
-def simulate_thread():
-
-    const_args = (start_cadence.get(), start_offset.get(), max_gap.get())
-    sim_args = (log_const_min.get(), log_const_max.get(), num_iterations.get())
-    print("simulating with following args:")
-    print("const_args: ")
-    print(const_args)
-    print("sim_args: ")
-    print(sim_args)
-
-    simulating_cadence.simulate("master_toas.tim", SEQUENCE_TYPE.get(), const_args, sim_args)
-
-
-def schedule_check(thread):
-    if thread.is_alive():
-        app.after(100, schedule_check, thread)
-    else:
-        print("simulation complete")
-
 def forget_all():
     log_frame.grid_forget()
     arith_frame.grid_forget()
@@ -51,9 +32,16 @@ def period_frame_command():
 
 def simulate():
 
-    sim_thread = threading.Thread(target=simulate_thread)
-    sim_thread.start()
-    schedule_check(sim_thread)
+    const_args = (start_cadence.get(), start_offset.get(), max_gap.get())
+    sim_args = (log_const_min.get(), log_const_max.get(), num_iterations.get())
+    print("simulating with following args:")
+    print("const_args: ")
+    print(const_args)
+    print("sim_args: ")
+    print(sim_args)
+
+    app.quit()
+    simulating_cadence.simulate("master_toas.tim", SEQUENCE_TYPE.get(), const_args, sim_args)
 
 frame_radio = Frame(app, width=200, height=200)
 frame_radio.grid(column=0, row=0)
