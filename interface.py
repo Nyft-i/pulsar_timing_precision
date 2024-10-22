@@ -50,7 +50,8 @@ def simulate():
     print(const_args)
     print("sim_args: ")
     print(sim_args)
-
+    print("sequence type: ", SEQUENCE_TYPE.get(), SEQUENCE_TYPE)
+    
     app.quit()
     simulating_cadence.simulate(toas, SEQUENCE_TYPE, const_args, sim_args, sim_bar=simprogress, verbose=True)
     
