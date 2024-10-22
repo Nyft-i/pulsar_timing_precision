@@ -40,18 +40,8 @@ def simulate():
     
     timfile = "master_toas_2.tim"
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
-
-
-
-    print("simulating with following args:")
-    print("const_args: ")
-    print(const_args)
-    print("sim_args: ")
-    print(sim_args)
     retrieved_sequence_type = SEQUENCE_TYPE.get()
-    print("sequence type:", retrieved_sequence_type)
-    
-    
+
     const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
     if retrieved_sequence_type == 'logarithmic':
         sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
@@ -63,6 +53,14 @@ def simulate():
         sim_args = (float(period_const_min.get()), float(period_const_max.get()), int(num_iterations.get()))
     else:
         print("invalid sequence type. doing nothing.")
+        
+    print("simulating with following args:")
+    print("const_args: ")
+    print(const_args)
+    print("sim_args: ")
+    print(sim_args)
+    print("sequence type:", retrieved_sequence_type)
+    
     
     simulating_cadence.simulate(toas, retrieved_sequence_type, const_args, sim_args, sim_bar=simprogress, verbose=True)
     
