@@ -166,8 +166,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
             print(epochs)
-            closest_MJD = (np.abs(epochs - new_GLEP)).argmin()
-            print(closest_MJD)
+            # = (np.abs(epochs - new_GLEP)).argmin()
+            print(epochs - new_GLEP)
             
             # run tempo2 again with 0 phase MJD
             #editting_par(par, closest_MJD)
