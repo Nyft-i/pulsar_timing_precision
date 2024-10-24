@@ -29,7 +29,7 @@ def compare_to_master(traits, master_traits):
     ph = float(traits[4])
     
     #print(perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph)
-    return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
+    return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph, traits[5], traits[6]
 
 def tempo_nofit(par,tim):
     #print("using tempo2 no fit")
@@ -104,8 +104,11 @@ def run_fit(par, tim):
                 f1_e = fields[3]
             if fields[0] == "GLPH_1":
                 ph = fields[2]
+            if fields[0] == "MJD":
+                epochs = fields[7], fields[9]
+                epoch_e = fields[12]
     try:
-        return f0, f0_e, f1, f1_e, ph
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e
     except UnboundLocalError:
         return None
 
