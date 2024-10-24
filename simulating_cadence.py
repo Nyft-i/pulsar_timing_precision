@@ -203,14 +203,18 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     plt.tight_layout()
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors='gray')
+    if sequence_type == 'logarithmic': ec = 'r'
+    elif sequence_type == 'arithmetic': ec = 'b'
+    elif sequence_type == 'geometric': ec = 'g'
+    elif sequence_type == 'periodic': ec = 'y'
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec)
     
-    plt.colorbar(label="num. of ToAs")
-    plt.xlabel(sequence_type+" constant")
-    plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
-    plt.savefig("figures/glf0_"+save_png, dpi=400)
-    plt.clf()
-    
+    #plt.colorbar(label="num. of ToAs")
+    #plt.xlabel(sequence_type+" constant")
+    #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
+    #plt.savefig("figures/glf0_"+save_png, dpi=400)
+    #plt.clf()
+    """
     y = results[:,3].astype('float64')
     y_err = results[:,4]
 
@@ -222,7 +226,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     plt.xlabel(sequence_type+" constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF1_1")
     plt.savefig("figures/glf1_"+save_png, dpi=400)
-    
+    """
     return
     
 def main():
@@ -239,21 +243,21 @@ def main():
     verbose = False
 
     #simulation parameters
-    num_iterations = 10
+    num_iterations = 20
 
     ## LOGARITHMIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
-    log_const_min = 0
-    log_const_max = 3
+    log_const_min = 0.5
+    log_const_max = 2
 
     ## ARITHMETIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
-    sequential_increase_min = 1.2 # num. of days per observation that time between observations increases by
+    sequential_increase_min = 0.5 # num. of days per observation that time between observations increases by
     sequential_increase_max = 4 # num. of days per observation that time between observations increases by
 
     ## GEOMETRIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'geometric'
-    multiplicative_increase_min = 1.2 # factor time between observations is multiplied by after an observation
+    multiplicative_increase_min = 1 # factor time between observations is multiplied by after an observation
     multiplicative_increase_max = 4 # factor time between observations is multiplied by after an observation
 
     ## PERIODIC - 
@@ -262,26 +266,32 @@ def main():
     period_max = 20
 
 
-    if SEQUENCE_TYPE == 'logarithmic':
-        const_args = (cadence_start, marker_offset, max_gap)
-        sim_args = (log_const_min, log_const_max, num_iterations)
-    #    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
-    elif SEQUENCE_TYPE == 'arithmetic':
-        const_args = (cadence_start, marker_offset, max_gap)
-        sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
-    #    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
-    elif SEQUENCE_TYPE == 'geometric':
-        const_args = (cadence_start, marker_offset, max_gap)
-        sim_args = (multiplicative_increase_min, multiplicative_increase_max, num_iterations)
-    #    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
-    elif SEQUENCE_TYPE == 'periodic':
-        const_args = (cadence_start, marker_offset, max_gap)
-        sim_args = (period_min, period_max, num_iterations)
-    #    indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
-    else:
-        print("invalid sequence type. doing nothing.")
-
+    SEQUENCE_TYPE = 'logarithmic'
+    const_args = (cadence_start, marker_offset, max_gap)
+    sim_args = (log_const_min, log_const_max, num_iterations)
     simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
+    #    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
+    SEQUENCE_TYPE = 'arithmetic'
+    const_args = (cadence_start, marker_offset, max_gap)
+    sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
+    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
+#    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
+    SEQUENCE_TYPE = 'geometric'
+    const_args = (cadence_start, marker_offset, max_gap)
+    sim_args = (multiplicative_increase_min, multiplicative_increase_max, num_iterations)
+    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
+#    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
+    SEQUENCE_TYPE = 'periodic'
+    const_args = (cadence_start, marker_offset, max_gap)
+    sim_args = (period_min, period_max, num_iterations)
+    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
+#   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
+    
+    plt.colorbar(label="num. of ToAs")
+    plt.xlabel("sequence constant")
+    plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
+    
+
 
     #print("number of toas: " + str(len(indexes)))
 
