@@ -156,27 +156,27 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             max_MJD = round(np.max(toas))
             
             initial_GLEP = random.randint(min_MJD,max_MJD)
-            print(initial_GLEP)
+            #print(initial_GLEP)
             editting_par(par, initial_GLEP, cols)
-            print("given par file initial guess")
+            #print("given par file initial guess")
             
-            print(master_traits)
+            #print(master_traits)
             new_GLEP = epoch_finder(par, tim, master_traits)
-            print(new_GLEP)
+            #print(new_GLEP)
             editting_par(par, new_GLEP, cols)
-            print("given par accurate guess")
+            #print("given par accurate guess")
             
-            print("running tempo2 with fit")
+            #print("running tempo2 with fit")
             traits = run_fit(par, tim)
-            print(traits)
+            #print(traits)
             
-            print("retrieving results")
-            print("master traits: ", master_traits)
+            #print("retrieving results")
+            #print("master traits: ", master_traits)
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
-            print(compare)
+            #print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
-            print(curr_results)
+            #print(curr_results)
             results = np.vstack((results, curr_results))
         
         # Print progress
@@ -190,7 +190,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
-    print(results)
+    #print(results)
     x = results[:,0].astype('float64')
     y = results[:,3].astype('float64')
     y_err = results[:,4]
