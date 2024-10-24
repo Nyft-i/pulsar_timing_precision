@@ -158,7 +158,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
-            closest_index = (np.abs(master_traits[4] - toas[indexes]]).argmin())
+            closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
             distance_to_TOA = np.abs(master_traits[4] - toas[indexes][closest_index])
             print(distance_to_TOA)
             
