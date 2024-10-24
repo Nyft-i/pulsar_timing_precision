@@ -191,8 +191,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
-    y = results[:,1].astype('float64')
-    y_err = results[:,2]
+    y = results[:,3].astype('float64')
+    y_err = results[:,4]
     
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*100,norm=colors.LogNorm(),edgecolors='gray')
