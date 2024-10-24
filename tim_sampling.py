@@ -50,6 +50,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
         if(cadence > max_gap): cadence = cadence_start
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
+        if verbose: time.sleep(0.5)
                 
     return indexes
 
