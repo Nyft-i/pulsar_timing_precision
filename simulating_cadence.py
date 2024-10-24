@@ -273,8 +273,6 @@ def main():
     period_min = 0.5
     period_max = 20
 
-    fig, axs = plt.subplots(1, 4, figsize=(12, 6))
-
     SEQUENCE_TYPE = 'logarithmic'
     const_args = (cadence_start, marker_offset, max_gap)
     sim_args = (log_const_min, log_const_max, num_iterations)
@@ -307,6 +305,8 @@ def main():
     #print("number of toas: " + str(len(indexes)))
 
 if __name__ == "__main__":
+
+    fig, axs = plt.subplots(1, 4, figsize=(12, 6))
     main()
         
 
