@@ -120,7 +120,11 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
-    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value'])
+    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
 
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     results = np.zeros((0,8))
@@ -149,11 +153,12 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
-            closest_index = (np.abs(toas - new_GLEP)).argmin()
-            distance_to_TOA = np.abs(toas[closest_index] - new_GLEP)
+            closest_index = (np.abs(toas - master_traits[4])).argmin()
+            distance_to_TOA = np.abs(toas[closest_index] - master_traits[4])
             
             # run tempo2
             traits = run_fit(par, tim)
+            
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
@@ -161,7 +166,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             results = np.vstack((results, curr_results))
         
         # Print progress
-        print(str(curr_iter)+"/"+str(steps)+" - curr " + str(sequence_type) + " constant: "+str(curr_sim_const), end="")
+        print(str(curr_iter)+"/"+str(steps)+" - curr " + str(sequence_type) + f" constant: {curr_sim_const:.2f}")
         sys.stdout.write("\033[K")
         sys.stdout.flush()
         curr_sim_const += step
