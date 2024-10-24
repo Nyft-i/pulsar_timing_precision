@@ -64,7 +64,7 @@ def epoch_finder(par, tim, master_traits):
     
     return mid_point
 
-def editting_par(parfile,GLEP,cols):
+def editting_par(parfile,GLEP):
     new_line = np.empty(0)
     #reads in old par file
     lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
@@ -134,58 +134,34 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
         # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
         for offset in start_randomiser:
-            print("inloop")
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
-            print("index array made")
-            #if verbose: print(indexes)
-            print(indexes)
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
+            num_toas = len(indexes)
+            
             new_filename = "temp_toas.tim"
-            print(toas)
             tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
             
-            num_toas = len(indexes)
-            #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
-            print("new toas generated, running tempo2")
-
-            # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
             
-            min_MJD = round(np.min(toas))
-            max_MJD = round(np.max(toas))
-            
-            initial_GLEP = random.randint(min_MJD,max_MJD)
-            #print(initial_GLEP)
-            editting_par(par, initial_GLEP, cols)
-            #print("given par file initial guess")
-            
-            #print(master_traits)
+            # Residual loading glep finder code, put it in the par file
             new_GLEP = epoch_finder(par, tim, master_traits)
-            #print(new_GLEP)
-            editting_par(par, new_GLEP, cols)
-            #print("given par accurate guess")
+            editting_par(par, new_GLEP)
             
-            #print("running tempo2 with fit")
+            
+            # run tempo2
             traits = run_fit(par, tim)
-            #print(traits)
             
-            #print("retrieving results")
-            #print("master traits: ", master_traits)
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
-            #print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
-            #print(curr_results)
             results = np.vstack((results, curr_results))
         
         # Print progress
         print(str(curr_iter)+"/"+str(steps)+" - curr " + str(sequence_type) + " constant: "+str(curr_sim_const), end="")
         sys.stdout.write("\033[K")
         sys.stdout.flush()
-        #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
-        #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
     print("done!")
     
     # Below are settings used to generate a graphh.
