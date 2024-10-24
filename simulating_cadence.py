@@ -174,7 +174,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         curr_sim_const += step
         
     end_time = time.time()
-    print("done! took " + f"{str(end_time - start_time):.3f} seconds")
+    print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
