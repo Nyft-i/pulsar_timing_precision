@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import sys
 import random
-from scipy.signal import find_peaks
 
 def compare_to_master(traits, master_traits):
     # f0 % diff
@@ -42,12 +41,11 @@ def tempo_nofit(par,tim):
     #print(' '.join(command_nofit), file=sys.stderr)
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
+    return np.genfromtxt("residuals.dat")
 
 def epoch_finder(par, tim):
-    #runs tempo2 without a fit
-    tempo_nofit(par, tim)
     #reads tempo2 generated residuals
-    residuals = np.genfromtxt("residuals.dat")
+    residuals = tempo_nofit(par, tim)
     counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
@@ -103,12 +101,15 @@ def run_fit(par, tim):
     except UnboundLocalError:
         return None
 
-def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png"):
+def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png", num_sps=1):
+    # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
     steps = sim_args[2]
     master_par = "master_file.par"
+    
+    # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
     master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
@@ -119,11 +120,11 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         curr_iter += 1
         #print(toas)
         #print(indexes)
-        # adds some 5d random variation so that we dont run into issues with the sample being the same every time
-        start_randomiser = np.array([(const_args[1] + random.randint(0, 50)/10),
-                            (const_args[1] + random.randint(0, 50)/10),
-                            (const_args[1] + random.randint(0, 50)/10)])
         
+        # adds some 5d random variation so that we dont run into issues with the sample being the same every time
+        start_randomiser = np.random.randint(0, 5, (num_sps))
+            
+        # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
         for offset in start_randomiser:
             print("inloop")
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
@@ -145,26 +146,27 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             print("retrieving results")
             print("master traits: ", master_traits)
+            # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
             print(compare)
             curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
             print(curr_results)
             results = np.vstack((results, curr_results))
-            
-        print(str(curr_iter)+".", end="")
+        
+        # Print progress
+        print(str(curr_iter)+"/"+str(steps)+" - curr " + str(sequence_type) + " constant: "+str(curr_sim_const), end="")
+        sys.stdout.write("\033[K")
         sys.stdout.flush()
         #print("successfully simulated #"+ str(curr_iter)+ ", stepping log_const by "+str(step))
         curr_sim_const += step
         #print("the "+sequence_type+"_const is now "+str(curr_sim_const)+")")
-    print("] - done!")
+    print("done!")
+    
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
     x = results[:,0].astype('float64')
     y = results[:,3].astype('float64')
     y_err = results[:,4]
-    #z = np.log(results[:,4])
-    #scaled_z = (z - z.min()) / z.ptp()
-    #colours = plt.cm.Greys(scaled_z)
     
     plt.errorbar(x,np.abs(y),fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
@@ -172,17 +174,9 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
-    #minimum = find_peaks(-np.abs(y), distance= 2000)
-    #min_constant = minimum[0]
-    #print(y[min_constant])
-    #plt.scatter(x[min_constant],np.abs(y[min_constant]), marker="x", color = "red")
     plt.tight_layout()
     plt.savefig("figures/"+save_png, dpi=400)
     
-    #plt.clf()
-    #plt.plot(residuals[:,0], residuals[:,1])
-    #plt.axvline(x = mid_point)
-    #plt.savefig("results_22_10_24_2.png", dpi=400)
     return
     
 def main():
