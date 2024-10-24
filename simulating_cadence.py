@@ -200,7 +200,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
-    plt.ylabel("absolute value of % diff of retrieved and actual GLF0")
+    plt.ylabel("absolute value of % diff of retrieved and actual GLF1_1")
     plt.tight_layout()
     plt.savefig("figures/"+save_png, dpi=400)
     
