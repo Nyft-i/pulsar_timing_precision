@@ -12,7 +12,7 @@ import pandas
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import sys
-import random
+import time
 
 def compare_to_master(traits, master_traits):
     # f0 % diff
@@ -111,6 +111,8 @@ def run_fit(par, tim):
 
 def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png", num_sps=1):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
+    start_time = time.time()
+    
     curr_iter = 0
     curr_sim_const = sim_args[0]
     step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
@@ -170,7 +172,10 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         sys.stdout.write("\033[K")
         sys.stdout.flush()
         curr_sim_const += step
+        
+    end_time = time.time()
     print("done!")
+    print("]\nsimulation took " + str(end_time - start_time) + " seconds.")
     
     # Below are settings used to generate a graphh.
     results = results.astype('float64')
