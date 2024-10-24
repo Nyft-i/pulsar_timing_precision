@@ -24,7 +24,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
     marker = np.min(toas) + marker_offset
     cadence = cadence_start
     if verbose: print("starting cadence: " + str(cadence_start))
-    time.sleep(1)
+    #time.sleep(1)
     
     while(marker < end):
         closest_index = (np.abs(toas - marker)).argmin()
@@ -50,7 +50,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
         if(cadence > max_gap): cadence = cadence_start
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
-        if verbose: time.sleep(0.5)
+        #if verbose: time.sleep(0.5)
                 
     return indexes
 
