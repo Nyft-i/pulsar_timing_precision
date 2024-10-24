@@ -31,6 +31,7 @@ def compare_to_master(traits, master_traits):
     return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
 def tempo_nofit(par,tim):
+    print("using tempo2 no fit")
     command_nofit = [
         "tempo2",
         "-f", par, tim,
@@ -43,15 +44,18 @@ def tempo_nofit(par,tim):
     out, err = proc.communicate()
     return np.genfromtxt("residuals.dat")
 
-def epoch_finder(par, tim):
-    #reads tempo2 generated residuals
+def epoch_finder(par, tim, master_traits):
+    #runs tempo2 without a fit
+    print("running tempo not fit")
     residuals = tempo_nofit(par, tim)
+    #reads tempo2 generated residuals
     counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
-            mid_point = (residuals[counter,0] + residuals[(counter -1),0])/2
+            change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
+            mid_point = change + master_traits[3]
             break 
             
         else :
@@ -60,14 +64,17 @@ def epoch_finder(par, tim):
     return mid_point
 
 def editting_par(parfile,GLEP,cols):
+    new_line = np.empty(0)
     #reads in old par file
-    lines = pandas.read_csv(parfile, sep="\s+", names=cols)
-    new_line = "GLEP_1 " + str(GLEP)
-    
-    #adds a line at the bottom with the estimated glitch epoch
-    new_par = np.hstack((lines,new_line))
+    lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
+    for line in lines :
+        if "GLEP_1" not in line :
+            new_line = np.append(new_line,line)
+      
+    new_line = np.append(new_line,"GLEP_1          " + str(GLEP))    
+
     #saves it over the old par file
-    np.savetxt(parfile, new_par, fmt="%s")
+    np.savetxt(parfile, new_line, fmt="%s")
     
 
 def run_fit(par, tim):
@@ -78,7 +85,7 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
-        "-noWarnings",
+        "-noWarnings",">&","/dev/null"
         ]
     #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
@@ -86,7 +93,7 @@ def run_fit(par, tim):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
@@ -112,7 +119,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
-    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value'])
+    master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value'])
 
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     results = np.zeros((0,7))
@@ -131,8 +138,11 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             
             print("index array made")
-            if verbose: print(indexes)
+            #if verbose: print(indexes)
+            print(indexes)
             new_filename = "temp_toas.tim"
+            print(toas)
+            tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
             
             num_toas = len(indexes)
             #num_toas = tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
@@ -140,7 +150,22 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
 
             # run tempo2
             par, tim = "master_file_noglitch.par", new_filename
-
+            
+            min_MJD = round(np.min(toas))
+            max_MJD = round(np.max(toas))
+            
+            initial_GLEP = random.randint(min_MJD,max_MJD)
+            print(initial_GLEP)
+            editting_par(par, initial_GLEP, cols)
+            print("given par file initial guess")
+            
+            print(master_traits)
+            new_GLEP = epoch_finder(par, tim, master_traits)
+            print(new_GLEP)
+            editting_par(par, new_GLEP, cols)
+            print("given par accurate guess")
+            
+            print("running tempo2 with fit")
             traits = run_fit(par, tim)
             print(traits)
             
@@ -168,7 +193,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     y = results[:,3].astype('float64')
     y_err = results[:,4]
     
-    plt.errorbar(x,np.abs(y),fmt=',')
+    plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
@@ -212,7 +237,7 @@ def main():
 
     ## PERIODIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-    period_min = 5
+    period_min = 0.5
     period_max = 20
 
 
@@ -235,7 +260,7 @@ def main():
     else:
         print("invalid sequence type. doing nothing.")
 
-    simulate(toas, SEQUENCE_TYPE, const_args, sim_args)
+    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
 
     #print("number of toas: " + str(len(indexes)))
 
