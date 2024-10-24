@@ -164,6 +164,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # run tempo2
             traits = run_fit(par, tim)
             
+            print(traits[5])
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
