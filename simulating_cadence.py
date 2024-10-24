@@ -165,12 +165,13 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             traits = run_fit(par, tim)
             
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
-            closest_MJD = (np.abs(epochs - new_GLEP)).argmin()
-            print(closest_MJD)
+            print(epochs)
+            #closest_MJD = (np.abs(epochs - new_GLEP)).argmin()
+            #print(closest_MJD)
             
-            # run tempo2 with 0 phase MJD
-            editting_par(par, closest_MJD)
-            traits = run_fit(par, tim)
+            # run tempo2 again with 0 phase MJD
+            #editting_par(par, closest_MJD)
+            #traits = run_fit(par, tim)
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
