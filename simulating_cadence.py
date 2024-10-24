@@ -123,7 +123,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     master_traits = float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value'])
 
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
-    results = np.zeros((0,7))
+    results = np.zeros((0,8))
     while curr_iter<steps:
         curr_iter += 1
         #print(toas)
@@ -148,13 +148,16 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             new_GLEP = epoch_finder(par, tim, master_traits)
             editting_par(par, new_GLEP)
             
+            # code for finding the closest TOA
+            closest_index = (np.abs(toas - new_GLEP)).argmin()
+            distance_to_TOA = toas[closest_index] - new_GLEP
             
             # run tempo2
             traits = run_fit(par, tim)
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
-            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas
+            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, distance_to_TOA
             results = np.vstack((results, curr_results))
         
         # Print progress
@@ -172,7 +175,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     y_err = results[:,2]
     
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],norm=colors.LogNorm(),edgecolors='gray')
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7],norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
