@@ -191,17 +191,32 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
+    y = results[:,1].astype('float64')
+    y_err = results[:,2]
+    
+    plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors='gray')
+    
+    plt.colorbar(label="num. of ToAs")
+    plt.xlabel(sequence_type+" constant")
+    plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
+    plt.tight_layout()
+    plt.savefig("figures/glf0_"+save_png, dpi=400)
+    plt.clf()
+    
+    x = results[:,0].astype('float64')
     y = results[:,3].astype('float64')
     y_err = results[:,4]
     
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*50,norm=colors.LogNorm(),edgecolors='gray')
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors='gray')
     
     plt.colorbar(label="num. of ToAs")
     plt.xlabel(sequence_type+" constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF1_1")
     plt.tight_layout()
-    plt.savefig("figures/"+save_png, dpi=400)
+    plt.savefig("figures/glf1_"+save_png, dpi=400)
+    plt.clf()
     
     return
     
