@@ -203,12 +203,20 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     plt.tight_layout()
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    if sequence_type == 'logarithmic': ec = 'r'
-    elif sequence_type == 'arithmetic': ec = 'b'
-    elif sequence_type == 'geometric': ec = 'g'
-    elif sequence_type == 'periodic': ec = 'y'
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec)
+    if sequence_type == 'logarithmic': 
+        ec = 'r'
+        plt.sca(axs[0])
+    elif sequence_type == 'arithmetic': 
+        ec = 'b'
+        plt.sca(axs[1])
+    elif sequence_type == 'geometric': 
+        ec = 'g'
+        plt.sca(axs[2])
+    elif sequence_type == 'periodic': 
+        ec = 'y'
+        plt.sca(axs[3])
     
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec)
     #plt.colorbar(label="num. of ToAs")
     #plt.xlabel(sequence_type+" constant")
     #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
@@ -265,6 +273,7 @@ def main():
     period_min = 0.5
     period_max = 20
 
+    fig, axs = plt.subplots(1, 4, figsize=(12, 6))
 
     SEQUENCE_TYPE = 'logarithmic'
     const_args = (cadence_start, marker_offset, max_gap)
@@ -287,10 +296,11 @@ def main():
     simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
 #   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
     
-    plt.colorbar(label="num. of ToAs")
-    plt.xlabel("sequence constant")
-    plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
-    plt.savefig("figures/glf0_all_strats", dpi=400)
+    
+    
+    fig.colorbar(label="num. of ToAs")
+    fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1")
+    fig.savefig("figures/glf0_all_strats", dpi=400)
 
 
 
