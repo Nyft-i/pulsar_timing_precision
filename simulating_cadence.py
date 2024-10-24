@@ -294,9 +294,7 @@ def main():
     simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
 #   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
     
-    
-    
-    fig.colorbar(label="num. of ToAs", ax=axs.ravel().tolist())
+    fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1")
     fig.savefig("figures/glf0_all_strats", dpi=400)
 
