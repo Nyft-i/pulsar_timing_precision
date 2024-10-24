@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 def sample_from_toas(toas, sequence_type, args, verbose=False):
     # Setup
@@ -22,6 +23,8 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
     
     marker = np.min(toas) + marker_offset
     cadence = cadence_start
+    if verbose: print("starting cadence: " + str(cadence_start))
+    time.sleep(1)
     
     while(marker < end):
         closest_index = (np.abs(toas - marker)).argmin()
