@@ -147,9 +147,11 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
+            print("got indexes")
             
             temp_tim = sequence_type+"_toas.tim"
             tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
+            print("generated new tim file")
             
             par, tim = "master_file_noglitch.par", temp_tim
             
@@ -164,6 +166,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # run tempo2
             traits = run_fit(par, tim)
+            print("found traits")
             
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
             closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
