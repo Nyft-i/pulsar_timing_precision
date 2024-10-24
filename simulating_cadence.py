@@ -150,7 +150,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # code for finding the closest TOA
             closest_index = (np.abs(toas - new_GLEP)).argmin()
-            distance_to_TOA = toas[closest_index] - new_GLEP
+            distance_to_TOA = np.abs(toas[closest_index] - new_GLEP)
             
             # run tempo2
             traits = run_fit(par, tim)
