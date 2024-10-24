@@ -290,7 +290,8 @@ def main():
     plt.colorbar(label="num. of ToAs")
     plt.xlabel("sequence constant")
     plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
-    
+    plt.savefig("figures/glf0_all_strats", dpi=400)
+
 
 
     #print("number of toas: " + str(len(indexes)))
