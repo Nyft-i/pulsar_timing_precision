@@ -150,7 +150,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             
             print(passed_args)
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, True)
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
             
             temp_tim = sequence_type+"_toas.tim"
