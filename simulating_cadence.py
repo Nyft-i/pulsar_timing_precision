@@ -139,10 +139,10 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
             
-            new_filename = "temp_toas.tim"
-            tim_sampling.gen_new_tim(master_tim, indexes, new_filename)
+            temp_tim = sequence_type+"_toas.tim"
+            tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
             
-            par, tim = "master_file_noglitch.par", new_filename
+            par, tim = "master_file_noglitch.par", temp_tim
             
             # Residual loading glep finder code, put it in the par file
             new_GLEP = epoch_finder(par, tim, master_traits)
