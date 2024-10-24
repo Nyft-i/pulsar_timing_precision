@@ -28,11 +28,11 @@ def compare_to_master(traits, master_traits):
 
     ph = float(traits[4])
     
-    print(perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph)
+    #print(perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph)
     return perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph
 
 def tempo_nofit(par,tim):
-    print("using tempo2 no fit")
+    #print("using tempo2 no fit")
     command_nofit = [
         "tempo2",
         "-f", par, tim,
@@ -47,7 +47,7 @@ def tempo_nofit(par,tim):
 
 def epoch_finder(par, tim, master_traits):
     #runs tempo2 without a fit
-    print("running tempo not fit")
+    #print("running tempo not fit")
     residuals = tempo_nofit(par, tim)
     #reads tempo2 generated residuals
     counter = 1
