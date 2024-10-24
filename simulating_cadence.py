@@ -296,7 +296,7 @@ def main():
     
     
     
-    fig.colorbar(label="num. of ToAs")
+    fig.colorbar(label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1")
     fig.savefig("figures/glf0_all_strats", dpi=400)
 
@@ -306,7 +306,7 @@ def main():
 
 if __name__ == "__main__":
 
-    fig, axs = plt.subplots(1, 4, figsize=(12, 6))
+    fig, axs = plt.subplots(1, 4, figsize=(12, 6), sharey=True)
     main()
         
 
