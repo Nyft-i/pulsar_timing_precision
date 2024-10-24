@@ -45,6 +45,7 @@ def simulate():
     retrieved_sequence_type = SEQUENCE_TYPE.get()
 
     const_args = (float(start_cadence.get()), float(start_offset.get()), float(max_gap.get()))
+    
     if retrieved_sequence_type == 'logarithmic':
         sim_args = (float(log_const_min.get()), float(log_const_max.get()), int(num_iterations.get()))
     elif retrieved_sequence_type == 'arithmetic':

@@ -143,7 +143,12 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
         # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
         for offset in start_randomiser:
+            # We need passed args to take the form: cadence_start, offset, maxgap, const
+            #const_args: start cadence, start offset, max_gap
+            #sim_args: min const, max const, num_iterations
+            
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
+            
             print(passed_args)
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
