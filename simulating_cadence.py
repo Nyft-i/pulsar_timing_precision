@@ -160,12 +160,12 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # code for finding the closest TOA
             closest_index = (np.abs(master_traits[4] - toas).argmin())
             distance_to_TOA = np.abs(master_traits[4] - toas[closest_index])
+            print(distance_to_TOA)
             
             # run tempo2
             traits = run_fit(par, tim)
             
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
-            print(epochs)
             closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
             closest_MJD = epochs[closest_MJD_index]
             
