@@ -160,7 +160,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # code for finding the closest TOA
             closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
             distance_to_TOA = np.abs(master_traits[4] - toas[indexes][closest_index])
-            print(distance_to_TOA)
+            #print(distance_to_TOA)
             
             # run tempo2
             traits = run_fit(par, tim)
