@@ -145,7 +145,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         for offset in start_randomiser:
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, True)
             num_toas = len(indexes)
             print("got indexes")
             
