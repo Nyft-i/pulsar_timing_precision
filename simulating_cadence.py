@@ -144,14 +144,12 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
         for offset in start_randomiser:
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
-            
-            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, True)
+            print(passed_args)
+            indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
-            print("got indexes")
             
             temp_tim = sequence_type+"_toas.tim"
             tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
-            print("generated new tim file")
             
             par, tim = "master_file_noglitch.par", temp_tim
             
@@ -166,7 +164,6 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # run tempo2
             traits = run_fit(par, tim)
-            print("found traits")
             
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
             closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
