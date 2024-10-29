@@ -303,14 +303,14 @@ def main():
     
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1", y=0.5, x=-0.1)
-    fig.savefig("figures/glf0_all_strats", dpi=400)
+    fig.savefig("figures/glf0_all_strats", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
 
 if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
     gs = fig.add_gridspec(1, 4, wspace=0)
-    axs = gs.subplots(sharey=True, tight_layout=True)
+    axs = gs.subplots(sharey=True)
     main()
         
 
