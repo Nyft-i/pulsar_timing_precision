@@ -228,7 +228,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     return results
     
-def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="faster_file.par", num_sps=1):
+def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
     
