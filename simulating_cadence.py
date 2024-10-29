@@ -167,7 +167,6 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             # changed currently to show the distance from the real glitch epoch
             #closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
             #size = np.abs(master_traits[4] - toas[indexes][closest_index])
-            size = np.abs(new_GLEP - master_traits[4])
             #print(distance_to_TOA)
             
             # run tempo2
@@ -176,6 +175,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
             closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
             closest_MJD = epochs[closest_MJD_index]
+            size = np.abs(closest_MJD - master_traits[4])
             #print(closest_MJD)
             
             # run tempo2 again with 0 phase MJD
