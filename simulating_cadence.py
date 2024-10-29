@@ -303,9 +303,9 @@ def main():
     #print("number of toas: " + str(len(indexes)))
 
 if __name__ == "__main__":
-    fig = plt.subplots(1, 4, figsize=(12, 6), sharey=True)
+    fig = plt.figure()
     gs = fig.add_gridspec(1, 4, wspace=0)
-    axs = gs.subplots(sharey=True)
+    axs = gs.subplots(1, 4, figsize=(12, 6), sharey=True)
     main()
         
 
