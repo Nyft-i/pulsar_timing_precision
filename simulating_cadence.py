@@ -217,6 +217,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         plt.sca(axs[3])
     
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec)
+    plt.xlim(sim_args[0], sim_args[1])
     #plt.colorbar(label="num. of ToAs")
     #plt.xlabel(sequence_type+" constant")
     #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
@@ -298,12 +299,9 @@ def main():
     fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1")
     fig.savefig("figures/glf0_all_strats", dpi=400)
 
-
-
     #print("number of toas: " + str(len(indexes)))
 
 if __name__ == "__main__":
-
     fig, axs = plt.subplots(1, 4, figsize=(12, 6), sharey=True)
     main()
         
