@@ -305,7 +305,7 @@ def main():
 if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
     gs = fig.add_gridspec(1, 4, wspace=0)
-    axs = gs.subplots(1, 4, sharey=True)
+    axs = gs.subplots(sharey=True)
     main()
         
 
