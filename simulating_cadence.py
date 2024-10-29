@@ -220,9 +220,10 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         plt.sca(axs[3])
         plt.xlabel("period (days)")
     
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
+    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
     plt.legend()
     plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
+    plt.ylim(-0.01, 1)
     
     #plt.colorbar(label="num. of ToAs")
     #plt.xlabel(sequence_type+" constant")
@@ -258,7 +259,7 @@ def main():
     verbose = False
 
     #simulation parameters
-    num_iterations = 100
+    num_iterations = 5
 
     ## LOGARITHMIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
@@ -303,6 +304,7 @@ def main():
     
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF1_1", y=0.5, x=-0.02)
+    fig.colorbar(curr, ax=axs, label="num. of ToAs")
     fig.savefig("figures/glf0_all_strats", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
@@ -311,6 +313,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
+    curr = None
     main()
         
 
