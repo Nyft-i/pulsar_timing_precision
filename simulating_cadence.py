@@ -304,7 +304,7 @@ def main():
     
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF1_1", y=0.5, x=-0.02)
-    fig.colorbar(plt.cm.ScalarMappable(norm=colors.LogNorm(vmin=0, vmax=6000), cmap='gist_gray'), ax=axs, label="num. of ToAs")
+    fig.colorbar(plt.cm.ScalarMappable(norm=colors.LogNorm(vmin=0., vmax=6000.), cmap='gist_gray'), ax=axs, label="num. of ToAs")
     fig.savefig("figures/glf0_all_strats", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
