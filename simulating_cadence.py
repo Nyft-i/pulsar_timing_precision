@@ -381,7 +381,7 @@ def main():
             
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
-    print(find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 100, 50))
+    print(find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 1000, 50))
         
     
 
