@@ -258,6 +258,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         num_toas = len(indexes)
         
         temp_tim = sequence_type+"_toas.tim"
+        print(indexes)
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
         par, tim = "master_file_noglitch.par", temp_tim
