@@ -362,26 +362,23 @@ def main():
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
 
     desired_toas = 1000
-    toa_iterations = 1000
+    toa_iterations = 100
     
     constants = np.linspace(0.5, 4, toa_iterations)
     
     # First we must find the cadence strategy which gives a set number of TOAs
-    sequence_types = ['logarithmic', 'arithmetic', 'geometric', 'periodic']
-    
-    all_toas = np.empty((0))
+    choesn_const = 0
+    given_toas = 0
     for constant in constants:
         num_toas = tim_sampling.sample_from_toas(toas, 'logarithmic', (0.5, 0, 20, constant), verbose=False, counting_mode=True)
-        all_toas = np.append(all_toas, num_toas)
-    
-    
-    toa_mini = all_toas - desired_toas
-    chosen_const_i = np.abs(toa_mini).argmin()
-    chosen_const = constants[chosen_const_i]
-    chosen_toas = all_toas[chosen_const_i]
+        if num_toas < desired_toas + 3 and num_toas > desired_toas - 3:
+            choesn_const = constant
+            given_toas = num_toas
+            break
+            
     
         
-    print(chosen_const, chosen_toas)
+    print(choesn_const, given_toas)
         
     
 
