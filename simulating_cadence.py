@@ -258,7 +258,7 @@ def main():
     verbose = False
 
     #simulation parameters
-    num_iterations = 5
+    num_iterations = 100
 
     ## LOGARITHMIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
