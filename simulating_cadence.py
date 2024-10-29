@@ -283,11 +283,12 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
         results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size
+        all_results = np.vstack((all_results, results))
         
     end_time = time.time()
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
-    return results
+    return all_results
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
     # A quick algorithm to find a constant with a given number of toas
@@ -397,11 +398,11 @@ def main():
         
     results = np.zeros((0,8))
     results = single_simulate(toas, 'logarithmic', const_args, 1.273)
-    ax.scatter(float(results[1]), float(results[3]), label="logarithmic", marker="x")
+    ax.scatter(float(results[:,1]), float(results[:,3]), label="logarithmic", marker="x", num_sps=5)
     results = single_simulate(toas, 'geometric', const_args, 3.576)
-    ax.scatter(float(results[1]), float(results[3]), label="geometric", marker="x")
+    ax.scatter(float(results[:,1]), float(results[:,3]), label="geometric", marker="x", num_sps=5)
     results = single_simulate(toas, 'periodic', const_args, 2.864)
-    ax.scatter(float(results[1]), float(results[3]), label="periodic", marker="x")
+    ax.scatter(float(results[:,1]), float(results[:,3]), label="periodic", marker="x", num_sps=5)
     ax.scatter(master_traits[0], master_traits[1], label="true value", marker="o")
     ax.legend()
     ax.set_xlabel("F0")
