@@ -198,8 +198,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
-    y = results[:,1].astype('float64')
-    y_err = results[:,2]
+    y = results[:,3].astype('float64')
+    y_err = results[:,4]
     
     plt.tight_layout()
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
@@ -302,7 +302,7 @@ def main():
 #   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
     
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
-    fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1", y=0.5, x=-0.02)
+    fig.supylabel("absolute value of % diff of retrieved and actual GLF1_1", y=0.5, x=-0.02)
     fig.savefig("figures/glf0_all_strats", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
