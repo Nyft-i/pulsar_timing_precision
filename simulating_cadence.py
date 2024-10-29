@@ -390,6 +390,7 @@ def main():
     results = np.vstack((results, single_simulate(toas, 'periodic', const_args, 2.864)))
     
     plt.scatter(results[:,1], results[:,3])
+    plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
     
     
 
