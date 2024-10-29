@@ -288,7 +288,27 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     
     return results
     
+def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
+    # A quick algorithm to find a constant with a given number of toas
+    # We need passed args to take the form: cadence_start, offset, maxgap, const
+    start_cadence, start_offset, max_gap = const_args
+    min_const, max_const, toa_iterations = sim_args
     
+    
+    constants = np.linspace(min_const, max_const, toa_iterations)
+    
+    # First we must find the cadence strategy which gives a set number of TOAs
+    choesn_const = 0
+    given_toas = 0
+    for constant in constants:
+        num_toas = tim_sampling.sample_from_toas(toas, sequence_type, (start_cadence, start_offset, max_gap, constant), verbose=False, counting_mode=True)[1]
+        #print(constant, num_toas)
+        if num_toas < desired_toas + leeway and num_toas > desired_toas - leeway:
+            choesn_const = constant
+            given_toas = num_toas
+            return choesn_const, given_toas
+    return 0, 0
+
 def main():
     """This is the old code whihch does the multi-simulation stuffs
     
@@ -358,30 +378,10 @@ def main():
     """
     
     # New code which runs the new way which Danaii wanted us to do
-    timfile = "master_toas.tim"
-    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
-
-    desired_toas = 1000
-    toa_iterations = 100
-    leeway = 50
-    
-    constants = np.linspace(0.5, 4, toa_iterations)
-    print(constants)
-    
-    # First we must find the cadence strategy which gives a set number of TOAs
-    choesn_const = 0
-    given_toas = 0
-    for constant in constants:
-        num_toas = tim_sampling.sample_from_toas(toas, 'logarithmic', (0.5, 0, 20, constant), verbose=False, counting_mode=True)[1]
-        print(constant, num_toas)
-        if num_toas < desired_toas + leeway and num_toas > desired_toas - leeway:
-            choesn_const = constant
-            given_toas = num_toas
-            break
             
-    
-        
-    print(choesn_const, given_toas)
+    tim_file = "master_toas.tim"
+    toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
+    print(find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 100, 50))
         
     
 
