@@ -69,52 +69,34 @@ def gen_new_tim(timfile, indexes, newfile):
     return len(indexes)
 
 #print("i do this!")
-"""
-timfile = "master_toas.tim"
-toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+def main():
+    # takes user input for sampling
+    timfile = input("Enter the name of the tim file you wish to sample: ")
+    sequence_type = input("Enter the type of sequence you wish to sample with: ")
+    cadence_start = float(input("Enter the starting cadence: "))
+    marker_offset = float(input("Enter the marker offset: "))
+    max_gap = float(input("Enter the maximum gap: "))
+    if sequence_type == 'logarithmic':
+        log_const = float(input("Enter the logarithmic constant: "))
+        args = [cadence_start, marker_offset, max_gap, log_const]
+    elif sequence_type == 'arithmetic':
+        sequential_increase = float(input("Enter the sequential increase: "))
+        args = [cadence_start, marker_offset, max_gap, sequential_increase]
+    elif sequence_type == 'geometric':
+        multiplicative_increase = float(input("Enter the multiplicative increase: "))
+        args = [cadence_start, marker_offset, max_gap, multiplicative_increase]
+    elif sequence_type == 'periodic':
+        period = float(input("Enter the period: "))
+        args = [cadence_start, marker_offset, max_gap, period]
+    else:
+        print("invalid sequence type. break.")
+        return 0
+    
+    # Reads the .tim file and extracts the TOAs
+    toas = np.genfromtxt(timfile, skip_header=1, usecols=1)
+    indexes = sample_from_toas(toas, sequence_type, args)
+    gen_new_tim(timfile, indexes, "new.tim")
+    
 
-# User changeable 
-# 'logarithmic', 'arithmetic', 'geometric', 'periodic'
-SEQUENCE_TYPE = 'periodic'
-cadence_start = 0.5
-marker_offset = 0
-max_gap = 20
-verbose = True
-
-## LOGARITHMIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
-log_const = 0.4
-
-## ARITHMETIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
-sequential_increase = 2 # num. of days per observation that time between observations increases by
-
-## GEOMETRIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'geometric'
-multiplicative_increase = 2 # factor time between observations is multiplied by after an observation
-
-## PERIODIC - 
-# these parameters are only used if SEQUENCE_TYPE is 'periodic'
-period = 1
-
-if SEQUENCE_TYPE == 'logarithmic':
-    args = (cadence_start, marker_offset, max_gap, log_const)
-    indexes = sample_from_toas(toas, 'logarithmic', args, verbose)
-elif SEQUENCE_TYPE == 'arithmetic':
-    args = (cadence_start, marker_offset, max_gap, sequential_increase)
-    indexes = sample_from_toas(toas, 'arithmetic', args, verbose)
-elif SEQUENCE_TYPE == 'geometric':
-    args = (cadence_start, marker_offset, max_gap, multiplicative_increase)
-    indexes = sample_from_toas(toas, 'geometric', args, verbose)
-elif SEQUENCE_TYPE == 'periodic':
-    args = (cadence_start, marker_offset, max_gap, period)
-    indexes = sample_from_toas(toas, 'periodic', args, verbose)
-else:
-    print("invalid sequence type. doing nothing.")    
-
-
-print("number of toas: " + str(len(indexes)))
-
-new_filename = SEQUENCE_TYPE + "_toas.tim"
-gen_new_tim(timfile, indexes, new_filename)
-"""
+if __name__ == "__main__":
+    main()
