@@ -93,8 +93,8 @@ def main():
         return 0
     
     # Reads the .tim file and extracts the TOAs
-    toas = np.genfromtxt(timfile, skip_header=1, usecols=1)
-    indexes = sample_from_toas(toas, sequence_type, args,verbose=True)
+    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+    indexes = sample_from_toas(toas, sequence_type, args, verbose=True)
     gen_new_tim(timfile, indexes, "no_pulse_num/new.tim")
     
 
