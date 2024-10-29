@@ -404,6 +404,9 @@ def main():
     ax.scatter(float(results[1]), float(results[3]), label="periodic", marker="x")
     ax.scatter(master_traits[0], master_traits[1], label="true value", marker="o")
     ax.legend()
+    ax.set_xlabel("F0")
+    ax.set_ylabel("F1")
+    ax.set_title("F1, F0 and at different cadences for 1000 ToAs")
     
     plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
     
