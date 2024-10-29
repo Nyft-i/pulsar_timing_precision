@@ -222,7 +222,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         plt.sca(axs[3])
         plt.xlabel("period (days)")
     
-    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*10,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
+    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*50,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
     plt.legend()
     plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
     #plt.ylim(-0.01, 1)
