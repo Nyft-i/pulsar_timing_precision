@@ -205,18 +205,23 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
     if sequence_type == 'logarithmic': 
         ec = 'r'
+        l = sequence_type
         plt.sca(axs[0])
     elif sequence_type == 'arithmetic': 
         ec = 'b'
+        l = sequence_type
         plt.sca(axs[1])
     elif sequence_type == 'geometric': 
         ec = 'g'
+        l = sequence_type
         plt.sca(axs[2])
     elif sequence_type == 'periodic': 
         ec = 'y'
+        l = sequence_type
         plt.sca(axs[3])
     
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec)
+    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec,label = l)
+    plt.legend()
     #plt.colorbar(label="num. of ToAs")
     #plt.xlabel(sequence_type+" constant")
     #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
