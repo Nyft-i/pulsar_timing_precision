@@ -381,11 +381,15 @@ def main():
             
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
-    print("log", find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 1000, 50))
-    print("arith", find_const(toas, 'arithmetic', (0.5, 0, 20), (0.5, 15, 100), 1000, 50))
-    print("geom", find_const(toas, 'geometric', (0.5, 0, 20), (1, 4, 100), 1000, 50))
-    print("period", find_const(toas, 'periodic', (0.5, 0, 20), (0.5, 20, 100), 1000, 50))
-        
+    const_args = (0.5, 0, 20)
+    
+    results = np.zeros((0,8))
+    results = results.append(single_simulate(toas, 'logarithmic', const_args, 1.273)) 
+    results = results.append(single_simulate(toas, 'geometric', const_args, 3.576))
+    results = results.append(single_simulate(toas, 'periodic', const_args, 2.864))
+    
+    plt.scatter(results[:,1], results[:,3])
+    
     
 
     
