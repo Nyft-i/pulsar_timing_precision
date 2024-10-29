@@ -363,6 +363,7 @@ def main():
 
     desired_toas = 1000
     toa_iterations = 100
+    leeway = 50
     
     constants = np.linspace(0.5, 4, toa_iterations)
     print(constants)
@@ -373,7 +374,7 @@ def main():
     for constant in constants:
         num_toas = tim_sampling.sample_from_toas(toas, 'logarithmic', (0.5, 0, 20, constant), verbose=False, counting_mode=True)[1]
         print(constant, num_toas)
-        if num_toas < desired_toas + 3 and num_toas > desired_toas - 3:
+        if num_toas < desired_toas + leeway and num_toas > desired_toas - leeway:
             choesn_const = constant
             given_toas = num_toas
             break
