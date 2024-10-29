@@ -23,7 +23,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
     
     marker = np.min(toas) + marker_offset
     cadence = cadence_start
-    if verbose: print("starting cadence: " + str(cadence_start))
+    if verbose == True: print("starting cadence: " + str(cadence_start))
     #time.sleep(1)
     
     while(marker < end):
