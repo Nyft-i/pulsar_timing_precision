@@ -149,7 +149,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
             
-            print(passed_args)
+            #print(passed_args)
             indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
             num_toas = len(indexes)
             
@@ -160,7 +160,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # Residual loading glep finder code, put it in the par file
             new_GLEP = epoch_finder(par, tim, master_traits)
-            print(new_GLEP)
+            #print(new_GLEP)
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
@@ -174,7 +174,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             epochs = float(traits[5][0]), float(traits[5][1][:-1])
             closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
             closest_MJD = epochs[closest_MJD_index]
-            print(closest_MJD)
+            #print(closest_MJD)
             
             # run tempo2 again with 0 phase MJD
             editting_par(par, closest_MJD)
@@ -304,7 +304,7 @@ def main():
 
 if __name__ == "__main__":
     fig, axs = plt.subplots(1, 4, figsize=(12, 6), sharey=True)
-    gs = fig.add_gridspec(3, wspace=0)
+    gs = fig.add_gridspec(1, 4, wspace=0)
     main()
         
 
