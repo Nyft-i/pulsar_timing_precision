@@ -393,6 +393,7 @@ def main():
     ax.scatter(results[1], results[3], label="geometric", marker="x")
     results = single_simulate(toas, 'periodic', const_args, 2.864)
     ax.scatter(results[1], results[3], label="periodic", marker="x")
+    ax.legend()
     
     plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
     
