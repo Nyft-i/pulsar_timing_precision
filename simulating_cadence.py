@@ -302,7 +302,7 @@ def main():
 #   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
     
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
-    fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1")
+    fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1", labelpad=20)
     fig.savefig("figures/glf0_all_strats", dpi=400)
 
     #print("number of toas: " + str(len(indexes)))
