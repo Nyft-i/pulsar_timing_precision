@@ -2,10 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-def sample_from_toas(toas, sequence_type, args, verbose=False):
+def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
     # Setup
     end = np.max(toas)
     new_toas = np.zeros(0)
+    num_toas = 0
     indexes = np.zeros(0,dtype=int)
     cadence_list = np.zeros(0)
     
@@ -30,17 +31,18 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
         closest_index = (np.abs(toas - marker)).argmin()
         
         # Checks if the closest index has already been picked before.
-        if((np.isin(closest_index, indexes))):
-            # Currently just skips over it if so, could implement to find the next closest.
-            if verbose==True: print("double counted! skipping")
-        else:
-            # Appends that particular TOA to the new list of empty ToAs.
-            new_toas = np.append(new_toas, toas[closest_index])
-            # Ads the index also to avoid double counting
-            indexes = np.append(indexes, closest_index)
-            # Removes the ToA from the list so it cant be picked again, does this by setting its value to infinity so it is never picked again.
-            #toas[closest_index] = float("inf")
-            cadence_list = np.append(cadence_list, cadence)
+        if(counting_mode==False):
+            if((np.isin(closest_index, indexes))):
+                # Currently just skips over it if so, could implement to find the next closest.
+                if verbose==True: print("double counted! skipping")
+            else:
+                # Appends that particular TOA to the new list of empty ToAs.
+                new_toas = np.append(new_toas, toas[closest_index])
+                # Ads the index also to avoid double counting
+                indexes = np.append(indexes, closest_index)
+                # Removes the ToA from the list so it cant be picked again, does this by setting its value to infinity so it is never picked again.
+                #toas[closest_index] = float("inf")
+                cadence_list = np.append(cadence_list, cadence)
         
         if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
@@ -50,9 +52,10 @@ def sample_from_toas(toas, sequence_type, args, verbose=False):
         if(cadence > max_gap): cadence = cadence_start
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
+        num_toas += 1
         #if verbose: time.sleep(0.5)
                 
-    return indexes
+    return indexes, num_toas
 
 def gen_new_tim(timfile, indexes, newfile):
     # Creates a string array with identical formatting to the input .tim file.
