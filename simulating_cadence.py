@@ -246,7 +246,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     start_randomiser = np.random.randint(0, 50, (num_sps))
     start_randomiser = start_randomiser/10
-        
+    all_results = np.zeros((0,8))
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     for offset in start_randomiser:
         # We need passed args to take the form: cadence_start, offset, maxgap, const
