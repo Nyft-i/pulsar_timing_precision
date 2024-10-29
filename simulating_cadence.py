@@ -385,6 +385,14 @@ def main():
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
     const_args = (0.5, 0, 20)
+    
+    master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
+    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
+
         
     results = np.zeros((0,8))
     results = single_simulate(toas, 'logarithmic', const_args, 1.273)
@@ -393,6 +401,7 @@ def main():
     ax.scatter(float(results[1]), float(results[3]), label="geometric", marker="x")
     results = single_simulate(toas, 'periodic', const_args, 2.864)
     ax.scatter(float(results[1]), float(results[3]), label="periodic", marker="x")
+    ax.scatter(master_traits[0], master_traits[1], label="true value", marker="o")
     ax.legend()
     
     plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
