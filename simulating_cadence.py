@@ -387,11 +387,11 @@ def main():
     const_args = (0.5, 0, 20)
         
     results = np.zeros((0,8))
-    results = single_simulate(toas, 'logarithmic', const_args, 1.273).astype('float64')
+    results = single_simulate(toas, 'logarithmic', const_args, 1.273)
     ax.scatter(float(results[1]), float(results[3]), label="logarithmic", marker="x")
     results = single_simulate(toas, 'geometric', const_args, 3.576)
     ax.scatter(float(results[1]), float(results[3]), label="geometric", marker="x")
-    results = single_simulate(toas, 'periodic', const_args, 2.864).astype('float64')
+    results = single_simulate(toas, 'periodic', const_args, 2.864)
     ax.scatter(float(results[1]), float(results[3]), label="periodic", marker="x")
     ax.legend()
     
