@@ -388,11 +388,11 @@ def main():
     
     results = np.zeros((0,8))
     results = single_simulate(toas, 'logarithmic', const_args, 1.273)
-    fig.scatter(results[1], results[3], label="logarithmic", marker="x")
+    ax.scatter(results[1], results[3], label="logarithmic", marker="x")
     results = single_simulate(toas, 'geometric', const_args, 3.576)
-    fig.scatter(results[1], results[3], label="geometric", marker="x")
+    ax.scatter(results[1], results[3], label="geometric", marker="x")
     results = single_simulate(toas, 'periodic', const_args, 2.864)
-    fig.scatter(results[1], results[3], label="periodic", marker="x")
+    ax.scatter(results[1], results[3], label="periodic", marker="x")
     
     plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
     
