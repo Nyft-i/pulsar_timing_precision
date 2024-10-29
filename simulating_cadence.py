@@ -371,8 +371,8 @@ def main():
     choesn_const = 0
     given_toas = 0
     for constant in constants:
-        print(constant)
         num_toas = tim_sampling.sample_from_toas(toas, 'logarithmic', (0.5, 0, 20, constant), verbose=False, counting_mode=True)[1]
+        print(constant, num_toas)
         if num_toas < desired_toas + 3 and num_toas > desired_toas - 3:
             choesn_const = constant
             given_toas = num_toas
