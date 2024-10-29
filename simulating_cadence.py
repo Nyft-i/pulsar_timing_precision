@@ -206,19 +206,24 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     if sequence_type == 'logarithmic': 
         ec = 'r'
         plt.sca(axs[0])
+        plt.xlabel("logarithmic constant")
     elif sequence_type == 'arithmetic': 
         ec = 'b'
         plt.sca(axs[1])
+        plt.xlabel("sequential increase")
     elif sequence_type == 'geometric': 
         ec = 'g'
         plt.sca(axs[2])
+        plt.xlabel("multiplicative increase")
     elif sequence_type == 'periodic': 
         ec = 'y'
         plt.sca(axs[3])
+        plt.xlabel("period (days)")
     
     plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
     plt.legend()
     plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
+    
     #plt.colorbar(label="num. of ToAs")
     #plt.xlabel(sequence_type+" constant")
     #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
@@ -306,6 +311,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
+    plt.tight_layout()
     main()
         
 
