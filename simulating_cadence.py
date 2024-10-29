@@ -380,17 +380,19 @@ def main():
     
     # New code which runs the new way which Danaii wanted us to do
             
+    fig, axs = plt.figure(figsize=(12, 6))            
+
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
     const_args = (0.5, 0, 20)
     
     results = np.zeros((0,8))
     results = single_simulate(toas, 'logarithmic', const_args, 1.273)
-    plt.scatter(results[1], results[3], label="logarithmic", marker="x")
+    fig.scatter(results[1], results[3], label="logarithmic", marker="x")
     results = single_simulate(toas, 'geometric', const_args, 3.576)
-    plt.scatter(results[1], results[3], label="geometric", marker="x")
+    fig.scatter(results[1], results[3], label="geometric", marker="x")
     results = single_simulate(toas, 'periodic', const_args, 2.864)
-    plt.scatter(results[1], results[3], label="periodic", marker="x")
+    fig.scatter(results[1], results[3], label="periodic", marker="x")
     
     plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
     
