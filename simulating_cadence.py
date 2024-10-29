@@ -160,7 +160,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # Residual loading glep finder code, put it in the par file
             new_GLEP = epoch_finder(par, tim, master_traits)
-            #print(new_GLEP)
+            print(new_GLEP)
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
@@ -200,8 +200,8 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     results = results.astype('float64')
     #print(results)
     x = results[:,0].astype('float64')
-    y = results[:,1].astype('float64')
-    y_err = results[:,2]
+    y = results[:,3].astype('float64')
+    y_err = results[:,4]
     
     plt.tight_layout()
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
@@ -222,7 +222,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
         plt.sca(axs[3])
         plt.xlabel("period (days)")
     
-    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
+    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*10,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
     plt.legend()
     plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
     #plt.ylim(-0.01, 1)
@@ -261,7 +261,7 @@ def main():
     verbose = False
 
     #simulation parameters
-    num_iterations = 5
+    num_iterations = 100
 
     ## LOGARITHMIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
