@@ -380,7 +380,7 @@ def main():
     
     # New code which runs the new way which Danaii wanted us to do
             
-    fig, axs = plt.figure(figsize=(12, 6))            
+    fig = plt.figure(figsize=(12, 6))            
 
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
