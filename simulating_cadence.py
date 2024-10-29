@@ -386,7 +386,8 @@ def main():
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
     const_args = (0.5, 0, 20)
     
-    master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
+    cols = ["Element Name", "Value", "Fitting", "Error"]
+    master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
     master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
