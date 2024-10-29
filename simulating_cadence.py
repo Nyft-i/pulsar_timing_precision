@@ -385,9 +385,7 @@ def main():
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
     const_args = (0.5, 0, 20)
-    
-    results = results.astype('float64')
-    
+        
     results = np.zeros((0,8))
     results = single_simulate(toas, 'logarithmic', const_args, 1.273).astype('float64')
     ax.scatter(results[1], results[3], label="logarithmic", marker="x")
