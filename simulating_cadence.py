@@ -302,7 +302,7 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
     given_toas = 0
     for constant in constants:
         num_toas = tim_sampling.sample_from_toas(toas, sequence_type, (start_cadence, start_offset, max_gap, constant), verbose=False, counting_mode=True)[1]
-        print(constant, num_toas)
+        #print(constant, num_toas)
         if num_toas < desired_toas + leeway and num_toas > desired_toas - leeway:
             choesn_const = constant
             given_toas = num_toas
@@ -381,10 +381,10 @@ def main():
             
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
-    #print("log", find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 1000, 50))
+    print("log", find_const(toas, 'logarithmic', (0.5, 0, 20), (0.5, 2, 100), 1000, 50))
     print("arith", find_const(toas, 'arithmetic', (0.5, 0, 20), (0.5, 15, 100), 1000, 50))
-    #print("geom", find_const(toas, 'geometric', (0.5, 0, 20), (1, 4, 100), 1000, 50))
-    #print("period", find_const(toas, 'periodic', (0.5, 0, 20), (0.5, 20, 100), 1000, 50))
+    print("geom", find_const(toas, 'geometric', (0.5, 0, 20), (1, 4, 100), 1000, 50))
+    print("period", find_const(toas, 'periodic', (0.5, 0, 20), (0.5, 20, 100), 1000, 50))
         
     
 
