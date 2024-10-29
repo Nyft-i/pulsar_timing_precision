@@ -160,7 +160,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # Residual loading glep finder code, put it in the par file
             new_GLEP = epoch_finder(par, tim, master_traits)
-            print(new_GLEP)
+            #print(new_GLEP)
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
@@ -225,29 +225,74 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*200,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
     plt.legend()
     plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
-    #plt.ylim(-0.01, 1)
     
-    #plt.colorbar(label="num. of ToAs")
-    #plt.xlabel(sequence_type+" constant")
-    #plt.ylabel("absolute value of % diff of retrieved and actual GLF0_1")
-    #plt.savefig("figures/glf0_"+save_png, dpi=400)
-    #plt.clf()
-    """
-    y = results[:,3].astype('float64')
-    y_err = results[:,4]
+    return results
+    
+def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="faster_file.par", num_sps=1):
+    # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
+    start_time = time.time()
+    
+    # Using pandas to read in the master file, probably a better way to do this but it works for now.
+    cols = ["Element Name", "Value", "Fitting", "Error"]
+    master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
+    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
 
-    plt.tight_layout()
-    plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*25,norm=colors.LogNorm(),edgecolors='gray')
+    print("running simulation for "+sequence_type+" sequence type\n[",end="")
     
-    plt.colorbar(label="num. of ToAs")
-    plt.xlabel(sequence_type+" constant")
-    plt.ylabel("absolute value of % diff of retrieved and actual GLF1_1")
-    plt.savefig("figures/glf1_"+save_png, dpi=400)
-    """
-    return
+    # adds some 5d random variation so that we dont run into issues with the sample being the same every time
+    start_randomiser = np.random.randint(0, 50, (num_sps))
+    start_randomiser = start_randomiser/10
+        
+    # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
+    for offset in start_randomiser:
+        # We need passed args to take the form: cadence_start, offset, maxgap, const
+        # const_args: start cadence, start offset, max_gap
+
+        passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
+        
+        indexes = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
+        num_toas = len(indexes)
+        
+        temp_tim = sequence_type+"_toas.tim"
+        tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
+        
+        par, tim = "master_file_noglitch.par", temp_tim
+        
+        # Residual loading glep finder code, put it in the par file
+        new_GLEP = epoch_finder(par, tim, master_traits)
+        editting_par(par, new_GLEP)
+        
+        # run tempo2
+        traits = run_fit(par, tim)
+        
+        epochs = float(traits[5][0]), float(traits[5][1][:-1])
+        closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
+        closest_MJD = epochs[closest_MJD_index]
+        size = np.abs(closest_MJD - master_traits[4])
+        #print(closest_MJD)
+        
+        # run tempo2 again with 0 phase MJD
+        editting_par(par, closest_MJD)
+        traits = run_fit(par, tim)
+        # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
+        
+        # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
+        results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size
+        
+    end_time = time.time()
+    print("done! took " + f"{(end_time - start_time):.3f} seconds")
+    
+    return results
+    
     
 def main():
+    """This is the old code whihch does the multi-simulation stuffs
+    
+    
     
     timfile = "master_toas.tim"
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
@@ -310,6 +355,38 @@ def main():
     fig.savefig("figures/glf1_all_strats_size_reps_zero_phase_diff.png", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
+    """
+    
+    # New code which runs the new way which Danaii wanted us to do
+    timfile = "master_toas.tim"
+    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
+
+    desired_toas = 1000
+    toa_iterations = 1000
+    
+    constants = np.linspace(0.5, 4, toa_iterations)
+    
+    # First we must find the cadence strategy which gives a set number of TOAs
+    sequence_types = ['logarithmic', 'arithmetic', 'geometric', 'periodic']
+    
+    all_toas = np.empty((0))
+    for constant in constants:
+        num_toas = tim_sampling.sample_from_toas(toas, 'logarithmic', (0.5, 0, 20, constant), verbose=False, counting_mode=True)
+        all_toas = np.append(all_toas, num_toas)
+    
+    
+    toa_mini = all_toas - desired_toas
+    chosen_const_i = np.abs(toa_mini).argmin()
+    chosen_const = constants[chosen_const_i]
+    chosen_toas = all_toas[chosen_const_i]
+    
+        
+    print(chosen_const, chosen_toas)
+        
+    
+
+    
+    
 
 if __name__ == "__main__":
     fig = plt.figure(figsize=(12, 6))
