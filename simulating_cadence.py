@@ -164,8 +164,10 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             editting_par(par, new_GLEP)
             
             # code for finding the closest TOA
-            closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
-            distance_to_TOA = np.abs(master_traits[4] - toas[indexes][closest_index])
+            # changed currently to show the distance from the real glitch epoch
+            #closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
+            #size = np.abs(master_traits[4] - toas[indexes][closest_index])
+            size = np.abs(new_GLEP - master_traits[4])
             #print(distance_to_TOA)
             
             # run tempo2
@@ -182,7 +184,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
-            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, distance_to_TOA
+            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, size
             results = np.vstack((results, curr_results))
         
         # Print progress
@@ -259,7 +261,7 @@ def main():
     verbose = False
 
     #simulation parameters
-    num_iterations = 100
+    num_iterations = 5
 
     ## LOGARITHMIC - 
     # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
@@ -305,7 +307,7 @@ def main():
     #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
     fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1", y=0.5, x=-0.02)
     fig.colorbar(plt.cm.ScalarMappable(norm=colors.LogNorm(vmin=1, vmax=6000.), cmap='gist_gray'), ax=axs, label="num. of ToAs")
-    fig.savefig("figures/glf0_all_strats.png", dpi=400, bbox_inches="tight")
+    fig.savefig("figures/glf1_all_strats_size_reps_zero_phase_diff.png", dpi=400, bbox_inches="tight")
 
     #print("number of toas: " + str(len(indexes)))
 
