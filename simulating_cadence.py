@@ -384,9 +384,9 @@ def main():
     const_args = (0.5, 0, 20)
     
     results = np.zeros((0,8))
-    results = results.append(single_simulate(toas, 'logarithmic', const_args, 1.273)) 
-    results = results.append(single_simulate(toas, 'geometric', const_args, 3.576))
-    results = results.append(single_simulate(toas, 'periodic', const_args, 2.864))
+    results = np.vstack(results, single_simulate(toas, 'logarithmic', const_args, 1.273)) 
+    results = np.vstack(results, single_simulate(toas, 'geometric', const_args, 3.576))
+    results = np.vstack(results, single_simulate(toas, 'periodic', const_args, 2.864))
     
     plt.scatter(results[:,1], results[:,3])
     
