@@ -495,11 +495,27 @@ def main():
     args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=10)
-    print(results)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x')
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
+    
+    args = (0.5, 0, 20, 1.6394)
+    print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.6394, num_sps=10)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
+    
+    args = (0.5, 0, 20, 5)
+    print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=10)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
+    
+    
     plt.scatter(0, 0, c='r')
     
+    plt.xlabel("f0 diff")
+    plt.ylabel("f1 diff")
+    plt.title("f0 vs f1 diff")
+    plt.legend()
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
+    
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
     
