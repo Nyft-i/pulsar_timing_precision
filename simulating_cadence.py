@@ -405,7 +405,7 @@ def main():
     axs[0].set_xlim(0.4, 4.1)
     axs[0].set_ylim(0.4, 14)
     print("log consts where adbo is 5")
-    item = (y - desired_abdo)[(y - desired_abdo)<0.1]
+    item = np.where(np.abs(y - desired_abdo) < 0.1,)
     print(item)
         
     # Arithmetic
@@ -423,7 +423,7 @@ def main():
     axs[1].set_title("arithmetic")
     axs[1].set_xlim(0.4, 4.1)
     print("arith consts where adbo is 5")
-    item = np.where((y - desired_abdo) < 0.1, y)
+    item = np.where(np.abs(y - desired_abdo) < 0.1,)
     print(item)
     
     # geometric
@@ -441,7 +441,7 @@ def main():
     axs[2].set_title("geometric")
     axs[2].set_xlim(0.4, 6.1)
     print("geo consts where adbo is 5")
-    item = np.where((y - desired_abdo) < 0.1, y)
+    item = np.where(np.abs(y - desired_abdo) < 0.1,)
     print(item)
     
     # periodic
@@ -459,7 +459,7 @@ def main():
     axs[3].set_title("periodic")
     axs[3].set_xlim(0.4, 20.1)
     print("peri consts where adbo is 5")
-    item = np.where((y - desired_abdo) < 0.1, y)
+    item = np.where(np.abs(y - desired_abdo) < 0.1,)
     print(item)
     
     
