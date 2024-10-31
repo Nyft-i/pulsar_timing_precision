@@ -435,7 +435,7 @@ def main():
     
     # periodic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 4, 1000)
+    constants = np.linspace(0.5, 20, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
