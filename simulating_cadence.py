@@ -405,7 +405,7 @@ def main():
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
-    ax.plot(constants, adbos)
+    ax.scatter(constants, adbos, marker='.')
     fig.savefig("figures/fadbo.png")
     
     
