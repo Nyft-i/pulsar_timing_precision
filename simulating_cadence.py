@@ -378,27 +378,12 @@ def main():
 
     #print("number of toas: " + str(len(indexes)))
     """
-    
-    # New code which runs the new way which Danaii wanted us to do
-    
-    fig, ax = plt.subplots()
 
-    tim_file = "master_toas.tim"
-    toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
-    const_args = (0.5, 0, 20, 1.273)
+    # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    cols = ["Element Name", "Value", "Fitting", "Error"]
-    master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
-    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
-                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
-                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
-                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
-                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
+    fig, ax = plt.subplots((2, 2))
 
-        
-    results = np.zeros((0,8))
-    
-    # Number of desired tims per day
+    # Logarithmic
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 4, 1000)
     for constant in constants:
@@ -408,13 +393,49 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
+    ax[0].plot(x, y)
+    
+    # Arithmetic
+    adbos = np.empty((0,1))
+    constants = np.linspace(0.5, 4, 1000)
+    for constant in constants:
+        args = (0.5, 0, 20, constant)
+        adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
+        
+    pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
+    x = np.insert(constants, pos, np.nan)
+    y = np.insert(adbos, pos, np.nan)    
+    ax[1].plot(x, y)
+    
+    # geometric
+    adbos = np.empty((0,1))
+    constants = np.linspace(1, 4, 1000)
+    for constant in constants:
+        args = (0.5, 0, 20, constant)
+        adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
+        
+    pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
+    x = np.insert(constants, pos, np.nan)
+    y = np.insert(adbos, pos, np.nan)    
+    ax[2].plot(x, y)
+    
+    # periodic
+    adbos = np.empty((0,1))
+    constants = np.linspace(0.5, 4, 1000)
+    for constant in constants:
+        args = (0.5, 0, 20, constant)
+        adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
+        
+    pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
+    x = np.insert(constants, pos, np.nan)
+    y = np.insert(adbos, pos, np.nan)    
+    ax[3].plot(x, y)
     
     
-    ax.plot(x, y)
+    
+    
+    
     fig.savefig("figures/fadbo.png")
-    
-    
-    
 
 if __name__ == "__main__":
     """
