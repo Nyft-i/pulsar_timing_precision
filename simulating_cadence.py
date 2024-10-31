@@ -402,6 +402,7 @@ def main():
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
     axs[0].set_xlim(0.5, 4)
+    axs[0].set_ylim(0.4, 14)
         
     # Arithmetic
     adbos = np.empty((0,1))
@@ -450,7 +451,7 @@ def main():
     
     
     
-    fig.savefig("figures/fadbo.png")
+    fig.savefig("figures/fadbo.png", dpi=400, bbox_inches="tight")
 
 if __name__ == "__main__":
     """
