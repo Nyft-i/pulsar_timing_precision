@@ -381,7 +381,7 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
 
@@ -401,6 +401,7 @@ def main():
     axs[0].plot(x, y)
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
+    axs[0].set_xlim(0.5, 4)
         
     # Arithmetic
     adbos = np.empty((0,1))
@@ -415,10 +416,11 @@ def main():
     axs[1].plot(x, y)
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
+    axs[1].set_xlim(0.5, 4)
     
     # geometric
     adbos = np.empty((0,1))
-    constants = np.linspace(1.001, 4, 1000)
+    constants = np.linspace(1.01, 4, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
@@ -429,6 +431,7 @@ def main():
     axs[2].plot(x, y)
     axs[2].set_xlabel("multiplicative increase")
     axs[2].set_title("geometric")
+    axs[2].set_xlim(0.5, 4)
     
     # periodic
     adbos = np.empty((0,1))
@@ -443,6 +446,7 @@ def main():
     axs[3].plot(x, y)
     axs[3].set_xlabel("period (days)")
     axs[3].set_title("periodic")
+    axs[3].set_xlim(0.5, 20)
     
     
     
