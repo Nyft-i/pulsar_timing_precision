@@ -290,6 +290,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     end_time = time.time()
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
+    all_results = all_results.astype('float64')
+    
     avg_f0 = np.mean(all_results[:,0])
     avg_f1 = np.mean(all_results[:,2])  
     # convoluted code returning average results and their errors
