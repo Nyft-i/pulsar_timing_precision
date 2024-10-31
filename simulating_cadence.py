@@ -492,7 +492,7 @@ def main():
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=10)
     print(results)
-    plt.errorbar(results[0], results[2], xerr = results[1], yerr = results[3], fmt='x')
+    plt.errorbar(results[0], results[2], fmt='x')
     plt.scatter(master_traits[0], master_traits[1], c='r')
     
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
