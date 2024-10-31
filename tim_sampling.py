@@ -11,6 +11,7 @@ def find_sequence_period_info(sequence_type, args):
         cadence_start, marker_offset, max_gap, multiplicative_increase = args
     elif sequence_type == 'periodic':
         cadence_start, marker_offset, max_gap, period = args
+        return period, 1
     else:
         print("invalid sequence type. break.")
         return 0
