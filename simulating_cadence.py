@@ -513,9 +513,9 @@ def main():
     
     plt.scatter(0, 0, c='r')
     
-    plt.xlabel("f0 diff")
-    plt.ylabel("f1 diff")
-    plt.title("f0 vs f1 diff")
+    plt.xlabel(r'$\Delta \Delta \nu$')
+    plt.ylabel(r'$\Delta \Delta \dot \nu$')
+    plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values')
     plt.legend()
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
     
