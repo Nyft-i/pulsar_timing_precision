@@ -406,7 +406,7 @@ def main():
     axs[0].set_ylim(0.4, 14)
     print("log consts where adbo is 5")
     idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
-    print(idx)
+    print(x[idx])
         
     # Arithmetic
     adbos = np.empty((0,1))
@@ -424,7 +424,7 @@ def main():
     axs[1].set_xlim(0.4, 4.1)
     print("arith consts where adbo is 5")
     idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
-    print(idx)
+    print(x[idx])
     
     # geometric
     adbos = np.empty((0,1))
@@ -442,7 +442,7 @@ def main():
     axs[2].set_xlim(0.4, 6.1)
     print("geo consts where adbo is 5")
     idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
-    print(idx)
+    print(x[idx])
     
     # periodic
     adbos = np.empty((0,1))
@@ -460,7 +460,7 @@ def main():
     axs[3].set_xlim(0.4, 20.1)
     print("peri consts where adbo is 5")
     idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
-    print(idx)
+    print(x[idx])
     
     
     
