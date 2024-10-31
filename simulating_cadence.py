@@ -386,7 +386,7 @@ def main():
     axs = gs.subplots(sharey=True)
 
     fig.suptitle("average days between observations for a given constant and strategy")
-    fig.supylabel("average days between observations", y=0.5)
+    fig.supylabel("average days between observations", y=0.5, x=0.1)
 
     # Logarithmic
     adbos = np.empty((0,1))
@@ -401,7 +401,7 @@ def main():
     axs[0].plot(x, y)
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
-    axs[0].set_xlim(0.5, 4)
+    axs[0].set_xlim(0.4, 4.1)
     axs[0].set_ylim(0.4, 14)
         
     # Arithmetic
@@ -417,7 +417,7 @@ def main():
     axs[1].plot(x, y)
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
-    axs[1].set_xlim(0.5, 4)
+    axs[1].set_xlim(0.4, 4.1)
     
     # geometric
     adbos = np.empty((0,1))
