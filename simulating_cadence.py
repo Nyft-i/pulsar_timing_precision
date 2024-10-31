@@ -405,7 +405,7 @@ def main():
     axs[0].set_xlim(0.4, 4.1)
     axs[0].set_ylim(0.4, 14)
     print("log consts where adbo is 5")
-    item = np.where((y - desired_abdo) < 0.1)
+    item = np.flatnonzero((y - desired_abdo) < 0.1)
     print(x[item])
         
     # Arithmetic
