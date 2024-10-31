@@ -511,7 +511,7 @@ def main():
     plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
     
     
-    plt.scatter(0, 0, c='r')
+    plt.scatter(0, 0, c='r', label="real parameters")
     
     plt.xlabel(r'$\Delta \Delta \nu$')
     plt.ylabel(r'$\Delta \Delta \dot \nu$')
