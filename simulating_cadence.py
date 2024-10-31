@@ -401,8 +401,8 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    """
-    desired_abdo = 10
+    
+    desired_abdo = 7.5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -525,7 +525,7 @@ def main():
     plt.legend()
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
     
-    
+    """
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
     
     # Code which averages over multiple phase offsets for a particular constant and cadence strategy
