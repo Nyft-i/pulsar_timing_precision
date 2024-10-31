@@ -486,7 +486,7 @@ def main():
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
 
-    
+    print(master_traits)
     
     args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
