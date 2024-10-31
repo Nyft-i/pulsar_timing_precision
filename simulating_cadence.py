@@ -381,7 +381,7 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    fig, ax = plt.subplots((2, 2))
+    fig, ax = plt.subplots(2, 2)
 
     # Logarithmic
     adbos = np.empty((0,1))
