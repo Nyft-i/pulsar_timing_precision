@@ -381,7 +381,12 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    fig, ax = plt.subplots(2, 2)
+    fig = plt.figure(figsize=(12, 6))
+    gs = fig.add_gridspec(1, 4, wspace=0)
+    axs = gs.subplots(sharey=True)
+
+    fig.suptitle("average days between observations for a given constant and strategy")
+    fig.supylabel("average days between observations", y=0.5, x=-0.02)
 
     # Logarithmic
     adbos = np.empty((0,1))
@@ -393,8 +398,10 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[0,0].plot(x, y)
-    
+    axs[0].plot(x, y)
+    axs[0].set_xlabel("logarithmic constant")
+    axs[0].set_title("logarithmic")
+        
     # Arithmetic
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 4, 1000)
@@ -405,7 +412,9 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[0,1].plot(x, y)
+    axs[1].plot(x, y)
+    axs[1].set_xlabel("sequential increase")
+    axs[1].set_title("arithmetic")
     
     # geometric
     adbos = np.empty((0,1))
@@ -417,7 +426,9 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[1,0].plot(x, y)
+    axs[2].plot(x, y)
+    axs[2].set_xlabel("multiplicative increase")
+    axs[2].set_title("geometric")
     
     # periodic
     adbos = np.empty((0,1))
@@ -429,9 +440,9 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[1,1].plot(x, y)
-    
-    
+    axs[3].plot(x, y)
+    axs[3].set_xlabel("period (days)")
+    axs[3].set_title("periodic")
     
     
     
