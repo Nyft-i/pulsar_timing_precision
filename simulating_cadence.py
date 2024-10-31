@@ -244,7 +244,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
-    passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
+    passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
     start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
     start_randomiser = start_randomiser/10
