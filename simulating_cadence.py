@@ -401,8 +401,8 @@ def main():
     # Number of desired tims per day
     desired_tpd = 0.5
     strat_p, num_toas = tim_sampling.find_sequence_period_info('logarithmic', const_args)
-    print(num_toas/strat_p)
-
+    adbo = strat_p/num_toas
+    print("avg. days betwerrn observations (adbo): ", adbo)
     
     
 
