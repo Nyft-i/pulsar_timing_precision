@@ -294,7 +294,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
     all_results = all_results.astype('float64')
-    print(all_results)
+    #print(all_results)
     
     avg_f0 = np.mean(all_results[:,1])
     avg_f1 = np.mean(all_results[:,3])  
@@ -498,17 +498,17 @@ def main():
     
     args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=100)
     plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="logarithmic")
     
     args = (0.5, 0, 20, 1.6394)
     print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=25)
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=100)
     plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="geometric")
     
     args = (0.5, 0, 20, 5)
     print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=25)
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=100)
     plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="periodic")
     
     
