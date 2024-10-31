@@ -28,7 +28,10 @@ def find_sequence_period_info(sequence_type, args):
         
     return total_time, num_toas
 
-
+def fadbo(sequence_type, args):
+    strat_p, num_toas = find_sequence_period_info(sequence_type, args)
+    return strat_p/num_toas
+    
     
 def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
     # Setup
