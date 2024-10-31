@@ -381,6 +381,7 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
+    desired_abdo = 5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -403,6 +404,9 @@ def main():
     axs[0].set_title("logarithmic")
     axs[0].set_xlim(0.4, 4.1)
     axs[0].set_ylim(0.4, 14)
+    print("log consts where adbo is 5")
+    idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
+    print(idx)
         
     # Arithmetic
     adbos = np.empty((0,1))
@@ -418,6 +422,9 @@ def main():
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
     axs[1].set_xlim(0.4, 4.1)
+    print("arith consts where adbo is 5")
+    idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
+    print(idx)
     
     # geometric
     adbos = np.empty((0,1))
@@ -433,6 +440,9 @@ def main():
     axs[2].set_xlabel("multiplicative increase")
     axs[2].set_title("geometric")
     axs[2].set_xlim(0.4, 6.1)
+    print("geo consts where adbo is 5")
+    idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
+    print(idx)
     
     # periodic
     adbos = np.empty((0,1))
@@ -448,6 +458,9 @@ def main():
     axs[3].set_xlabel("period (days)")
     axs[3].set_title("periodic")
     axs[3].set_xlim(0.4, 20.1)
+    print("peri consts where adbo is 5")
+    idx = np.argwhere(np.diff(np.sign(y - x))).flatten()
+    print(idx)
     
     
     
