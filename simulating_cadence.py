@@ -409,7 +409,7 @@ def main():
     
     # geometric
     adbos = np.empty((0,1))
-    constants = np.linspace(1, 4, 1000)
+    constants = np.linspace(1.001, 4, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
