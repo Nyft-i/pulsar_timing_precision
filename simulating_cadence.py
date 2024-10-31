@@ -240,8 +240,6 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-
-    print("running simulation for "+sequence_type+" sequence type\n[",end="")
     
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
@@ -249,6 +247,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
     start_randomiser = start_randomiser/10
     all_results = np.zeros((0,8))
+    
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     for number, offset in enumerate(start_randomiser):
@@ -287,7 +286,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
         results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size
         all_results = np.vstack((all_results, results))
-        print(str(number) + ".", end="")
+        print(str(number+1) + ".", end="")
+        sys.stdout.flush()
         
     end_time = time.time()
     print("]")
