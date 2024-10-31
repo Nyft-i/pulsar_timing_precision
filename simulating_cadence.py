@@ -385,7 +385,7 @@ def main():
 
     tim_file = "master_toas.tim"
     toas = np.genfromtxt(tim_file, skip_header=1, usecols=[2])
-    const_args = (0.5, 0, 20)
+    const_args = (0.5, 0, 20, 1.273)
     
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
@@ -400,7 +400,7 @@ def main():
     
     # Number of desired tims per day
     desired_tpd = 0.5
-    strat_p, num_toas = tim_sampling.find_sequence_period_info('logarithmic', (const_args, 1.273))
+    strat_p, num_toas = tim_sampling.find_sequence_period_info('logarithmic', const_args)
     print(num_toas/strat_p)
 
     
