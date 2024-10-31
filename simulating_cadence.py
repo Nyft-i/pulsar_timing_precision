@@ -244,7 +244,9 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
     
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
-    start_randomiser = np.random.randint(0, 50, (num_sps))
+    passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
+    strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
+    start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
     start_randomiser = start_randomiser/10
     all_results = np.zeros((0,8))
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
@@ -288,7 +290,15 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     end_time = time.time()
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
-    return all_results
+    avg_f0 = np.mean(all_results[:,0])
+    avg_f1 = np.mean(all_results[:,2])  
+    # convoluted code returning average results and their errors
+    avg_results = np.array([avg_f0,
+                            np.sqrt((np.std(all_results[:,0])/avg_f0)**2 + (np.mean(all_results[:,1]/avg_f0))**2),
+                            avg_f1,
+                            np.sqrt((np.std(all_results[:,2])/avg_f1)**2 + (np.mean(all_results[:,3]/avg_f1))**2)])
+    
+    return avg_results
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
     # A quick algorithm to find a constant with a given number of toas
@@ -381,6 +391,7 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
+    """
     desired_abdo = 5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
@@ -462,9 +473,30 @@ def main():
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
+    """
+    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+    # Using pandas to read in the master file, probably a better way to do this but it works for now.
+    cols = ["Element Name", "Value", "Fitting", "Error"]
+    master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
+    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
+                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
+
     
     
-    fig.savefig("figures/fadbo.png", dpi=400, bbox_inches="tight")
+    args = (0.5, 0, 20, 1.0991)
+    print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True))
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=10)
+    plt.errorbar(results[0], results[2], xerr = results[1], yerr = results[3], fmt='x')
+    plt.scatter(master_traits[0], master_traits[1], c='r')
+    
+    plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
+    
+    #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
+    
+    # Code which averages over multiple phase offsets for a particular constant and cadence strategy
 
 if __name__ == "__main__":
     """
