@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-def find_sequence_period(sequence_type, args):
+def find_sequence_period_info(sequence_type, args):
     if sequence_type == 'logarithmic':
         cadence_start, marker_offset, max_gap, log_const = args
     elif sequence_type == 'arithmetic':
@@ -16,14 +16,19 @@ def find_sequence_period(sequence_type, args):
         return 0
     
     total_time = 0
+    num_toas = 0
+    cadence = cadence_start
     while cadence <= max_gap:
         total_time += cadence
+        num_toas += 1
         if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
         
-    return total_time
+    return total_time, num_toas
+
+
     
 def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
     # Setup
