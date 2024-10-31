@@ -399,13 +399,13 @@ def main():
     results = np.zeros((0,8))
     
     # Number of desired tims per day
-    fadbos = np.empty((0,1))
+    adbos = np.empty((0,1))
     constants = np.linspace(0.5, 4, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
-        fadbos = np.append(fadbos, tim_sampling.fadbo('logarithmic', args))
+        adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
-    ax.plot(fadbos, constants)
+    ax.plot(constants, adbos)
     fig.savefig("figures/fadbo.png")
     
     
