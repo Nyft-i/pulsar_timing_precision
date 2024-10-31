@@ -405,7 +405,12 @@ def main():
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
-    ax.scatter(constants, adbos, marker='.')
+    pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
+    x = np.insert(constants, pos, np.nan)
+    y = np.insert(adbos, pos, np.nan)    
+    
+    
+    ax.plot(x, y)
     fig.savefig("figures/fadbo.png")
     
     
