@@ -296,9 +296,13 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     avg_f1 = np.mean(all_results[:,3])  
     # convoluted code returning average results and their errors
     avg_results = np.array([avg_f0,
-                            np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
+                            np.std(all_results[:,1]),
                             avg_f1,
-                            np.sqrt((np.std(all_results[:,3])/avg_f1)**2 + (np.mean(all_results[:,4]/avg_f1))**2)])
+                            np.std(all_results[:,3])])
+    
+    # Used this following line for quadrature error calculation but it didnt work
+    # np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
+                            
     
     return avg_results
     
@@ -492,7 +496,7 @@ def main():
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=10)
     print(results)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], fmt='x')
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x')
     plt.scatter(0, 0, c='r')
     
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
