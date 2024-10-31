@@ -423,7 +423,7 @@ def main():
     axs[1].set_title("arithmetic")
     axs[1].set_xlim(0.4, 4.1)
     print("arith consts where adbo is 5")
-    idx = np.argwhere(np.diff(np.sign(y - desired_abdo))).flatten()
+    idx = np.where(y - desired_abdo < 0.5)[0]
     print(x[idx])
     
     # geometric
