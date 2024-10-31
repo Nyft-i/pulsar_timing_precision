@@ -399,10 +399,15 @@ def main():
     results = np.zeros((0,8))
     
     # Number of desired tims per day
-    desired_tpd = 0.5
-    strat_p, num_toas = tim_sampling.find_sequence_period_info('logarithmic', const_args)
-    adbo = strat_p/num_toas
-    print("avg. days betwerrn observations (adbo): ", adbo)
+    fadbos = np.empty((0,1))
+    constants = np.linspace(0.5, 4, 1000)
+    for constant in constants:
+        args = (0.5, 0, 20, constant)
+        fadbos = np.append(fadbos, tim_sampling.fadbo('logarithmic', args))
+        
+    ax.plot(fadbos, constants)
+    fig.savefig("figures/fadbo.png")
+    
     
     
 
