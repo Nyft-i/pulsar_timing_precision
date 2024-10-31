@@ -207,19 +207,19 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
     if sequence_type == 'logarithmic': 
         ec = 'r'
-        plt.sca(axs[0])
+        #plt.sca(axs[0])
         plt.xlabel("logarithmic constant")
     elif sequence_type == 'arithmetic': 
         ec = 'b'
-        plt.sca(axs[1])
+        #plt.sca(axs[1])
         plt.xlabel("sequential increase")
     elif sequence_type == 'geometric': 
         ec = 'g'
-        plt.sca(axs[2])
+        #plt.sca(axs[2])
         plt.xlabel("multiplicative increase")
     elif sequence_type == 'periodic': 
         ec = 'y'
-        plt.sca(axs[3])
+        #plt.sca(axs[3])
         plt.xlabel("period (days)")
     
     curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*200,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)

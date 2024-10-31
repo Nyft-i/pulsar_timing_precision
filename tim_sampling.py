@@ -2,6 +2,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+def find_sequence_period(sequence_type, args):
+    if sequence_type == 'logarithmic':
+        cadence_start, marker_offset, max_gap, log_const = args
+    elif sequence_type == 'arithmetic':
+        cadence_start, marker_offset, max_gap, sequential_increase = args
+    elif sequence_type == 'geometric':
+        cadence_start, marker_offset, max_gap, multiplicative_increase = args
+    elif sequence_type == 'periodic':
+        cadence_start, marker_offset, max_gap, period = args
+    else:
+        print("invalid sequence type. break.")
+        return 0
+    
+    total_time = 0
+    while cadence <= max_gap:
+        total_time += cadence
+        if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
+        elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
+        elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
+        elif sequence_type=='periodic': cadence = period
+        
+    return total_time
+    
 def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
     # Setup
     end = np.max(toas)
