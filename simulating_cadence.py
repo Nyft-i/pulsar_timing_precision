@@ -380,7 +380,7 @@ def main():
     """
     
     # New code which runs the new way which Danaii wanted us to do
-            
+    
     fig, ax = plt.subplots()
 
     tim_file = "master_toas.tim"
@@ -397,21 +397,11 @@ def main():
 
         
     results = np.zeros((0,8))
-    results = single_simulate(toas, 'logarithmic', const_args, 1.273, num_sps=3)
-    ax.scatter(results[:,1].astype('float64'), results[:,3].astype('float64'), label="logarithmic", marker="x")
-    results = single_simulate(toas, 'geometric', const_args, 3.576, num_sps=3)
-    ax.scatter(results[:,1].astype('float64'), results[:,3].astype('float64'), label="geometric", marker="x")
-    results = single_simulate(toas, 'periodic', const_args, 2.864, num_sps=3)
-    ax.scatter(results[:,1].astype('float64'), results[:,3].astype('float64'), label="periodic", marker="x")
-    ax.scatter(master_traits[0], master_traits[1], label="true value", marker="o")
-    ax.legend()
-    ax.set_xlabel("F0")
-    ax.set_ylabel("F1")
-    ax.set_title("F1, F0 and at different cadences for 1000 ToAs")
     
-    plt.savefig("figures/danaii_first_attempte.png", dpi=400, bbox_inches="tight")
-    
-    
+    # Number of desired tims per day
+    desired_tpd = 0.5
+    strat_p, num_toas = tim_sampling.find_sequence_period_info('logarithmic', (const_args, 1.273))
+    print(num_toas/strat_p)
 
     
     
