@@ -421,7 +421,7 @@ def main():
     
     # geometric
     adbos = np.empty((0,1))
-    constants = np.linspace(1.01, 4, 1000)
+    constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
@@ -432,7 +432,7 @@ def main():
     axs[2].plot(x, y)
     axs[2].set_xlabel("multiplicative increase")
     axs[2].set_title("geometric")
-    axs[2].set_xlim(0.5, 4)
+    axs[2].set_xlim(0.4, 6.1)
     
     # periodic
     adbos = np.empty((0,1))
@@ -447,7 +447,7 @@ def main():
     axs[3].plot(x, y)
     axs[3].set_xlabel("period (days)")
     axs[3].set_title("periodic")
-    axs[3].set_xlim(0.5, 20)
+    axs[3].set_xlim(0.4, 20.1)
     
     
     
