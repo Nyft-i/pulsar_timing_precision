@@ -386,7 +386,7 @@ def main():
     axs = gs.subplots(sharey=True)
 
     fig.suptitle("average days between observations for a given constant and strategy")
-    fig.supylabel("average days between observations", y=0.5, x=-0.02)
+    fig.supylabel("average days between observations", y=0.5)
 
     # Logarithmic
     adbos = np.empty((0,1))
