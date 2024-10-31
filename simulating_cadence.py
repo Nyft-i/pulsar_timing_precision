@@ -250,7 +250,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     start_randomiser = start_randomiser/10
     all_results = np.zeros((0,8))
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
-    for offset in start_randomiser:
+    print("running simulation for "+sequence_type+" sequence type\n[",end="")
+    for number, offset in enumerate(start_randomiser):
         # We need passed args to take the form: cadence_start, offset, maxgap, const
         # const_args: start cadence, start offset, max_gap
 
@@ -286,8 +287,10 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
         results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size
         all_results = np.vstack((all_results, results))
+        print(str(number) + ".", end="")
         
     end_time = time.time()
+    print("]")
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     
     all_results = all_results.astype('float64')
