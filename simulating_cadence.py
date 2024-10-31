@@ -393,7 +393,7 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[0].plot(x, y)
+    ax[0,0].plot(x, y)
     
     # Arithmetic
     adbos = np.empty((0,1))
@@ -405,7 +405,7 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[1].plot(x, y)
+    ax[0,1].plot(x, y)
     
     # geometric
     adbos = np.empty((0,1))
@@ -417,7 +417,7 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[2].plot(x, y)
+    ax[1,0].plot(x, y)
     
     # periodic
     adbos = np.empty((0,1))
@@ -429,7 +429,7 @@ def main():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    ax[3].plot(x, y)
+    ax[1,1].plot(x, y)
     
     
     
