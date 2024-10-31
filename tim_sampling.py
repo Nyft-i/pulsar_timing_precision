@@ -32,6 +32,7 @@ def find_sequence_period_info(sequence_type, args):
     
 def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
     # Setup
+    edit_toas = toas.copy()
     end = np.max(toas)
     new_toas = np.zeros(0)
     num_toas = 0
@@ -50,13 +51,13 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         print("invalid sequence type. break.")
         return indexes
     
-    marker = np.min(toas) + marker_offset
+    marker = np.min(edit_toas) + marker_offset
     cadence = cadence_start
     if verbose == True: print("starting cadence: " + str(cadence_start))
     #time.sleep(1)
     
     while(marker < end):
-        closest_index = (np.abs(toas - marker)).argmin()
+        closest_index = (np.abs(edit_toas - marker)).argmin()
         
         # Checks if the closest index has already been picked before.
         if(counting_mode==False):
@@ -65,11 +66,11 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
                 if verbose==True: print("double counted! skipping")
             else:
                 # Appends that particular TOA to the new list of empty ToAs.
-                new_toas = np.append(new_toas, toas[closest_index])
+                new_toas = np.append(new_toas, edit_toas[closest_index])
                 # Ads the index also to avoid double counting
                 indexes = np.append(indexes, closest_index)
                 # Removes the ToA from the list so it cant be picked again, does this by setting its value to infinity so it is never picked again.
-                #toas[closest_index] = float("inf")
+                edit_toas[closest_index] = float("inf")
                 cadence_list = np.append(cadence_list, cadence)
         
         if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
