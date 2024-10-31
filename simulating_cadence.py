@@ -308,7 +308,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     # np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
                             
     
-    return all_results
+    return avg_results
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
     # A quick algorithm to find a constant with a given number of toas
@@ -401,8 +401,8 @@ def main():
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     
-    """
-    desired_abdo = 5
+    
+    desired_abdo = 10
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -498,18 +498,18 @@ def main():
     
     args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25)
-    plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="logarithmic")
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=2)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
     
     args = (0.5, 0, 20, 1.6394)
     print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=25)
-    plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="geometric")
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=2)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
     
     args = (0.5, 0, 20, 5)
     print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=25)
-    plt.errorbar(results[:,1]-master_traits[0], results[:,3]-master_traits[1], xerr=results[:,2], yerr=results[:,4], fmt='x', label="periodic")
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=2)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
     
     
     plt.scatter(0, 0, c='r', label="real parameters")
@@ -519,7 +519,7 @@ def main():
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values')
     plt.legend()
     plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
-    
+    """
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
     
