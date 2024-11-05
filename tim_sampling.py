@@ -131,7 +131,7 @@ def main():
     
     # Reads the .tim file and extracts the TOAs
     toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
-    indexes = sample_from_toas(toas, sequence_type, args, verbose=True)
+    indexes, num_toas = sample_from_toas(toas, sequence_type, args, verbose=True)
     gen_new_tim(timfile, indexes, "new.tim")
     
 
