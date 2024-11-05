@@ -540,9 +540,9 @@ def main():
     
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
-    numiters = 2
+    numiters = 200
 
-    fig = plt.figure(figsize=(9, 6))
+    fig = plt.figure(figsize=(12, 6))
     gs = fig.add_gridspec(1, 3, wspace=0)
     axs = gs.subplots(sharey = True)
 
@@ -559,20 +559,18 @@ def main():
     print(results)
     axs[1].hist(results, bins=25)
     axs[1].set_xlabel("epoch (MJD)")
-    axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[2].hist(results, bins=25)
     axs[2].set_xlabel("epoch (MJD)")
-    axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
     
-    fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5adbo)")
+    fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
     
-    fig.savefig("figures/epoch_hist.png", dpi=400, bbox_inches="tight")
+    fig.savefig("figures/epoch_hist_three.png", dpi=400, bbox_inches="tight")
     
 
 if __name__ == "__main__":
