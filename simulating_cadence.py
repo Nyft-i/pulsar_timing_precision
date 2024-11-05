@@ -295,7 +295,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     end_time = time.time()
     print("]")
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
-    if (epoch_finding_mode == True): return epochs
+    if (epoch_finding_mode == True): return all_epochs
     
     all_results = all_results.astype('float64')
     
