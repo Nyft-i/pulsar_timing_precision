@@ -483,7 +483,9 @@ def main():
     print(x[item])
     """
     
+    # Plots our DDnu and DDnudot results for each of the cadence strategies
     
+    """
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
@@ -530,8 +532,18 @@ def main():
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
+    """
     
-    # Code which averages over multiple phase offsets for a particular constant and cadence strategy
+    # Histogram plotter for the retrieved epochs
+    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+
+    # Logarithmic
+    #args = (0.5, 0, 20, 1.0991)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25, epoch_finding_mode=True)
+    plt.hist(results, bins=20)
+    #plt.errorbar(num_off[0,0]-actual[0], num_off[0,2]-actual[1], xerr=num_off[0,1], yerr=num_off[0,3], fmt='x', label="logarithmic")
+    
+    
 
 if __name__ == "__main__":
     """
