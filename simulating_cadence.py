@@ -540,7 +540,7 @@ def main():
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25, epoch_finding_mode=True)
-    plt.hist(results, bins=50, range=(59999, 60001))
+    plt.hist(results, bins=10, range=(59999.5, 60000.5))
     #plt.errorbar(num_off[0,0]-actual[0], num_off[0,2]-actual[1], xerr=num_off[0,1], yerr=num_off[0,3], fmt='x', label="logarithmic")
     plt.savefig("figures/epoch_hist.png", dpi=400, bbox_inches="tight")
     
