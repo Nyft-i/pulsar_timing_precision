@@ -306,7 +306,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     # Used this following line for quadrature error calculation but it didnt work
     # np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
                             
-    if (epoch_finding_mode == True): return results[8]
+    if (epoch_finding_mode == True): return all_results[8]
     return avg_results
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
