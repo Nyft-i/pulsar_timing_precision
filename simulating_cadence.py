@@ -86,6 +86,8 @@ def run_fit(par, tim):
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
+        "-fit", "F1",
+        "-fit", "F0",
         "-noWarnings",">&","/dev/null"
         ]
     #print(' '.join(command), file=sys.stderr)
@@ -400,9 +402,9 @@ def main():
     """
 
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    
     """
-    desired_abdo = 10
+    
+    desired_abdo = 7.5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -482,8 +484,8 @@ def main():
     print("peri consts where adbo is 5")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
-    
     """
+    
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
@@ -496,24 +498,24 @@ def main():
 
     print(master_traits)
     
-    args = (0.5, 0, 20, 3.6637)
+    args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=100)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25)
     plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
     
-    #args = (0.5, 0, 20, 1.6394)
-    #print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
-    #results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=2)
-    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
+    args = (0.5, 0, 20, 1.6394)
+    print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=25)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
     
-    args = (0.5, 0, 20, 2.3744)
-    print("numtoas of arith", tim_sampling.sample_from_toas(toas, 'arithmetic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'arithmetic', (0.5, 0, 20), 1.6394, num_sps=100)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="arithmetic")
+    #args = (0.5, 0, 20, 2.3744)
+    #print("numtoas of arith", tim_sampling.sample_from_toas(toas, 'arithmetic', args, counting_mode=True)[1])
+    #results = single_simulate(toas, 'arithmetic', (0.5, 0, 20), 1.6394, num_sps=100)
+    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="arithmetic")
     
-    args = (0.5, 0, 20, 10.0060)
+    args = (0.5, 0, 20, 5)
     print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=100)
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=25)
     plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
     
     
