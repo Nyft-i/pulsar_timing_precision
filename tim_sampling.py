@@ -34,10 +34,10 @@ def fadbo(sequence_type, args):
     return strat_p/num_toas
     
     
-def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False):
+def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False, seq_period = 0):
     # Setup
     edit_toas = toas.copy()
-    end = np.max(toas)
+    end = np.max(toas) - seq_period # marker is in mjd, we want the endpoint to be one strategy period before the end of the data
     new_toas = np.zeros(0)
     num_toas = 0
     indexes = np.zeros(0,dtype=int)
@@ -55,7 +55,8 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         print("invalid sequence type. break.")
         return indexes
     
-    marker = np.min(edit_toas) + marker_offset
+    marker = np.min(edit_toas) + marker_offset 
+    end = end + marker_offset # adjusts the endpoint to ensure that on average the data set is the same size
     cadence = cadence_start
     if verbose == True: print("starting cadence: " + str(cadence_start))
     #time.sleep(1)
