@@ -34,27 +34,48 @@ pulsar_four_off = np.array([[2.3648569933575638997e-07,3.1268763052173749551e-13
                   
 pulsar_four = [2.37e-7,-1.19e-15]
 
-fig = plt.figure(figsize=(16, 4))
-gs = fig.add_gridspec(2, 2, wspace = 0, hspace = 0)
-axs = gs.subplots(sharey=True)
-
-fig.suptitle("")
+fig = plt.figure(figsize=(10, 10))
+gs = fig.add_gridspec(2, 2)
+axs = gs.subplots()
 
 
-axs[0].errorbar(pulsar_one_off[0,0]-pulsar_one[0], pulsar_one_off[0,2]-pulsar_one[1], xerr=pulsar_one_off[0,1], yerr=pulsar_one_off[0,3], fmt='x', label="logarithmic")
-axs[0].errorbar(pulsar_one_off[1,0]-pulsar_one[0], pulsar_one_off[1,2]-pulsar_one[1], xerr=pulsar_one_off[1,1], yerr=pulsar_one_off[1,3], fmt='x', label="geometric")
-axs[0].errorbar(pulsar_one_off[2,0]-pulsar_one[0], pulsar_one_off[2,2]-pulsar_one[1], xerr=pulsar_one_off[2,1], yerr=pulsar_one_off[2,3], fmt='x', label="periodic")
 
-axs[1].errorbar(pulsar_two_off[0,0]-pulsar_two[0], pulsar_two_off[0,2]-pulsar_two[1], xerr=pulsar_two_off[0,1], yerr=pulsar_two_off[0,3], fmt='x', label="logarithmic")
-axs[1].errorbar(pulsar_two_off[1,0]-pulsar_two[0], pulsar_two_off[1,2]-pulsar_two[1], xerr=pulsar_two_off[1,1], yerr=pulsar_two_off[1,3], fmt='x', label="geometric")
-axs[1].errorbar(pulsar_two_off[2,0]-pulsar_two[0], pulsar_two_off[2,2]-pulsar_two[1], xerr=pulsar_two_off[2,1], yerr=pulsar_two_off[2,3], fmt='x', label="periodic")
+axs[0,0].set_title("Pulsar One")
+axs[0,0].set_xlabel(r'$\Delta \Delta \nu$')
+axs[0,0].set_ylabel(r'$\Delta \Delta \dot \nu$')
 
-axs[2].errorbar(pulsar_three_off[0,0]-pulsar_three[0], pulsar_three_off[0,2]-pulsar_three[1], xerr=pulsar_three_off[0,1], yerr=pulsar_three_off[0,3], fmt='x', label="logarithmic")
-axs[2].errorbar(pulsar_three_off[1,0]-pulsar_three[0], pulsar_three_off[1,2]-pulsar_three[1], xerr=pulsar_three_off[1,1], yerr=pulsar_three_off[1,3], fmt='x', label="geometric")
-axs[2].errorbar(pulsar_three_off[2,0]-pulsar_three[0], pulsar_three_off[2,2]-pulsar_three[1], xerr=pulsar_three_off[2,1], yerr=pulsar_three_off[2,3], fmt='x', label="periodic")
+axs[0,0].errorbar(pulsar_one_off[0,0]-pulsar_one[0], pulsar_one_off[0,2]-pulsar_one[1], xerr=pulsar_one_off[0,1], yerr=pulsar_one_off[0,3], fmt='x', label="logarithmic")
+axs[0,0].errorbar(pulsar_one_off[1,0]-pulsar_one[0], pulsar_one_off[1,2]-pulsar_one[1], xerr=pulsar_one_off[1,1], yerr=pulsar_one_off[1,3], fmt='x', label="geometric")
+axs[0,0].errorbar(pulsar_one_off[2,0]-pulsar_one[0], pulsar_one_off[2,2]-pulsar_one[1], xerr=pulsar_one_off[2,1], yerr=pulsar_one_off[2,3], fmt='x', label="periodic")
+axs[0,0].plot(0, 0, marker = "o", color = "red")
 
-axs[3].errorbar(pulsar_four_off[0,0]-pulsar_four[0], pulsar_four_off[0,2]-pulsar_four[1], xerr=pulsar_four_off[0,1], yerr=pulsar_four_off[0,3], fmt='x', label="logarithmic")
-axs[3].errorbar(pulsar_four_off[1,0]-pulsar_four[0], pulsar_four_off[1,2]-pulsar_four[1], xerr=pulsar_four_off[1,1], yerr=pulsar_four_off[1,3], fmt='x', label="geometric")
-axs[3].errorbar(pulsar_four_off[2,0]-pulsar_four[0], pulsar_four_off[2,2]-pulsar_four[1], xerr=pulsar_four_off[2,1], yerr=pulsar_four_off[2,3], fmt='x', label="periodic")
+axs[0,1].set_title("Pulsar Two")
+axs[0,1].set_xlabel(r'$\Delta \Delta \nu$')
+axs[0,1].set_ylabel(r'$\Delta \Delta \dot \nu$')
+
+axs[0,1].errorbar(pulsar_two_off[0,0]-pulsar_two[0], pulsar_two_off[0,2]-pulsar_two[1], xerr=pulsar_two_off[0,1], yerr=pulsar_two_off[0,3], fmt='x', label="logarithmic")
+axs[0,1].errorbar(pulsar_two_off[1,0]-pulsar_two[0], pulsar_two_off[1,2]-pulsar_two[1], xerr=pulsar_two_off[1,1], yerr=pulsar_two_off[1,3], fmt='x', label="geometric")
+axs[0,1].errorbar(pulsar_two_off[2,0]-pulsar_two[0], pulsar_two_off[2,2]-pulsar_two[1], xerr=pulsar_two_off[2,1], yerr=pulsar_two_off[2,3], fmt='x', label="periodic")
+axs[0,1].plot(0, 0, marker = "o", color = "red")
+
+axs[1,0].set_title("Pulsar Three")
+axs[1,0].set_xlabel(r'$\Delta \Delta \nu$')
+axs[1,0].set_ylabel(r'$\Delta \Delta \dot \nu$')
+
+axs[1,0].errorbar(pulsar_three_off[0,0]-pulsar_three[0], pulsar_three_off[0,2]-pulsar_three[1], xerr=pulsar_three_off[0,1], yerr=pulsar_three_off[0,3], fmt='x', label="logarithmic")
+axs[1,0].errorbar(pulsar_three_off[1,0]-pulsar_three[0], pulsar_three_off[1,2]-pulsar_three[1], xerr=pulsar_three_off[1,1], yerr=pulsar_three_off[1,3], fmt='x', label="geometric")
+axs[1,0].errorbar(pulsar_three_off[2,0]-pulsar_three[0], pulsar_three_off[2,2]-pulsar_three[1], xerr=pulsar_three_off[2,1], yerr=pulsar_three_off[2,3], fmt='x', label="periodic")
+axs[1,0].plot(0, 0, marker = "o", color = "red")
+
+axs[1,1].set_title("Pulsar Four")
+axs[1,1].set_xlabel(r'$\Delta \Delta \nu$')
+axs[1,1].set_ylabel(r'$\Delta \Delta \dot \nu$')
+
+axs[1,1].errorbar(pulsar_four_off[0,0]-pulsar_four[0], pulsar_four_off[0,2]-pulsar_four[1], xerr=pulsar_four_off[0,1], yerr=pulsar_four_off[0,3], fmt='x', label="logarithmic")
+axs[1,1].errorbar(pulsar_four_off[1,0]-pulsar_four[0], pulsar_four_off[1,2]-pulsar_four[1], xerr=pulsar_four_off[1,1], yerr=pulsar_four_off[1,3], fmt='x', label="geometric")
+axs[1,1].errorbar(pulsar_four_off[2,0]-pulsar_four[0], pulsar_four_off[2,2]-pulsar_four[1], xerr=pulsar_four_off[2,1], yerr=pulsar_four_off[2,3], fmt='x', label="periodic")
+axs[1,1].plot(0, 0, marker = "o", color = "red")
 
 
+plt.legend()
+plt.savefig("pulse_numbering_off", dpi=400, bbox_inches="tight")
