@@ -134,7 +134,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
 
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
-    results = np.zeros((0,8))
+    results = np.zeros((0,9))
     while curr_iter<steps:
         curr_iter += 1
         #print(toas)
@@ -185,7 +185,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
             
             # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
             compare = compare_to_master(traits, master_traits)
-            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, size
+            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, size, closest_MJD
             results = np.vstack((results, curr_results))
         
         # Print progress
@@ -229,7 +229,7 @@ def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_
     
     return results
     
-def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1):
+def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
     
@@ -247,7 +247,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
     start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
     start_randomiser = start_randomiser/10
-    all_results = np.zeros((0,8))
+    all_results = np.zeros((0,9))
     
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
@@ -283,8 +283,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         traits = run_fit(par, tim)
         # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
         
-        # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
-        results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size
+        results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD
         all_results = np.vstack((all_results, results))
         print(str(number+1) + ".", end="")
         sys.stdout.flush()
