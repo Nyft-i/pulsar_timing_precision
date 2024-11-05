@@ -540,17 +540,39 @@ def main():
     
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+    numiters = 2
+
+    fig = plt.figure(figsize=(9, 6))
+    gs = fig.add_gridspec(1, 3, wspace=0)
+    axs = gs.subplots(sharey = True)
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=200, epoch_finding_mode=True)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    plt.hist(results, bins=25)
-    plt.xlabel("epoch (MJD)")
-    plt.ylabel("frequency")
-    plt.title("distribution of retrieved epochs for logarithmic cadence strategy")
-    #plt.errorbar(num_off[0,0]-actual[0], num_off[0,2]-actual[1], xerr=num_off[0,1], yerr=num_off[0,3], fmt='x', label="logarithmic")
-    plt.savefig("figures/epoch_hist.png", dpi=400, bbox_inches="tight")
+    axs[0].hist(results, bins=25)
+    axs[0].xlabel("epoch (MJD)")
+    axs[0].ylabel("frequency")
+    axs[0].title("logarithmic (const = 1.0991)")
+    
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
+    print(results)
+    axs[1].hist(results, bins=25)
+    axs[1].xlabel("epoch (MJD)")
+    axs[1].ylabel("frequency")
+    axs[1].title("geometric (const = 1.6394)")
+    
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
+    print(results)
+    axs[2].hist(results, bins=25)
+    axs[2].xlabel("epoch (MJD)")
+    axs[2].ylabel("frequency")
+    axs[2].title("periodic (period = 5.000)")
+    
+    fig.suptitle("distributions of retrieved epochs for each cadence strategy")
+    
+    
+    fig.savefig("figures/epoch_hist.png", dpi=400, bbox_inches="tight")
     
 
 if __name__ == "__main__":
