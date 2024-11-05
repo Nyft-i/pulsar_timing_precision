@@ -248,6 +248,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
     start_randomiser = start_randomiser/10
     all_results = np.zeros((0,9))
+    all_epochs = np.zeros(0)
     
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     print("running simulation for "+sequence_type+" sequence type\n[",end="")
@@ -275,22 +276,26 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
         closest_MJD = epochs[closest_MJD_index]
+        all_epochs = np.append(all_epochs, closest_MJD)
         size = np.abs(closest_MJD - master_traits[4])
         #print(closest_MJD)
         
-        # run tempo2 again with 0 phase MJD
-        editting_par(par, closest_MJD)
-        traits = run_fit(par, tim)
-        # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
-        
-        results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD
-        all_results = np.vstack((all_results, results))
+        if (epoch_finding_mode == False):    
+            # run tempo2 again with 0 phase MJD
+            editting_par(par, closest_MJD)
+            traits = run_fit(par, tim)
+            # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
+            
+            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD
+            all_results = np.vstack((all_results, results))
+            
         print(str(number+1) + ".", end="")
         sys.stdout.flush()
         
     end_time = time.time()
     print("]")
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
+    if (epoch_finding_mode == True): return epochs
     
     all_results = all_results.astype('float64')
     
@@ -306,7 +311,6 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     # Used this following line for quadrature error calculation but it didnt work
     # np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
                             
-    if (epoch_finding_mode == True): return all_results[:,8]
     return avg_results
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
@@ -539,9 +543,12 @@ def main():
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25, epoch_finding_mode=True)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=200, epoch_finding_mode=True)
     print(results)
-    plt.hist(results, bins=10)
+    plt.hist(results, bins=25)
+    plt.xlabel("epoch (MJD)")
+    plt.ylabel("frequency")
+    plt.title("distribution of retrieved epochs for logarithmic cadence strategy")
     #plt.errorbar(num_off[0,0]-actual[0], num_off[0,2]-actual[1], xerr=num_off[0,1], yerr=num_off[0,3], fmt='x', label="logarithmic")
     plt.savefig("figures/epoch_hist.png", dpi=400, bbox_inches="tight")
     
