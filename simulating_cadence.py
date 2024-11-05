@@ -484,6 +484,12 @@ def main():
     print(x[item])
     """
     
+    num_off = np.array([[4.70798e-7,0.00000000000138144530,-2.099997e-15, 2.0778145875309407317e-20],
+                        [4.7137972923489013029e-07,0.00000000000140384872,-2.1000108110149476731e-15,2.1268451147202375242e-20],
+                        [4.7000861410119862005e-07,0.00000000000139039028,-2.0999882135220762017e-15,2.1118070273141016292e-20]]])
+                      
+    actual = [4.7e-07,-2.1e-15]
+    
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
@@ -498,13 +504,15 @@ def main():
     
     args = (0.5, 0, 20, 1.0991)
     print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=1)
+    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
+    plt.errorbar(num_off[:,0]-actual[0], num_off[:,2]-actual[1], xerr=num_off[:,1], yerr=num_off[:,3], fmt='x', label="logarithmic")
     
     args = (0.5, 0, 20, 1.6394)
     print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=1)
+    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
+    plt.errorbar(num_off[:,0]-actual[0], num_off[:,2]-actual[1], xerr=num_off[:,1], yerr=num_off[:,3], fmt='x', label="geometric")
     
     #args = (0.5, 0, 20, 2.3744)
     #print("numtoas of arith", tim_sampling.sample_from_toas(toas, 'arithmetic', args, counting_mode=True)[1])
@@ -513,9 +521,9 @@ def main():
     
     args = (0.5, 0, 20, 5)
     print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
-    
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=1)
+    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
+    plt.errorbar(num_off[:,0]-actual[0], num_off[:,2]-actual[1], xerr=num_off[:,1], yerr=num_off[:,3], fmt='x', label="periodic")
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
