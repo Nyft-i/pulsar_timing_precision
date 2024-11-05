@@ -34,10 +34,10 @@ def fadbo(sequence_type, args):
     return strat_p/num_toas
     
     
-def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False, seq_period = 0):
+def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = False, strat_period = 0):
     # Setup
     edit_toas = toas.copy()
-    end = np.max(toas) - seq_period # marker is in mjd, we want the endpoint to be one strategy period before the end of the data
+    end = np.max(toas) - strat_period # marker is in mjd, we want the endpoint to be one strategy period before the end of the data
     new_toas = np.zeros(0)
     num_toas = 0
     indexes = np.zeros(0,dtype=int)
