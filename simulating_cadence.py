@@ -51,11 +51,11 @@ def epoch_finder(par, tim, master_traits):
     residuals = tempo_nofit(par, tim)
     print(residuals)
     #reads tempo2 generated residuals
-    counter = 1
+    counter = 2
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
-        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 20 * error:
+        if np.abs(residuals[counter,1] - residuals[(counter -2),1]) > 20 * error:
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
             plt.scatter(residuals[:,0], residuals[:,1])
@@ -66,7 +66,7 @@ def epoch_finder(par, tim, master_traits):
             break 
             
         else :
-            counter += 1
+            counter += 2
     
     return mid_point
 
