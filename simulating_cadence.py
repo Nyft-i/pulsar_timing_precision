@@ -49,6 +49,7 @@ def epoch_finder(par, tim, master_traits):
     #runs tempo2 without a fit
     #print("running tempo not fit")
     residuals = tempo_nofit(par, tim)
+    print(residuals)
     #reads tempo2 generated residuals
     counter = 1
     error = 0.0001
