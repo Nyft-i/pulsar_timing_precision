@@ -99,7 +99,7 @@ def run_fit(par, tim, recovery_mode = False):
         "-nofit",
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
-        "-fit", "GLPH_1",
+        #"-fit", "GLPH_1",
         "-fit", "F1",
         "-fit", "F0",
         "-noWarnings",">&","/dev/null"
