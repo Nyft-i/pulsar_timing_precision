@@ -178,6 +178,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # run tempo2
         traits = run_fit(par, tim)
+        print("post tempo2 1 traits")
+        print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
         
