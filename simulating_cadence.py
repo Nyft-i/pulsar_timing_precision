@@ -87,8 +87,8 @@ def run_fit(par, tim, recovery_mode = False):
         "-fit", "GLF1_1",
         #"-fit", "GLPH_1",
         "-fit", "F1",
-        "-fit", "F0"
-        #"-noWarnings",">&","/dev/null"
+        "-fit", "F0",
+        "-noWarnings",">&","/dev/null"
         ]
     
     if recovery_mode == True :
@@ -102,7 +102,7 @@ def run_fit(par, tim, recovery_mode = False):
     all_fields = out.split("\n")
     for this_field in all_fields:
         fields = this_field.split()
-        #print(fields)
+        print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1":
                 f0 = fields[2]
