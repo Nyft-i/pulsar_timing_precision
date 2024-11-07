@@ -127,20 +127,18 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             if fields[0] == "MJD":
                 epochs = fields[7], fields[9]
                 epoch_e = fields[12]
-            if recovery_mode == True:
-                if fields[0] == "GLF0D_1":
-                    recovered_F0 = fields[2]
-                    recovered_F0_e = fields[3]
-                if fields[0] == "GLTD_1":
-                    recovered_timescale = fields[2]
-                    recovered_timescale_e = fields[3]
-                try:
-                    return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e
-                except UnboundLocalError:
-                    return None
-    
+            if fields[0] == "GLF0D_1":
+                recovered_F0 = fields[2]
+                recovered_F0_e = fields[3]
+            if fields[0] == "GLTD_1":
+                recovered_timescale = fields[2]
+                recovered_timescale_e = fields[3]
+
             
     try:
+        if recovery_mode == True:
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e
+        
         return f0, f0_e, f1, f1_e, ph, epochs, epoch_e
     except UnboundLocalError:
         return None
