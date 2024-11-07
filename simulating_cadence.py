@@ -332,6 +332,7 @@ def diff_plot():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
     print(all_results[:,2])
+    print(all_results[:,4])
     plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*100)
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq)
     
@@ -355,8 +356,8 @@ def diff_plot():
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
-    plt.xlabel(r'abs. distance from true \Delta \nu$')
-    plt.ylabel(r'abs. distance from true \Delta \dot \nu$')
+    plt.xlabel(r'abs. distance from true $\Delta \nu$')
+    plt.ylabel(r'abs. distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
     plt.savefig("figures/avg3d.png", dpi=400, bbox_inches="tight")
