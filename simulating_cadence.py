@@ -55,7 +55,7 @@ def epoch_finder(par, tim, master_traits):
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
-        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 15 * error:
+        if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 20 * error:
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
             plt.scatter(residuals[:,0], residuals[:,1])
@@ -425,17 +425,17 @@ def histogram_plot():
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
-    print(results)
-    axs[1].hist(results, bins=15, range=(59999, 60006))
-    axs[1].set_ylabel("frequency")
-    axs[1].set_title("geometric (const = 1.6394)")
+    # = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
+    #print(results)
+    #axs[1].hist(results, bins=15, range=(59999, 60006))
+    #axs[1].set_ylabel("frequency")
+    #axs[1].set_title("geometric (const = 1.6394)")
     
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
-    print(results)
-    axs[2].hist(results, bins=15, range=(59999, 60006))
-    axs[2].set_ylabel("frequency")
-    axs[2].set_title("periodic (period = 5.000)")
+    #results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
+    #print(results)
+    #axs[2].hist(results, bins=15, range=(59999, 60006))
+    #axs[2].set_ylabel("frequency")
+    #axs[2].set_title("periodic (period = 5.000)")
     
     fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
