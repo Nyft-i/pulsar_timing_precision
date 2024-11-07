@@ -332,7 +332,7 @@ def diff_plot():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt=',', label=seq)
-    all_results[:,8]
+    print(all_results[:,8])
     plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,8]/100)
     
     seq = 'geometric'
