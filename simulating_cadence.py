@@ -167,7 +167,9 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         if (epoch_finding_mode == False):    
             # run tempo2 again with 0 phase MJD
-            editting_par(par, closest_MJD)
+            #editting_par(par, closest_MJD)
+            # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
+            editting_par(par, 60000)
             traits = run_fit(par, tim)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
@@ -360,7 +362,7 @@ def diff_plot():
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/avg3d.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/avg3d_restricted_epoch.png", dpi=400, bbox_inches="tight")
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
