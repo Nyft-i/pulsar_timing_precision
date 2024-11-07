@@ -329,22 +329,25 @@ def diff_plot():
     const = 1.0991
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    results = results_averager(all_results)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=all_results[:,4])
     
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    results = results_averager(all_results)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=all_results[:,4])
     
     seq = 'periodic'
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    results = results_averager(all_results)
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=all_results[:,4])
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
