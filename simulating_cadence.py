@@ -180,7 +180,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         #print(indexes)
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
-        par, tim = "master_file_noglitch.par", temp_tim
+        par, tim = "master_noglitch_exp.par", temp_tim
         editting_par(par, 0, "GLF0_1")
         editting_par(par, 0, "GLF1_1")
         
@@ -208,7 +208,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim, no_phase_fit=True)
+            traits = run_fit(par, tim, no_phase_fit=True, recovery_mode = True)
             print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
@@ -351,7 +351,7 @@ def constant_finder():
 def diff_plot():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
-    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+    toas = np.genfromtxt("master_toas_exp.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
