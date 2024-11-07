@@ -49,6 +49,8 @@ def epoch_finder(par, tim, master_traits):
     #runs tempo2 without a fit
     #print("running tempo not fit")
     residuals = tempo_nofit(par, tim)
+    # sort the residuals by the mjd
+    residuals = residuals[residuals[:,0].argsort()]
     print(residuals[:,0])
     #reads tempo2 generated residuals
     counter = 1
