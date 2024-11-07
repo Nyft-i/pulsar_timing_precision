@@ -78,7 +78,7 @@ def editting_par(parfile, param, g_property="GLEP_1"):
     #saves it over the old par file
     np.savetxt(parfile, new_line, fmt="%s")    
 
-def run_fit(par, tim, recovery_mode = False):
+def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     command = [
         "tempo2",
         "-f", par, tim,
@@ -91,6 +91,17 @@ def run_fit(par, tim, recovery_mode = False):
         "-noWarnings",">&","/dev/null"
         ]
     
+    if no_phase_fit == True:
+        command = [
+            "tempo2",
+            "-f", par, tim,
+            "-nofit",
+            "-fit", "GLF0_1",
+            "-fit", "GLF1_1",
+            "-fit", "F1",
+            "-fit", "F0",
+            "-noWarnings",">&","/dev/null"
+            ]
     
     if recovery_mode == True :
         command_rec = ["-fit", "GLF0D_1",
@@ -197,7 +208,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim)
+            traits = run_fit(par, tim, no_phase_fit=True)
             print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
@@ -388,7 +399,7 @@ def diff_plot():
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/avg3d_restricted_epoch.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/avg3d_nophasefit.png", dpi=400, bbox_inches="tight")
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
