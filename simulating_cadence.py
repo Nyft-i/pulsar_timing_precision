@@ -78,7 +78,7 @@ def editting_par(parfile,GLEP):
     np.savetxt(parfile, new_line, fmt="%s")
     
 
-def run_fit(par, tim):
+def run_fit(par, tim, recovery_mode = False):
     command = [
         "tempo2",
         "-f", par, tim,
@@ -90,6 +90,12 @@ def run_fit(par, tim):
         "-fit", "F0",
         "-noWarnings",">&","/dev/null"
         ]
+    
+    if recovery_mode == True :
+        command_rec = ["-fit", "GLF0D_1",
+                       "-fit", "GLTD_1"]
+        command = np.hstack((command,command_rec))
+    
     #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
@@ -109,8 +115,15 @@ def run_fit(par, tim):
             if fields[0] == "MJD":
                 epochs = fields[7], fields[9]
                 epoch_e = fields[12]
+            if fields[0] == "GLF0D_1":
+                recovered_F0 = fields[2]
+                recovered_F0_e = fields[3]
+            if fields[0] == "GLTD_1":
+                recovered_timescale = fields[2]
+                recovered_timescale_e = fields[3]
+            
     try:
-        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e
     except UnboundLocalError:
         return None
     
@@ -167,10 +180,11 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         if (epoch_finding_mode == False):    
             # run tempo2 again with 0 phase MJD
-            #editting_par(par, closest_MJD)
+            editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
-            editting_par(par, 60000)
+            #editting_par(par, 60000)
             traits = run_fit(par, tim)
+            print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD
