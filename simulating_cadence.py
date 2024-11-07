@@ -173,7 +173,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     for number, offset in enumerate(start_randomiser):
         # We need passed args to take the form: cadence_start, offset, maxgap, const
         # const_args: start cadence, start offset, max_gap
-
+        print("offset: ", offset, end=" ")
         passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
         
         indexes, num_toas = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose, strat_period=strategy_period)
