@@ -64,15 +64,29 @@ def epoch_finder(par, tim, master_traits):
     
     return mid_point
 
-def editting_par(parfile,GLEP):
+def editting_par_GLEP(parfile,GLEP):
     new_line = np.empty(0)
     #reads in old par file
     lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
     for line in lines :
         if "GLEP_1" not in line :
-            new_line = np.append(new_line,line)
+            new_line = np.append(new_line,line) 
       
     new_line = np.append(new_line,"GLEP_1          " + str(GLEP))    
+
+    #saves it over the old par file
+    np.savetxt(parfile, new_line, fmt="%s")
+    
+def editting_par_glitch(parfile,GLF0,GLF1):
+    new_line = np.empty(0)
+    #reads in old par file
+    lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
+    for line in lines :
+        if "GLF0_1" and "GLF1_1" not in line :
+            new_line = np.append(new_line,line) 
+        
+    new_line = np.append(new_line,"GLF0_1          " + str(GLF0))  
+    new_line = np.append(new_line,"GLF1_1          " + str(GLF1))  
 
     #saves it over the old par file
     np.savetxt(parfile, new_line, fmt="%s")
@@ -169,13 +183,15 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
         par, tim = "master_file_noglitch.par", temp_tim
+        editting_par_glitch(par, 0, 0)
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
-        editting_par(par, new_GLEP)
+        editting_par_GLEP(par, new_GLEP)
         
         # run tempo2
         traits = run_fit(par, tim)
+        editting_par_glitch(par, traits[0], traits[2])
         
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
@@ -186,7 +202,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         if (epoch_finding_mode == False):    
             # run tempo2 again with 0 phase MJD
-            editting_par(par, closest_MJD)
+            editting_par_GLEP(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
             traits = run_fit(par, tim)
