@@ -51,7 +51,7 @@ def epoch_finder(par, tim, master_traits):
     residuals = tempo_nofit(par, tim)
     print(residuals)
     #reads tempo2 generated residuals
-    counter = 2
+    counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
@@ -69,6 +69,20 @@ def epoch_finder(par, tim, master_traits):
             
         else :
             counter += 1
+            
+            
+    # walking line
+    toaindex = 0
+    linelen = 50
+    all_chisq = np.zeros(0)
+    while toaindex < len(residuals-linelen):
+        line_height = np.mean(residuals[toaindex:toaindex+linelen,1]) # means 50 toas
+        # checks now the chisq of the line
+        chisq = np.sum((residuals[toaindex:toaindex+linelen,1] - line_height)**2)
+        all_chisq = np.append(all_chisq, chisq)
+        toaindex += 1
+        
+    print(all_chisq)
     
     return mid_point
 
