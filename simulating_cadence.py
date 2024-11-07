@@ -508,7 +508,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot()
+    diff_plot_recovery()
     
     return
 
