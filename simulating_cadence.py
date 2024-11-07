@@ -331,6 +331,7 @@ def diff_plot():
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
+    print(all_results[:,4])
     plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*100)
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq)
     
