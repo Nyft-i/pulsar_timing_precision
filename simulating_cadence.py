@@ -331,8 +331,8 @@ def diff_plot():
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt=',', label=seq)
-    plt.scatter(results[0]-master_traits[0], results[2]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,4])
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt=',', label=seq)
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,8])
     
     seq = 'geometric'
     const = 1.6394
@@ -340,8 +340,8 @@ def diff_plot():
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt=',', label=seq)
-    plt.scatter(results[0]-master_traits[0], results[2]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,4])
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt=',', label=seq)
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,8])
     
     seq = 'periodic'
     const = 5
@@ -349,8 +349,8 @@ def diff_plot():
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters)
     results = results_averager(all_results)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt=',', label=seq)
-    plt.scatter(results[0]-master_traits[0], results[2]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,4])
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt=',', label=seq)
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='r', s=all_results[:,8])
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
