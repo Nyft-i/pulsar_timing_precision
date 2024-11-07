@@ -82,9 +82,11 @@ def editting_par_glitch(parfile,GLF0,GLF1):
     #reads in old par file
     lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
     for line in lines :
-        if "GLF0_1" or "GLF1_1" not in line :
+        if "GLF0_1" not in line :
             new_line = np.append(new_line,line) 
-        
+        elif "GLF1_1" not in line :
+            new_line = np.append(new_line,line)
+                    
     new_line = np.append(new_line,"GLF0_1          " + str(GLF0))  
     new_line = np.append(new_line,"GLF1_1          " + str(GLF1))  
 
