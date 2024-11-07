@@ -393,7 +393,7 @@ def diff_plot():
     results = results_averager(all_results)
     plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*100, zorder=10)
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
-    
+    """
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
@@ -413,7 +413,7 @@ def diff_plot():
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
-    
+    """
     plt.xlabel(r'distance from true $\Delta \nu$')
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
@@ -441,17 +441,17 @@ def histogram_plot():
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
-    # = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
-    #print(results)
-    #axs[1].hist(results, bins=15, range=(59999, 60006))
-    #axs[1].set_ylabel("frequency")
-    #axs[1].set_title("geometric (const = 1.6394)")
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
+    print(results)
+    axs[1].hist(results, bins=15, range=(59999, 60006))
+    axs[1].set_ylabel("frequency")
+    axs[1].set_title("geometric (const = 1.6394)")
     
-    #results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
-    #print(results)
-    #axs[2].hist(results, bins=15, range=(59999, 60006))
-    #axs[2].set_ylabel("frequency")
-    #axs[2].set_title("periodic (period = 5.000)")
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
+    print(results)
+    axs[2].hist(results, bins=15, range=(59999, 60006))
+    axs[2].set_ylabel("frequency")
+    axs[2].set_title("periodic (period = 5.000)")
     
     fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
