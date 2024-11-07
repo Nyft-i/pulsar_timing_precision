@@ -85,11 +85,12 @@ def run_fit(par, tim, recovery_mode = False):
         "-nofit",
         "-fit", "GLF0_1",
         "-fit", "GLF1_1",
-        #"-fit", "GLPH_1",
+        "-fit", "GLPH_1",
         "-fit", "F1",
         "-fit", "F0",
         "-noWarnings",">&","/dev/null"
         ]
+    
     
     if recovery_mode == True :
         command_rec = ["-fit", "GLF0D_1",
