@@ -51,15 +51,12 @@ def epoch_finder(par, tim, master_traits):
     residuals = tempo_nofit(par, tim)
     # sort the residuals by the mjd
     residuals = residuals[residuals[:,0].argsort()]
-    print(residuals[:,0])
     #reads tempo2 generated residuals
     counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         difference = np.abs(residuals[counter,1] - residuals[(counter -1),1])
-        print("hello")
-        print(counter, difference)
         if difference > 15.51 * error:
             print(residuals[counter,0])
             print(residuals[counter-1,0])
