@@ -58,7 +58,7 @@ def epoch_finder(par, tim, master_traits):
         if np.abs(residuals[counter,1] - residuals[(counter -1),1]) > 10 * error:
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
-            plt.plot(residuals[:,1], residuals[:,0])
+            plt.plot(residuals[:,0], residuals[:,1])
             plt.axvline(change, color = "pink")
             plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
             plt.clf()
