@@ -113,121 +113,6 @@ def run_fit(par, tim):
         return f0, f0_e, f1, f1_e, ph, epochs, epoch_e
     except UnboundLocalError:
         return None
-
-def simulate(toas, sequence_type, const_args, sim_args, verbose = False, master_tim="master_toas.tim", save_png = "results.png", num_sps=1):
-    # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
-    start_time = time.time()
-    
-    curr_iter = 0
-    curr_sim_const = sim_args[0]
-    step = np.abs(sim_args[1] - sim_args[0])/(sim_args[2]-1)
-    steps = sim_args[2]
-    master_par = "master_file.par"
-    
-    # Using pandas to read in the master file, probably a better way to do this but it works for now.
-    cols = ["Element Name", "Value", "Fitting", "Error"]
-    master_properties = pandas.read_csv(master_par, sep="\s+", names=cols)
-    master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
-                    float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
-                    float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
-                    float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
-                    float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-
-    print("running simulation for "+sequence_type+" sequence type\n[",end="")
-    results = np.zeros((0,9))
-    while curr_iter<steps:
-        curr_iter += 1
-        #print(toas)
-        #print(indexes)
-        
-        # adds some 5d random variation so that we dont run into issues with the sample being the same every time
-        start_randomiser = np.random.randint(0, 5, (num_sps))
-            
-        # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
-        for offset in start_randomiser:
-            # We need passed args to take the form: cadence_start, offset, maxgap, const
-            #const_args: start cadence, start offset, max_gap
-            #sim_args: min const, max const, num_iterations
-            
-            passed_args = const_args[0], const_args[1]+offset, const_args[2], curr_sim_const
-            
-            #print(passed_args)
-            indexes, num_toas = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose)
-            
-            temp_tim = sequence_type+"_toas.tim"
-            tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
-            
-            par, tim = "master_file_noglitch.par", temp_tim
-            
-            # Residual loading glep finder code, put it in the par file
-            new_GLEP = epoch_finder(par, tim, master_traits)
-            #print(new_GLEP)
-            editting_par(par, new_GLEP)
-            
-            # code for finding the closest TOA
-            # changed currently to show the distance from the real glitch epoch
-            #closest_index = (np.abs(master_traits[4] - toas[indexes]).argmin())
-            #size = np.abs(master_traits[4] - toas[indexes][closest_index])
-            #print(distance_to_TOA)
-            
-            # run tempo2
-            traits = run_fit(par, tim)
-            
-            epochs = float(traits[5][0]), float(traits[5][1][:-1])
-            closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
-            closest_MJD = epochs[closest_MJD_index]
-            size = np.abs(closest_MJD - master_traits[4])
-            #print(closest_MJD)
-            
-            # run tempo2 again with 0 phase MJD
-            editting_par(par, closest_MJD)
-            traits = run_fit(par, tim)
-            
-            # compare is an array of percentage differences between the retrieved and actual values of f0, f1, and phase (inc. error)
-            compare = compare_to_master(traits, master_traits)
-            curr_results = curr_sim_const, compare[0], compare[1], compare[2], compare[3], compare[4], num_toas, size, closest_MJD
-            results = np.vstack((results, curr_results))
-        
-        # Print progress
-        print(str(curr_iter)+"/"+str(steps)+" - curr " + str(sequence_type) + f" constant: {curr_sim_const:.2f}")
-        sys.stdout.write("\033[K")
-        sys.stdout.flush()
-        curr_sim_const += step
-        
-    end_time = time.time()
-    print("done! took " + f"{(end_time - start_time):.3f} seconds")
-    
-    # Below are settings used to generate a graphh.
-    results = results.astype('float64')
-    #print(results)
-    x = results[:,0].astype('float64')
-    y = results[:,3].astype('float64')
-    y_err = results[:,4]
-    
-    plt.tight_layout()
-    plt.errorbar(x,np.abs(y),xerr = 0, yerr = y_err,fmt=',')
-    if sequence_type == 'logarithmic': 
-        ec = 'r'
-        #plt.sca(axs[0])
-        plt.xlabel("logarithmic constant")
-    elif sequence_type == 'arithmetic': 
-        ec = 'b'
-        #plt.sca(axs[1])
-        plt.xlabel("sequential increase")
-    elif sequence_type == 'geometric': 
-        ec = 'g'
-        #plt.sca(axs[2])
-        plt.xlabel("multiplicative increase")
-    elif sequence_type == 'periodic': 
-        ec = 'y'
-        #plt.sca(axs[3])
-        plt.xlabel("period (days)")
-    
-    curr = plt.scatter(x,np.abs(y),cmap='gist_gray',c=results[:,6],s=results[:,7]*200,norm=colors.LogNorm(),edgecolors=ec,label = sequence_type)
-    plt.legend()
-    plt.xlim(sim_args[0]-0.1, sim_args[1]+0.1)
-    
-    return results
     
 def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
@@ -334,77 +219,8 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
             return choesn_const, given_toas
     return 0, 0
 
-def main():
-    """This is the old code whihch does the multi-simulation stuffs
-    
-    
-    
-    timfile = "master_toas.tim"
-    toas = np.genfromtxt(timfile, skip_header=1, usecols=[2])
-
-    # User changeable 
-    # 'logarithmic', 'arithmetic', 'geometric', 'periodic'
-    SEQUENCE_TYPE = 'periodic'
-    cadence_start = 0.5
-    marker_offset = 0
-    max_gap = 20
-    verbose = False
-
-    #simulation parameters
-    num_iterations = 100
-
-    ## LOGARITHMIC - 
-    # these parameters are only used if SEQUENCE_TYPE is 'logarithmic'
-    log_const_min = 0.5
-    log_const_max = 2
-
-    ## ARITHMETIC - 
-    # these parameters are only used if SEQUENCE_TYPE is 'arithmetic'
-    sequential_increase_min = 0.5 # num. of days per observation that time between observations increases by
-    sequential_increase_max = 4 # num. of days per observation that time between observations increases by
-
-    ## GEOMETRIC - 
-    # these parameters are only used if SEQUENCE_TYPE is 'geometric'
-    multiplicative_increase_min = 1 # factor time between observations is multiplied by after an observation
-    multiplicative_increase_max = 4 # factor time between observations is multiplied by after an observation
-
-    ## PERIODIC - 
-    # these parameters are only used if SEQUENCE_TYPE is 'periodic'
-    period_min = 0.5
-    period_max = 20
-
-    SEQUENCE_TYPE = 'logarithmic'
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (log_const_min, log_const_max, num_iterations)
-    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
-    #    indexes = tim_sampling.sample_from_toas(toas, 'logarithmic', args, verbose)
-    SEQUENCE_TYPE = 'arithmetic'
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (sequential_increase_min, sequential_increase_max, num_iterations)
-    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
-#    indexes = tim_sampling.sample_from_toas(toas, 'arithmetic', args, verbose)
-    SEQUENCE_TYPE = 'geometric'
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (multiplicative_increase_min, multiplicative_increase_max, num_iterations)
-    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
-#    indexes = tim_sampling.sample_from_toas(toas, 'geometric', args, verbose)
-    SEQUENCE_TYPE = 'periodic'
-    const_args = (cadence_start, marker_offset, max_gap)
-    sim_args = (period_min, period_max, num_iterations)
-    simulate(toas, SEQUENCE_TYPE, const_args, sim_args,timfile)
-#   indexes = tim_sampling.sample_from_toas(toas, 'periodic', args, verbose)
-    
-    #fig.colorbar(axs, label="num. of ToAs", ax=axs.ravel().tolist())
-    fig.supylabel("absolute value of % diff of retrieved and actual GLF0_1", y=0.5, x=-0.02)
-    fig.colorbar(plt.cm.ScalarMappable(norm=colors.LogNorm(vmin=1, vmax=6000.), cmap='gist_gray'), ax=axs, label="num. of ToAs")
-    fig.savefig("figures/glf1_all_strats_size_reps_zero_phase_diff.png", dpi=400, bbox_inches="tight")
-
-    #print("number of toas: " + str(len(indexes)))
-    """
-
+def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    """
-    
     desired_abdo = 7.5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
@@ -485,11 +301,10 @@ def main():
     print("peri consts where adbo is 5")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
-    """
     
+def diff_plot():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
-    """
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
@@ -536,8 +351,8 @@ def main():
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
-    """
     
+def histogram_plot():
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     numiters = 50
@@ -569,9 +384,11 @@ def main():
     
     fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
-    
     fig.savefig("figures/epoch_hist_three_sharex.png", dpi=400, bbox_inches="tight")
+
     
+def main():
+    return
 
 if __name__ == "__main__":
     """
