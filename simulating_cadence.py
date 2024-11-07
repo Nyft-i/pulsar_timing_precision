@@ -49,7 +49,7 @@ def epoch_finder(par, tim, master_traits):
     #runs tempo2 without a fit
     #print("running tempo not fit")
     residuals = tempo_nofit(par, tim)
-    print(residuals)
+    print(residuals[:,0])
     #reads tempo2 generated residuals
     counter = 1
     error = 0.0001
@@ -59,8 +59,8 @@ def epoch_finder(par, tim, master_traits):
         print("hello")
         print(counter, difference)
         if difference > 15.51 * error:
-            print(residuals[counter,1])
-            print(residuals[counter-1,1])
+            print(residuals[counter,0])
+            print(residuals[counter-1,0])
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
             plt.scatter(residuals[:,0], residuals[:,1])
