@@ -56,6 +56,7 @@ def epoch_finder(par, tim, master_traits):
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         difference = np.abs(residuals[counter,1] - residuals[(counter -1),1])
+        print("hello")
         print(counter, difference)
         if difference > 15.51 * error:
             print(residuals[counter,1])
