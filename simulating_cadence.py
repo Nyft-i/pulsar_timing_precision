@@ -99,8 +99,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             "-fit", "GLF0_1",
             "-fit", "GLF1_1",
             "-fit", "F1",
-            "-fit", "F0",
-            "-noWarnings",">&","/dev/null"
+            "-fit", "F0"
             ]
     
     if recovery_mode == True :
