@@ -59,8 +59,9 @@ def epoch_finder(par, tim, master_traits):
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
             plt.plot(residuals[:,1], residuals[:,0])
-            plt.axvline(mid_point)
+            plt.axvline(change, color = "pink")
             plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
+            plt.clf()
             print(mid_point)
             break 
             
