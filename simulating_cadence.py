@@ -356,8 +356,8 @@ def diff_plot():
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
-    plt.xlabel(r'abs. distance from true $\Delta \nu$')
-    plt.ylabel(r'abs. distance from true $\Delta \dot \nu$')
+    plt.xlabel(r'distance from true $\Delta \nu$')
+    plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
     plt.savefig("figures/avg3d.png", dpi=400, bbox_inches="tight")
