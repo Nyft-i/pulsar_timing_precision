@@ -451,7 +451,9 @@ def histogram_plot():
 def diff_plot_recovery():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
-    toas = np.genfromtxt("master_toas_exp.tim", skip_header=1, usecols=[2])
+    par = "master_file_exp.par"
+    tim = "master_toas_exp.tim"
+    toas = np.genfromtxt(tim, skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv("master_file_exp.par", sep="\s+", names=cols)
@@ -472,7 +474,7 @@ def diff_plot_recovery():
     const = 1.0991
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -485,7 +487,7 @@ def diff_plot_recovery():
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -495,7 +497,7 @@ def diff_plot_recovery():
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
