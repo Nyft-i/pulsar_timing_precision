@@ -185,18 +185,23 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     all_results = all_results.astype('float64')
     
     
-    avg_f0 = np.mean(all_results[:,1])
-    avg_f1 = np.mean(all_results[:,3])  
-    # convoluted code returning average results and their errors
-    avg_results = np.array([avg_f0,
-                            np.std(all_results[:,1]),
-                            avg_f1,
-                            np.std(all_results[:,3])])
     
     # Used this following line for quadrature error calculation but it didnt work
     # np.sqrt((np.std(all_results[:,1])/avg_f0)**2 + (np.mean(all_results[:,2]/avg_f0))**2),
                             
+    return all_results
+
+def results_averager(results):
+    avg_f0 = np.mean(results[:,1])
+    avg_f1 = np.mean(results[:,3])  
+    # convoluted code returning average results and their errors
+    avg_results = np.array([avg_f0,
+                            np.std(results[:,1]),
+                            avg_f1,
+                            np.std(results[:,3])])
+    
     return avg_results
+    
     
 def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
     # A quick algorithm to find a constant with a given number of toas
@@ -317,37 +322,37 @@ def diff_plot():
 
     print(master_traits)
     
+    iters = 25
+    args = (0.5, 0, 20)
     
-    args = (0.5, 0, 20, 1.0991)
-    print("numtoas of log", tim_sampling.sample_from_toas(toas, 'logarithmic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="logarithmic")
-    #plt.errorbar(num_off[0,0]-actual[0], num_off[0,2]-actual[1], xerr=num_off[0,1], yerr=num_off[0,3], fmt='x', label="logarithmic")
+    seq = 'logarithmic'
+    const = 1.0991
+    passed_args = args[0], args[1], args[2], const
+    print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
+    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
     
-    args = (0.5, 0, 20, 1.6394)
-    print("numtoas of geo", tim_sampling.sample_from_toas(toas, 'geometric', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="geometric")
-    #plt.errorbar(num_off[1,0]-actual[0], num_off[1,2]-actual[1], xerr=num_off[1,1], yerr=num_off[1,3], fmt='x', label="geometric")
+    seq = 'geometric'
+    const = 1.6394
+    passed_args = args[0], args[1], args[2], const
+    print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
+    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
     
-    #args = (0.5, 0, 20, 2.3744)
-    #print("numtoas of arith", tim_sampling.sample_from_toas(toas, 'arithmetic', args, counting_mode=True)[1])
-    #results = single_simulate(toas, 'arithmetic', (0.5, 0, 20), 1.6394, num_sps=100)
-    #plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="arithmetic")
-    
-    args = (0.5, 0, 20, 5)
-    print("numtoas of periodic", tim_sampling.sample_from_toas(toas, 'periodic', args, counting_mode=True)[1])
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5, num_sps=25)
-    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label="periodic")
-    #plt.errorbar(num_off[2,0]-actual[0], num_off[2,2]-actual[1], xerr=num_off[2,1], yerr=num_off[2,3], fmt='x', label="periodic")
+    seq = 'periodic'
+    const = 5
+    passed_args = args[0], args[1], args[2], const
+    print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
+    results = results_averager(single_simulate(toas, seq, args, const, num_sps=iters))
+    plt.errorbar(results[0]-master_traits[0], results[2]-master_traits[1], xerr=results[1], yerr=results[3], fmt='x', label=seq, s=results[4])
     
     plt.scatter(0, 0, c='r', label="real parameters")
     
     plt.xlabel(r'$\Delta \Delta \nu$')
     plt.ylabel(r'$\Delta \Delta \dot \nu$')
-    plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values')
+    plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/avg_test.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/avg3d.png", dpi=400, bbox_inches="tight")
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
@@ -388,6 +393,8 @@ def histogram_plot():
 
     
 def main():
+    diff_plot()
+    
     return
 
 if __name__ == "__main__":
