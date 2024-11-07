@@ -58,17 +58,17 @@ def epoch_finder(par, tim, master_traits):
     #finds estimation of glitch epoch
     while counter <= len(residuals):
         difference = np.abs(residuals[counter,1] - residuals[(counter -1),1])
-        print("hello")
-        print(counter, difference)
-        if difference > 15.51 * error:
-            print(residuals[counter,0])
-            print(residuals[counter-1,0])
+        #print("hello")
+        #print(counter, difference)
+        if difference > 30 * error:
+            #print(residuals[counter,0])
+            #print(residuals[counter-1,0])
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
-            plt.scatter(residuals[:,0], residuals[:,1])
-            plt.axvline(change, color = "pink")
-            plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
-            plt.clf()
+            #plt.scatter(residuals[:,0], residuals[:,1])
+            #plt.axvline(change, color = "pink")
+            #plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
+            #plt.clf()
             print(mid_point)
             break 
             
@@ -365,7 +365,7 @@ def diff_plot():
     toas = np.genfromtxt("master_toas_exp.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
-    master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
+    master_properties = pandas.read_csv("master_file_exp.par", sep="\s+", names=cols)
     master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
@@ -374,7 +374,7 @@ def diff_plot():
 
     print(master_traits)
     
-    iters = 1
+    iters = 25
     args = (0.5, 0, 20)
     
     seq = 'logarithmic'
@@ -385,7 +385,7 @@ def diff_plot():
     results = results_averager(all_results)
     plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*100, zorder=10)
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
-    """
+    
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
@@ -405,7 +405,7 @@ def diff_plot():
     plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
-    """
+    
     plt.xlabel(r'distance from true $\Delta \nu$')
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
