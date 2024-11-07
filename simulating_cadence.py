@@ -87,8 +87,8 @@ def run_fit(par, tim, recovery_mode = False):
         "-fit", "GLF1_1",
         #"-fit", "GLPH_1",
         "-fit", "F1",
-        "-fit", "F0",
-        "-noWarnings",">&","/dev/null"
+        "-fit", "F0"
+        #"-noWarnings",">&","/dev/null"
         ]
     
     if recovery_mode == True :
