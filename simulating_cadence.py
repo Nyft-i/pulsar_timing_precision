@@ -186,8 +186,6 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
         par, tim = "master_noglitch_exp.par", temp_tim
-        editting_par(par, 0, "GLF0_1")
-        editting_par(par, 0, "GLF1_1")
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
@@ -219,6 +217,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD
             all_results = np.vstack((all_results, results))
+            editting_par(par, 0, "GLF0_1")
+            editting_par(par, 0, "GLF1_1")
             
         print(str(number+1) + ".", end="")
         sys.stdout.flush()
