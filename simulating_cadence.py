@@ -82,7 +82,7 @@ def editting_par_glitch(parfile,GLF0,GLF1):
     #reads in old par file
     lines = np.genfromtxt(parfile, delimiter="no-delim", dtype=str)
     for line in lines :
-        if "GLF0_1" and "GLF1_1" not in line :
+        if "GLF0_1" or "GLF1_1" not in line :
             new_line = np.append(new_line,line) 
         
     new_line = np.append(new_line,"GLF0_1          " + str(GLF0))  
@@ -187,6 +187,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
+        print(new_GLEP)
         editting_par_GLEP(par, new_GLEP)
         
         # run tempo2
