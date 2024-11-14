@@ -190,6 +190,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
+        if (epoch_finding_mode == True): return new_GLEP
         print(new_GLEP)
         editting_par(par, new_GLEP)
         
@@ -440,19 +441,19 @@ def histogram_plot():
     #args = (0.5, 0, 20, 1.0991)
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[0].hist(results, bins=30, range = [59999.9,60001])
+    axs[0].hist(results, bins=30)
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
     results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[1].hist(results, bins=30, range = [59999.9,60001])
+    axs[1].hist(results, bins=30)
     axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[2].hist(results, bins=30, range = [59999.9,60001])
+    axs[2].hist(results, bins=30)
     axs[2].set_xlabel("epoch (MJD)")
     axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
@@ -525,7 +526,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot()
+    histogram_plot()
 
     
     return
