@@ -443,13 +443,13 @@ def histogram_plot():
     
     results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[1].hist(results, bins=30)
+    axs[1].hist(results, bins=30, range = [59999.9,60001])
     axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[2].hist(results, bins=30)
+    axs[2].hist(results, bins=30, range = [59999.9,60001])
     axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
     
