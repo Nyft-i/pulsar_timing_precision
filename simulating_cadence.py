@@ -420,8 +420,11 @@ def diff_plot():
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/other_way_glitch.png", dpi=400, bbox_inches="tight")
-    
+    #set datetime in a format that can be used for saving the file
+    datetime = time.strftime("%Y-%m-%d-%H:%M")
+    plt.savefig("figures/diff_plot-"+datetime+".png", dpi=400, bbox_inches="tight")
+    plt.xlim(-0.5e-10, 0.5e-10)
+    plt.savefig("figures/diff_plot_zoomed-"+datetime+".png", dpi=400, bbox_inches="tight")
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
     
