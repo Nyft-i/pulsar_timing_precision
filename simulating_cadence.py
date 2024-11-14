@@ -203,7 +203,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = True)
+            traits = run_fit(par, tim, no_phase_fit= True, recovery_mode = True)
             print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
