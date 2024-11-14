@@ -151,7 +151,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-    
+    print(master_traits)
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
@@ -185,9 +185,9 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # run tempo2
         traits = run_fit(par, tim)
-        #print(traits)
-        #editting_par(par, traits[0], "GLF0_1")
-        #editting_par(par, traits[2], "GLF1_1")
+        print(traits)
+        editting_par(par, traits[0], "GLF0_1")
+        editting_par(par, traits[2], "GLF1_1")
         
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
