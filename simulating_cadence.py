@@ -16,7 +16,6 @@ import time
 
 def compare_to_master(traits, master_traits):
     # f0 % diff
-
     
     #print("calcing f0...", traits[0], master_traits[0])
     perc_f0 = (float(traits[0]) - master_traits[0])*100/master_traits[0] 
@@ -25,7 +24,6 @@ def compare_to_master(traits, master_traits):
     #print(perc_f0_e)
     perc_f1 = (float(traits[2]) - master_traits[1])*100/master_traits[1] 
     perc_f1_e = float(traits[3])/float(traits[2]) * perc_f1
-
     ph = float(traits[4])
     
     #print(perc_f0, perc_f0_e, perc_f1, perc_f1_e, ph)
@@ -55,13 +53,14 @@ def epoch_finder(par, tim, master_traits):
     counter = 1
     error = 0.0001
     #finds estimation of glitch epoch
-    while counter <= len(residuals):
+    while counter < len(residuals):
         difference = np.abs(residuals[counter,1] - residuals[(counter -1),1])
-        if difference > 15.51 * error:
+        if difference > 70 * error:
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
             #plt.scatter(residuals[:,0], residuals[:,1])
             #plt.axvline(change, color = "pink")
+            #plt.show()
             #plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
             #plt.clf()
             break 
@@ -82,7 +81,7 @@ def editting_par(parfile, param, g_property="GLEP_1"):
     new_line = np.append(new_line,g_property + " " + str(param))    
 
     #saves it over the old par file
-    np.savetxt(parfile, new_line, fmt="%s")    
+    np.savetxt(parfile, new_line, fmt="%s")      
 
 def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     command = [
@@ -118,37 +117,39 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
+    
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e = 0,0,0,0,0,0,0,0,0,0,0
+    
     for this_field in all_fields:
         fields = this_field.split()
         #print(fields)
         if len(fields) > 2.0:
-            if fields[0] == "GLF0_1":
+            if fields[0] == "GLF0_1" and f0 == 0:
                 f0 = fields[2]
                 f0_e = fields[3]
-            if fields[0] == "GLF1_1":
+            if fields[0] == "GLF1_1" and f1 == 0:
                 f1 = fields[2]
                 f1_e = fields[3]
-            if fields[0] == "GLPH_1":
+            if fields[0] == "GLPH_1" and ph == 0:
                 ph = fields[2]
             if fields[0] == "MJD":
                 epochs = fields[7], fields[9]
                 epoch_e = fields[12]
-            if fields[0] == "GLF0D_1":
+            if fields[0] == "GLF0D_1" and recovered_F0 == 0:
                 recovered_F0 = fields[2]
                 recovered_F0_e = fields[3]
-            if fields[0] == "GLTD_1":
+            if fields[0] == "GLTD_1" and recovered_timescale ==0:
                 recovered_timescale = fields[2]
                 recovered_timescale_e = fields[3]
-
             
     try:
         if recovery_mode == True:
             return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e
         
-        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0
     except UnboundLocalError:
         return None
-    
+ 
 def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
@@ -184,7 +185,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         #print(indexes)
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
-        par, tim = "master_noglitch_exp.par", temp_tim
+        par, tim = "master_file_noglitch.par", temp_tim
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
@@ -193,14 +194,15 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # run tempo2
         traits = run_fit(par, tim)
-        editting_par(par, traits[0], "GLF0_1")
-        editting_par(par, traits[2], "GLF1_1")
+        print(traits)
+        #editting_par(par, traits[0], "GLF0_1")
+        #editting_par(par, traits[2], "GLF1_1")
         
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
         closest_MJD = epochs[closest_MJD_index]
         all_epochs = np.append(all_epochs, closest_MJD)
-        size = np.abs(closest_MJD - master_traits[4])
+        size = np.abs(new_GLEP - master_traits[4])
         #print(closest_MJD)
         
         if (epoch_finding_mode == False):    
@@ -208,15 +210,16 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim, no_phase_fit=True, recovery_mode = True)
-            print(traits)
+            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = False)
+            #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10]
             all_results = np.vstack((all_results, results))
-            editting_par(par, 0, "GLF0_1")
-            editting_par(par, 0, "GLF1_1")
-            editting_par(par, 0)
+        
+        editting_par(par, 2e-07, "GLF0_1")
+        editting_par(par, -9e-15, "GLF1_1")
+        editting_par(par, 0)
             
         print(str(number+1) + ".", end="")
         sys.stdout.flush()
@@ -274,7 +277,6 @@ def constant_finder():
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
-
     fig.suptitle("average days between observations for a given constant and strategy")
     fig.supylabel("average days between observations", y=0.5, x=0.1)
 
@@ -354,16 +356,18 @@ def constant_finder():
 def diff_plot():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
-    toas = np.genfromtxt("master_toas_exp.tim", skip_header=1, usecols=[2])
+    par = "master_file.par"
+    tim = "master_toas.tim"
+    
+    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
-    master_properties = pandas.read_csv("master_file_exp.par", sep="\s+", names=cols)
+    master_properties = pandas.read_csv("master_file.par", sep="\s+", names=cols)
     master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-
     print(master_traits)
     
     iters = 25
@@ -373,11 +377,14 @@ def diff_plot():
     const = 1.0991
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
+    
+    #plotting average results 
+    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "darkblue")
     
     # timescale on x and recovery df0
     
@@ -386,19 +393,23 @@ def diff_plot():
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")
+    
+    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "goldenrod")
     
     seq = 'periodic'
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")
+    
+    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "darkgreen")
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
     
@@ -406,7 +417,7 @@ def diff_plot():
     plt.ylabel(r'distance from true $\Delta \dot \nu$')
     plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/avg3d_nophasefit.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/other_way_glitch.png", dpi=400, bbox_inches="tight")
     
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
@@ -415,7 +426,6 @@ def histogram_plot():
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     numiters = 50
-
     fig = plt.figure(figsize=(6, 10))
     gs = fig.add_gridspec(3, 1, hspace=0)
     axs = gs.subplots(sharex = True)
@@ -424,31 +434,33 @@ def histogram_plot():
     #args = (0.5, 0, 20, 1.0991)
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[0].hist(results, bins=15, range=(59999, 60006))
+    axs[0].hist(results, bins=15, range=(59999.985, 60000.015))
     axs[0].set_xlabel("epoch (MJD)")
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
     results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[1].hist(results, bins=15, range=(59999, 60006))
+    axs[1].hist(results, bins=15, range=(59999.985, 60000.015))
     axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[2].hist(results, bins=15, range=(59999, 60006))
+    axs[2].hist(results, bins=15, range=(59999.985, 60000.015))
     axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
     
     fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
-    fig.savefig("figures/epoch_hist_three_sharex.png", dpi=400, bbox_inches="tight")
+    fig.savefig("figures/epoch_hist_.png", dpi=400, bbox_inches="tight")
 
 def diff_plot_recovery():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
-    toas = np.genfromtxt("master_toas_exp.tim", skip_header=1, usecols=[2])
+    par = "master_file_exp.par"
+    tim = "master_toas_exp.tim"
+    toas = np.genfromtxt(tim, skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
     master_properties = pandas.read_csv("master_file_exp.par", sep="\s+", names=cols)
@@ -459,7 +471,6 @@ def diff_plot_recovery():
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLF0D_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLTD_1"]['Value']))
-
     print(master_traits)
     
     iters = 25
@@ -469,7 +480,7 @@ def diff_plot_recovery():
     const = 1.0991
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -482,7 +493,7 @@ def diff_plot_recovery():
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -492,7 +503,7 @@ def diff_plot_recovery():
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -508,7 +519,8 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot_recovery()
+    diff_plot()
+
     
     return
 
