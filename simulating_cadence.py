@@ -191,8 +191,6 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         new_GLEP = epoch_finder(par, tim, master_traits)
         print(new_GLEP)
         editting_par(par, new_GLEP)
-        editting_par(par, 2e-07, "GLF0_1")
-        editting_par(par, -8.4e-15, "GLF1_1")
         
         # run tempo2
         traits = run_fit(par, tim)
