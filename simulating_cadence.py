@@ -519,7 +519,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot()
+    histogram_plot()
 
     
     return
