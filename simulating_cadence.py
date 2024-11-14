@@ -460,7 +460,9 @@ def histogram_plot():
     
     fig.suptitle("distributions of retrieved epochs for each cadence strategy (600 toas, 5d adbo)")
     
-    fig.savefig("figures/epoch_hist_.png", dpi=400, bbox_inches="tight")
+    # datetime
+    datetime = time.strftime("%Y-%m-%d-%H:%M")
+    fig.savefig("figures/epoch_hist"+datetime+".png", dpi=400, bbox_inches="tight")
 
 def diff_plot_recovery():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
