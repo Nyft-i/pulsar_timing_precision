@@ -192,7 +192,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
         closest_MJD = epochs[closest_MJD_index]
         all_epochs = np.append(all_epochs, closest_MJD)
-        size = np.abs(new_GLEP - master_traits[4])
+        size = np.abs(closest_MJD - master_traits[4])
         print("mjd used:",closest_MJD)
         
         if (epoch_finding_mode == False):    
