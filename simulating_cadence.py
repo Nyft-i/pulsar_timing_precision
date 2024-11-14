@@ -373,7 +373,7 @@ def diff_plot():
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
     print(master_traits)
     
-    iters = 25
+    iters = 50
     args = (0.5, 0, 20)
     
     seq = 'logarithmic'
