@@ -437,7 +437,6 @@ def histogram_plot():
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[0].hist(results, bins=30, range = [59999.9,60001])
-    axs[0].set_xlabel("epoch (MJD)")
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
@@ -450,6 +449,7 @@ def histogram_plot():
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[2].hist(results, bins=30, range = [59999.9,60001])
+    axs[2].set_xlabel("epoch (MJD)")
     axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
     
