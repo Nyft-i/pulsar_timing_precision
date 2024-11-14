@@ -427,16 +427,16 @@ def diff_plot():
 def histogram_plot():
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
-    numiters = 50
+    numiters = 100
     fig = plt.figure(figsize=(6, 10))
-    gs = fig.add_gridspec(3, 1, hspace = 0.1)
+    gs = fig.add_gridspec(3, 1, hspace = 0.15)
     axs = gs.subplots(sharex = True)
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[0].hist(results, bins=30)
+    axs[0].hist(results, bins=30, range = [59999.9,60001])
     axs[0].set_xlabel("epoch (MJD)")
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
