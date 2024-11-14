@@ -194,10 +194,10 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         editting_par(par, new_GLEP)
         
         # run tempo2
-        traits = run_fit(par, tim, no_phase_fit=True)
+        traits = run_fit(par, tim)
         #print(traits)
-        #editting_par(par, traits[0], "GLF0_1")
-        #editting_par(par, traits[2], "GLF1_1")
+        editting_par(par, traits[0], "GLF0_1")
+        editting_par(par, traits[2], "GLF1_1")
         
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
