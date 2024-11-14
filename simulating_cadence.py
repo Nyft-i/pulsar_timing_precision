@@ -190,7 +190,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
-        if (epoch_finding_mode == True): return new_GLEP
+        all_epochs = np.append(all_epochs, new_GLEP)        
         print(new_GLEP)
         editting_par(par, new_GLEP)
         
@@ -203,7 +203,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
         closest_MJD = epochs[closest_MJD_index]
-        all_epochs = np.append(all_epochs, closest_MJD)
+        #all_epochs = np.append(all_epochs, closest_MJD)
         size = np.abs(new_GLEP - master_traits[4])
         print("mjd used:",closest_MJD)
         
