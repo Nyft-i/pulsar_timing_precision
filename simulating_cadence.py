@@ -150,7 +150,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     except UnboundLocalError:
         return None
  
-def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
+def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas_2.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
     
@@ -190,7 +190,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
-        all_epochs = np.append(all_epochs, new_GLEP)        
+        #all_epochs = np.append(all_epochs, new_GLEP)        
         print(new_GLEP)
         editting_par(par, new_GLEP)
         
@@ -203,16 +203,16 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         epochs = float(traits[5][0]), float(traits[5][1][:-1])
         closest_MJD_index = (np.abs(epochs - new_GLEP)).argmin()
         closest_MJD = epochs[closest_MJD_index]
-        #all_epochs = np.append(all_epochs, closest_MJD)
+        all_epochs = np.append(all_epochs, closest_MJD)
         size = np.abs(new_GLEP - master_traits[4])
         print("mjd used:",closest_MJD)
         
         if (epoch_finding_mode == False):    
             # run tempo2 again with 0 phase MJD
-            #editting_par(par, closest_MJD)
+            editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            #traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = False)
+            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = False)
             print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
@@ -431,7 +431,7 @@ def diff_plot():
     
 def histogram_plot():
     # Histogram plotter for the retrieved epochs
-    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+    toas = np.genfromtxt("master_toas_2.tim", skip_header=1, usecols=[2])
     numiters = 100
     fig = plt.figure(figsize=(6, 10))
     gs = fig.add_gridspec(3, 1, hspace = 0.15)
