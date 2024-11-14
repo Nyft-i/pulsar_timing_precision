@@ -481,8 +481,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
-    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
     
     # timescale on x and recovery df0
     
@@ -494,8 +494,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
-    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
     
     seq = 'periodic'
     const = 5
@@ -504,8 +504,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
-    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
-    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1)    
+    plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
+    plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")    
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
     
