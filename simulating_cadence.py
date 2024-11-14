@@ -44,29 +44,18 @@ def tempo_nofit(par,tim):
     return np.genfromtxt("residuals.dat")
 
 def epoch_finder(par, tim, master_traits):
-    #runs tempo2 without a fit
-    #print("running tempo not fit")
-    residuals = tempo_nofit(par, tim)
-    # sort the residuals by the mjd
-    residuals = residuals[residuals[:,0].argsort()]
-    #reads tempo2 generated residuals
-    counter = 1
-    error = 0.0001
-    #finds estimation of glitch epoch
-    while counter < len(residuals):
-        difference = np.abs(residuals[counter,1] - residuals[(counter -1),1])
-        if difference > 70 * error:
-            change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
-            mid_point = change + master_traits[3]
-            #plt.scatter(residuals[:,0], residuals[:,1])
-            #plt.axvline(change, color = "pink")
-            #plt.show()
-            #plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
-            #plt.clf()
-            break 
-            
-        else :
-            counter += 1
+    #midpoint code 
+    
+    toas = np.genfromtxt(tim, skip_header=1, usecols=[2])
+    difference = toas - master_traits[3]
+    
+    first_post_i = np.abs(np.where(difference>0, difference, np.inf)).argmin()
+    last_pre_i = np.abs(np.where(difference<0, difference, -np.inf)).argmin()
+    
+    first_post = toas[first_post_i]
+    last_pre = toas[last_pre_i]
+    
+    mid_point = (first_post + last_pre)/2
     
     return mid_point
 
