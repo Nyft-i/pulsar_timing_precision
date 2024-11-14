@@ -100,7 +100,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
         command_rec = ["-fit", "GLF0D_1",
                        "-fit", "GLTD_1"]
         command = np.hstack((command,command_rec))
-        #print(command)
+        print(command)
     
     #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
