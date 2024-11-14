@@ -58,11 +58,11 @@ def epoch_finder(par, tim, master_traits):
         if difference > 70 * error:
             change = ((residuals[counter,0] + residuals[(counter -1),0])/2) 
             mid_point = change + master_traits[3]
-            plt.scatter(residuals[:,0], residuals[:,1])
-            plt.axvline(change, color = "pink")
-            plt.show()
-            plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
-            plt.clf()
+            #plt.scatter(residuals[:,0], residuals[:,1])
+            #plt.axvline(change, color = "pink")
+            #plt.show()
+            #plt.savefig("figures/midpoint_checker.png", dpi=400, bbox_inches="tight")
+            #plt.clf()
             break 
             
         else :
@@ -191,6 +191,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         new_GLEP = epoch_finder(par, tim, master_traits)
         print(new_GLEP)
         editting_par(par, new_GLEP)
+        editting_par(par, 2e-07, "GLF0_1")
+        editting_par(par, -8.4e-15, "GLF1_1")
         
         # run tempo2
         traits = run_fit(par, tim)
@@ -217,8 +219,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10]
             all_results = np.vstack((all_results, results))
         
-        editting_par(par, 2e-07, "GLF0_1")
-        editting_par(par, -8.4e-15, "GLF1_1")
+        editting_par(par, 0, "GLF0_1")
+        editting_par(par, 0, "GLF1_1")
         editting_par(par, 0)
             
         print(str(number+1) + ".", end="")
@@ -425,7 +427,7 @@ def diff_plot():
 def histogram_plot():
     # Histogram plotter for the retrieved epochs
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
-    numiters = 1
+    numiters = 50
     fig = plt.figure(figsize=(6, 10))
     gs = fig.add_gridspec(3, 1, hspace=0)
     axs = gs.subplots(sharex = True)
