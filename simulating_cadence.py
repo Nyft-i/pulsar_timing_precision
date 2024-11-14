@@ -218,7 +218,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             all_results = np.vstack((all_results, results))
         
         editting_par(par, 2e-07, "GLF0_1")
-        editting_par(par, -9e-15, "GLF1_1")
+        editting_par(par, -8.4e-15, "GLF1_1")
         editting_par(par, 0)
             
         print(str(number+1) + ".", end="")
