@@ -182,10 +182,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         editting_par(par, new_GLEP)
         
         # run tempo2
-        traits = (par, tim)
+        traits = run_fit(par, tim)
         print(traits)
-        print(traits[0])
-        print(traits[2])
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
         
