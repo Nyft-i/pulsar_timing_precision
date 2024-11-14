@@ -429,27 +429,27 @@ def histogram_plot():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     numiters = 50
     fig = plt.figure(figsize=(6, 10))
-    gs = fig.add_gridspec(3, 1, hspace=0)
+    gs = fig.add_gridspec(3, 1, hspace = 0.1)
     axs = gs.subplots(sharex = True)
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
     results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[0].hist(results, bins=15, range=(59999.985, 60000.015))
+    axs[0].hist(results, bins=30)
     axs[0].set_xlabel("epoch (MJD)")
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
     results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[1].hist(results, bins=15, range=(59999.985, 60000.015))
+    axs[1].hist(results, bins=30)
     axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
     results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
     print(results)
-    axs[2].hist(results, bins=15, range=(59999.985, 60000.015))
+    axs[2].hist(results, bins=30)
     axs[2].set_ylabel("frequency")
     axs[2].set_title("periodic (period = 5.000)")
     
