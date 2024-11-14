@@ -139,7 +139,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     except UnboundLocalError:
         return None
  
-def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", num_sps=1, epoch_finding_mode=False):
+def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", temp_par = "noglitch.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
     
@@ -175,7 +175,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         #print(indexes)
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
         
-        par, tim = "master_file_noglitch.par", temp_tim
+        par, tim = temp_par, temp_tim
         
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
@@ -201,7 +201,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = False)
+            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = True)
             print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
@@ -458,6 +458,7 @@ def diff_plot_recovery():
     
     par = "master_file_exp.par"
     tim = "master_toas_exp.tim"
+    temppar = "noglitch_exp.par"
     toas = np.genfromtxt(tim, skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
@@ -478,7 +479,7 @@ def diff_plot_recovery():
     const = 1.0991
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -491,7 +492,7 @@ def diff_plot_recovery():
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
@@ -501,7 +502,7 @@ def diff_plot_recovery():
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     results = results_averager(all_results)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='black', s=all_results[:,7]*25, zorder=10)
