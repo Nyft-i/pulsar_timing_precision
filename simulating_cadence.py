@@ -110,7 +110,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        #print(fields)
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1" and f0 == 0:
                 f0 = fields[2]
@@ -183,7 +183,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         editting_par(par, new_GLEP)
         
         # run tempo2
-        traits = run_fit(par, tim)
+        traits = (par, tim)
         print(traits)
         print(traits[0])
         print(traits[2])
