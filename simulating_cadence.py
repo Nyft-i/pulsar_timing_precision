@@ -176,6 +176,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
     for number, offset in enumerate(start_randomiser):
         # We need passed args to take the form: cadence_start, offset, maxgap, const
         # const_args: start cadence, start offset, max_gap
+        print("starting pulsar: ",number)
         print("offset: ", offset, end=" ")
         passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
         
@@ -194,7 +195,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         
         # run tempo2
         traits = run_fit(par, tim)
-        print(traits)
+        #print(traits)
         #editting_par(par, traits[0], "GLF0_1")
         #editting_par(par, traits[2], "GLF1_1")
         
@@ -211,6 +212,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
             traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = False)
+            print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
@@ -221,11 +223,12 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         editting_par(par, 0, "GLF1_1")
         editting_par(par, 0)
             
-        print(str(number+1) + ".", end="")
-        sys.stdout.flush()
+        #print(str(number+1) + ".", end="")
+        #sys.stdout.flush()
+        print("finished pulsar ", number)
         
     end_time = time.time()
-    print("]")
+    #print("]")
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
     if (epoch_finding_mode == True): return all_epochs
     
@@ -519,7 +522,7 @@ def diff_plot_recovery():
     
     
 def main():
-    histogram_plot()
+    diff_plot()
 
     
     return
