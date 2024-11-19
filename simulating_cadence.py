@@ -511,12 +511,12 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    #x_err = np.sum(all_results[:,12])/iters
-    #y_err = np.sum(all_results[:,10])/iters
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
-    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "darkblue")
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkblue")
     
     # timescale on x and recovery df0
     
@@ -528,12 +528,12 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    #x_err = np.sum(all_results[:,12])/iters
-    #y_err = np.sum(all_results[:,10])/iters
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
-    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
     
     seq = 'periodic'
     const = 5
@@ -542,13 +542,13 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    #x_err = np.sum(all_results[:,12])/iters
-    #y_err = np.sum(all_results[:,10])/iters
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")    
-    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
     
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
