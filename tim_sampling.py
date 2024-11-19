@@ -7,6 +7,8 @@ def find_sequence_period_info(sequence_type, args):
         cadence_start, marker_offset, max_gap, log_const = args
     elif sequence_type == 'arithmetic':
         cadence_start, marker_offset, max_gap, sequential_increase = args
+    elif sequence_type == 'exponential':
+        cadence_start, marker_offset, max_gap, exp_increase = args
     elif sequence_type == 'geometric':
         cadence_start, marker_offset, max_gap, multiplicative_increase = args
     elif sequence_type == 'periodic':
@@ -24,6 +26,7 @@ def find_sequence_period_info(sequence_type, args):
         num_toas += 1
         if sequence_type=='logarithmic': cadence = (np.log(1/10 * cadence + 1) * log_const) 
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
+        elif sequence_type=='exponential': cadence = np.power(cadence,exp_increase)
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
         
