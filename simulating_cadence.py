@@ -268,13 +268,13 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 5
+    desired_abdo = 10
     fig = plt.figure(figsize=(20, 4))
     gs = fig.add_gridspec(1, 5, wspace=0)
     axs = gs.subplots(sharey=True)
     fig.suptitle("average days between observations for a given constant and strategy")
     fig.supylabel("average days between observations (AC) ", y=0.5, x=0.09)
-    
+
 
     # Logarithmic
     adbos = np.empty((0,1))
@@ -539,8 +539,8 @@ def diff_plot_recovery():
     all_results_geo = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_geo[:,9]) - master_traits[5]
-    x_err = np.std(all_results_log[:,11])
-    y_err = np.std(all_results_log[:,9])
+    x_err = np.std(all_results_geo[:,11])
+    y_err = np.std(all_results_geo[:,9])
     
     results_geo = results_averager(all_results_geo)
     
@@ -558,8 +558,8 @@ def diff_plot_recovery():
     all_results_per = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_per[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_per[:,9]) - master_traits[5]
-    x_err = np.std(all_results_log[:,11])
-    y_err = np.std(all_results_log[:,9])
+    x_err = np.std(all_results_per[:,11])
+    y_err = np.std(all_results_per[:,9])
     
     results_per = results_averager(all_results_per)
     
@@ -614,7 +614,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot_recovery()
+    constant_finder()
 
     
     return
