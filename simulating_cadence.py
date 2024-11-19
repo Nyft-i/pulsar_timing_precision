@@ -484,9 +484,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
-    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
-    
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
@@ -502,8 +501,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
-    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
@@ -516,8 +515,8 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
-    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
+    x_err = np.sum(all_results[:,12])/iters
+    y_err = np.sum(all_results[:,10])/iters
     
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
