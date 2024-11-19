@@ -22,7 +22,7 @@ def find_sequence_period_info(sequence_type, args):
     while cadence <= max_gap:
         total_time += cadence
         num_toas += 1
-        if sequence_type=='logarithmic': cadence = (np.log(cadence) + log_const)
+        if sequence_type=='logarithmic': cadence = (np.log(cadence + 0.5) * log_const) + 0.5
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
@@ -78,7 +78,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
                 edit_toas[closest_index] = float("inf")
                 cadence_list = np.append(cadence_list, cadence)
         
-        if sequence_type=='logarithmic': cadence = (np.log(cadence) + log_const)
+        if sequence_type=='logarithmic': cadence = (np.log(cadence + 0.5) * log_const) + 0.5
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
