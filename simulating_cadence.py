@@ -268,7 +268,7 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 7.5
+    desired_abdo = 5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -535,7 +535,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot_recovery()
+    constant_finder()
 
     
     return
