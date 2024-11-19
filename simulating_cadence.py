@@ -482,10 +482,15 @@ def diff_plot_recovery():
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    results = results_averager(all_results)
+    x_avg = np.mean(all_results[:,11]) - master_traits[6]
+    y_avg = np.mean(all_results[:,9]) - master_traits[5]
+    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
+    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
+    
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkblue")
     
     # timescale on x and recovery df0
     
@@ -495,20 +500,30 @@ def diff_plot_recovery():
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    results = results_averager(all_results)
+    x_avg = np.mean(all_results[:,11]) - master_traits[6]
+    y_avg = np.mean(all_results[:,9]) - master_traits[5]
+    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
+    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
     
     seq = 'periodic'
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    results = results_averager(all_results)
+    x_avg = np.mean(all_results[:,11]) - master_traits[6]
+    y_avg = np.mean(all_results[:,9]) - master_traits[5]
+    x_err = np.sqrt((np.std(all_results[:,11])/x_avg)**2 + (np.mean(all_results[:,12])/x_avg)**2)
+    y_err = np.sqrt((np.std(all_results[:,9])/y_avg)**2 + (np.mean(all_results[:,10])/y_avg)**2)
+    
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")    
+    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
+    
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
     
