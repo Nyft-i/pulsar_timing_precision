@@ -614,7 +614,7 @@ def diff_plot_recovery():
     
     
 def main():
-    constant_finder()
+    diff_plot_recovery()
 
     
     return
