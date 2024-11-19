@@ -78,7 +78,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
                 edit_toas[closest_index] = float("inf")
                 cadence_list = np.append(cadence_list, cadence)
         
-        if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
+        if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) * log_const)
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
