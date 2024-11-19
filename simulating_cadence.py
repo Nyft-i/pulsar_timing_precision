@@ -531,7 +531,7 @@ def diff_plot_recovery():
     plt.xlabel(r'distance from true $\tau_r$')
     plt.title(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values', x=0.5, y=1.05)
     plt.legend()
-    plt.savefig("figures/recovery_params_3d.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
     
 def main():
