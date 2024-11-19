@@ -50,6 +50,8 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         cadence_start, marker_offset, max_gap, log_const = args
     elif sequence_type == 'arithmetic':
         cadence_start, marker_offset, max_gap, sequential_increase = args
+    elif sequence_type == 'exponential':
+        cadence_start, marker_offset, max_gap, exp_increase = args
     elif sequence_type == 'geometric':
         cadence_start, marker_offset, max_gap, multiplicative_increase = args
     elif sequence_type == 'periodic':
@@ -83,6 +85,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         
         if sequence_type=='logarithmic': cadence = (np.log(1/10 * cadence + 1) * log_const) 
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
+        elif sequence_type=='exponential': cadence = np.power(cadence,exp_increase)
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
         
@@ -125,6 +128,9 @@ def main():
     elif sequence_type == 'geometric':
         multiplicative_increase = float(input("Enter the multiplicative increase: "))
         args = [cadence_start, marker_offset, max_gap, multiplicative_increase]
+    elif sequence_type == 'exponetial':
+        exp_increase = float(input("Enter the exponential increase: "))
+        args = [cadence_start, marker_offset, max_gap, exp_increase]
     elif sequence_type == 'periodic':
         period = float(input("Enter the period: "))
         args = [cadence_start, marker_offset, max_gap, period]
