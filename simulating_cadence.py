@@ -519,8 +519,8 @@ def diff_plot_recovery():
     all_results_log = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_log[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_log[:,9]) - master_traits[5]
-    x_err = np.sum(all_results_log[:,12])/iters
-    y_err = np.sum(all_results_log[:,10])/iters
+    x_err = np.std(all_results_log[:,11])
+    y_err = np.std(all_results_log[:,9])
     
     results_log = results_averager(all_results_log)
     
@@ -539,8 +539,8 @@ def diff_plot_recovery():
     all_results_geo = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_geo[:,9]) - master_traits[5]
-    x_err = np.sum(all_results_geo[:,12])/iters
-    y_err = np.sum(all_results_geo[:,10])/iters
+    x_err = np.std(all_results_log[:,11])
+    y_err = np.std(all_results_log[:,9])
     
     results_geo = results_averager(all_results_geo)
     
@@ -558,8 +558,8 @@ def diff_plot_recovery():
     all_results_per = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_per[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_per[:,9]) - master_traits[5]
-    x_err = np.sum(all_results_per[:,12])/iters
-    y_err = np.sum(all_results_per[:,10])/iters
+    x_err = np.std(all_results_log[:,11])
+    y_err = np.std(all_results_log[:,9])
     
     results_per = results_averager(all_results_per)
     
