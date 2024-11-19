@@ -269,8 +269,8 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
     desired_abdo = 10
-    fig = plt.figure(figsize=(20, 4))
-    gs = fig.add_gridspec(1, 5, wspace=0)
+    fig = plt.figure(figsize=(16, 4))
+    gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
     fig.suptitle("average days between observations for a given constant and strategy")
     fig.supylabel("average days between observations (AC) ", y=0.5, x=0.09)
@@ -278,39 +278,41 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(19, 68, 1000)
+    constants = np.linspace(22.5, 68, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (0.5, 0, 30, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[0].plot(x, y)
-    axs[0].hlines(desired_abdo, 18.9, 68.1, color = "pink", linestyles = "dashdot")
+    axs[0].hlines(5, 18.9, 68.1, color = "deeppink", linestyles = "dashdot")
+    axs[0].hlines(10, 18.9, 68.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
     axs[0].set_xlim(18.9, 68.1)
-    axs[0].set_ylim(0.4, 14)
+    axs[0].set_ylim(0.4, 20)
     print("log consts where adbo is 5")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
         
     # Arithmetic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 4, 1000)
+    constants = np.linspace(0.5, 19, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (0.5, 0, 30, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[1].plot(x, y)
-    axs[1].hlines(desired_abdo, 0.4, 4.1, color = "pink", linestyles = "dashdot")
+    axs[1].hlines(5, 0.4, 19.1, color = "deeppink", linestyles = "dashdot")
+    axs[1].hlines(10, 0.4, 19.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
-    axs[1].set_xlim(0.4, 4.1)
+    axs[1].set_xlim(0.4, 19.1)
     print("arith consts where adbo is 5")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
@@ -319,14 +321,15 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (0.5, 0, 30, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[2].plot(x, y)
-    axs[2].hlines(desired_abdo, 1.01, 6.1, color = "pink", linestyles = "dashdot")
+    axs[2].hlines(5, 0.4, 6.1, color = "deeppink", linestyles = "dashdot")
+    axs[2].hlines(10, 0.4, 6.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[2].set_xlabel("multiplicative increase")
     axs[2].set_title("geometric")
     axs[2].set_xlim(0.4, 6.1)
@@ -336,7 +339,7 @@ def constant_finder():
     
     # periodic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 20, 1000)
+    constants = np.linspace(0.5, 30, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
@@ -345,7 +348,8 @@ def constant_finder():
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[3].plot(x, y)
-    axs[3].hlines(desired_abdo, 0.4, 20.1, color = "pink", linestyles = "dashdot")
+    axs[3].hlines(5, 0.4, 20.1, color = "deeppink", linestyles = "dashdot")
+    axs[3].hlines(10, 0.4, 20.1, color = "purple", linestyles = "dashdot", alpha = 0.9)
     axs[3].set_xlabel("period (days)")
     axs[3].set_title("periodic")
     axs[3].set_xlim(0.4, 20.1)
@@ -353,24 +357,6 @@ def constant_finder():
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
-    # Exponential
-    adbos = np.empty((0,1))
-    constants = np.linspace(1.2, 3, 1000)
-    for constant in constants:
-        args = (1.01, 0, 20, constant)
-        adbos = np.append(adbos, tim_sampling.fadbo('exponential', args))
-        
-    pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
-    x = np.insert(constants, pos, np.nan)
-    y = np.insert(adbos, pos, np.nan)    
-    axs[4].plot(x, y)
-    axs[4].hlines(desired_abdo, 0.9, 1.6, color = "pink", linestyles = "dashdot")
-    axs[4].set_xlabel("exponential increase")
-    axs[4].set_title("exponential")
-    axs[4].set_xlim(0.9, 1.6)
-    print("arith consts where adbo is 5")
-    item = np.where(np.abs(y - desired_abdo) < 0.01,)
-    print(x[item])
     
     #datetime = time.strftime("%Y-%m-%d-%H:%M")
     #fig.savefig("figures/AC"+datetime+".png", dpi=400, bbox_inches="tight")
@@ -638,7 +624,7 @@ def diff_plot_recovery():
     
     
 def main():
-    diff_plot_recovery()
+    constant_finder()
 
     
     return
