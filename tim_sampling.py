@@ -93,7 +93,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
         num_toas += 1
-        #if verbose: time.sleep(0.5)
+        time.sleep(0.5)
                 
     return indexes, num_toas
 
