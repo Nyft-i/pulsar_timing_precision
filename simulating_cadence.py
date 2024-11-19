@@ -355,10 +355,9 @@ def constant_finder():
     
     # Exponential
     adbos = np.empty((0,1))
-    constants = np.linspace(1.2, 1.5, 1000)
+    constants = np.linspace(1.2, 3, 1000)
     for constant in constants:
-        print(constant)
-        args = (0.5, 0, 20, constant)
+        args = (1.01, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('exponential', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -373,8 +372,8 @@ def constant_finder():
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
-    datetime = time.strftime("%Y-%m-%d-%H:%M")
-    fig.savefig("figures/AC"+datetime+".png", dpi=400, bbox_inches="tight")
+    #datetime = time.strftime("%Y-%m-%d-%H:%M")
+    #fig.savefig("figures/AC"+datetime+".png", dpi=400, bbox_inches="tight")
     
 def diff_plot():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
@@ -397,7 +396,7 @@ def diff_plot():
     args = (0.5, 0, 20)
     
     seq = 'logarithmic'
-    const = 1.0991
+    const = 25.7197
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
@@ -458,7 +457,7 @@ def histogram_plot():
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 1.0991, num_sps=numiters, epoch_finding_mode=True)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 25.7197, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[0].hist(results, bins=30)
     axs[0].set_ylabel("frequency")
@@ -512,12 +511,12 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sum(all_results[:,12])/iters
-    y_err = np.sum(all_results[:,10])/iters
+    #x_err = np.sum(all_results[:,12])/iters
+    #y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
-    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkblue")
+    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "darkblue")
     
     # timescale on x and recovery df0
     
@@ -529,12 +528,12 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sum(all_results[:,12])/iters
-    y_err = np.sum(all_results[:,10])/iters
+    #x_err = np.sum(all_results[:,12])/iters
+    #y_err = np.sum(all_results[:,10])/iters
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
-    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
+    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
     
     seq = 'periodic'
     const = 5
@@ -543,13 +542,13 @@ def diff_plot_recovery():
     all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results[:,11]) - master_traits[6]
     y_avg = np.mean(all_results[:,9]) - master_traits[5]
-    x_err = np.sum(all_results[:,12])/iters
-    y_err = np.sum(all_results[:,10])/iters
+    #x_err = np.sum(all_results[:,12])/iters
+    #y_err = np.sum(all_results[:,10])/iters
     
     # df0 and df1
     plt.scatter(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
     plt.errorbar(all_results[:,11]-master_traits[6], all_results[:,9]-master_traits[5], xerr=all_results[:,12], yerr=all_results[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")    
-    plt.errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
+    plt.errorbar(x_avg, y_avg, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
     
     
     plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
@@ -562,7 +561,7 @@ def diff_plot_recovery():
     
     
 def main():
-    constant_finder()
+    diff_plot_recovery()
 
     
     return
