@@ -506,10 +506,10 @@ def diff_plot_recovery():
     
     fig = plt.figure(figsize=(9, 3))
     gs = fig.add_gridspec(1, 3, wspace = 0)
-    axs = gs.subplots(sharex = True)
+    axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values', x=0.5, y=1.05)
-    fig.supylabel(r'distance from true recovery portion of $\Delta \nu$', y=0.5, x=0.09)
+    fig.supylabel(r'distance from true recovery portion of $\Delta \nu$', y=0.49, x=0.08)
     fig.supxlabel(r'distance from true $\tau_r$')
     
     seq = 'logarithmic'
@@ -529,9 +529,9 @@ def diff_plot_recovery():
     axs[0].errorbar(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], xerr=all_results_log[:,12], yerr=all_results_log[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
     axs[0].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkblue")
     
-    # timescale on x and recovery df0
+    axs[0].set_title("logarithmic")
     
-    
+    # timescale on x and recovery 
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
@@ -548,6 +548,8 @@ def diff_plot_recovery():
     axs[1].scatter(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5], xerr=all_results_geo[:,12], yerr=all_results_geo[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")    
     axs[1].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "goldenrod")
+    
+    axs[1].set_title("geometric")
     
     seq = 'periodic'
     const = 5
@@ -566,23 +568,23 @@ def diff_plot_recovery():
     axs[2].errorbar(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5], xerr=all_results_per[:,12], yerr=all_results_per[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")    
     axs[2].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkgreen")
     
+    axs[2].set_title("periodic")
+    
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
-    
-    plt.xlabel(r'distance from true $\tau_r$')
-    plt.legend()
-    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
     
     plt.clf()
     
     fig = plt.figure(figsize=(9, 3))
     gs = fig.add_gridspec(1, 3, wspace = 0)
-    axs = gs.subplots(sharex = True)
+    axs = gs.subplots(sharey = True, sharex = True)
     
-    fig.suptitle("")
-    fig.supylabel("", y=0.5, x=0.09)
+    fig.suptitle(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
+    fig.supylabel(r'distance from true $\Delta \dot \nu$', y=0.49, x=0.08)
+    fig.supxlabel(r'distance from true $\Delta \nu$')
     
     axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
@@ -600,10 +602,6 @@ def diff_plot_recovery():
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
-    plt.xlabel(r'distance from true $\Delta \nu$')
-    plt.ylabel(r'distance from true $\Delta \dot \nu$')
-    plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
-    plt.legend()
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
     
