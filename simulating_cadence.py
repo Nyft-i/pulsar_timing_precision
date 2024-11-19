@@ -277,7 +277,7 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(15.2, 50, 1000)
+    constants = np.linspace(42, 500, 1000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
@@ -288,7 +288,7 @@ def constant_finder():
     axs[0].plot(x, y)
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
-    axs[0].set_xlim(15, 50)
+    axs[0].set_xlim(42, 500)
     axs[0].set_ylim(0.4, 14)
     print("log consts where adbo is 5")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
