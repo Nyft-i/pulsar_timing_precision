@@ -504,8 +504,8 @@ def diff_plot_recovery():
     iters = 25
     args = (0.5, 0, 20)
     
-    fig = plt.figure(figsize=(10, 5))
-    gs = fig.add_gridspec(1, 2, wspace = 0)
+    fig = plt.figure(figsize=(9, 3))
+    gs = fig.add_gridspec(1, 3, wspace = 0)
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values', x=0.5, y=1.05)
@@ -599,8 +599,8 @@ def diff_plot_recovery():
     
     plt.clf()
     
-    fig = plt.figure(figsize=(10, 5))
-    gs = fig.add_gridspec(1, 2, wspace = 0)
+    fig = plt.figure(figsize=(9, 3))
+    gs = fig.add_gridspec(1, 3, wspace = 0)
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
