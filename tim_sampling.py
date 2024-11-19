@@ -22,7 +22,7 @@ def find_sequence_period_info(sequence_type, args):
     while cadence <= max_gap:
         total_time += cadence
         num_toas += 1
-        if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence) + log_const)
+        if sequence_type=='logarithmic': cadence = np.exp(np.log(cadence)*log_const)
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
         elif sequence_type=='periodic': cadence = period
