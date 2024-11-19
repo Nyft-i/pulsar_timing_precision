@@ -509,8 +509,8 @@ def diff_plot_recovery():
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values', x=0.5, y=1.05)
-    fig.supylabel(r'distance from true recovery portion of $\Delta \nu$', y=0.48, x=0.08)
-    fig.supxlabel(r'distance from true $\tau_r$', y = 0.06)
+    fig.supylabel(r'distance from true recovery portion of $\Delta \nu$', y=0.47, x=0.08)
+    fig.supxlabel(r'distance from true $\tau_r$', y = 0.02)
     
     seq = 'logarithmic'
     const = 25.7197
@@ -585,8 +585,8 @@ def diff_plot_recovery():
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
-    fig.supylabel(r'distance from true $\Delta \dot \nu$', y=0.48, x=0.08)
-    fig.supxlabel(r'distance from true $\Delta \nu$', y = 0.06)
+    fig.supylabel(r'distance from true $\Delta \dot \nu$', y=0.45, x=0.08)
+    fig.supxlabel(r'distance from true $\Delta \nu$', y = 0.02)
     
     axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
@@ -601,7 +601,7 @@ def diff_plot_recovery():
     axs[2].errorbar(results_per[0]-master_traits[0], results_per[2] - master_traits[1], xerr = results_per[1], yerr = results_per[3], zorder = 50, fmt = "x", color = "darkgreen")
     
     axs[0].set_title("logarithmic")
-    axs[2].set_title("geometric")
+    axs[1].set_title("geometric")
     axs[2].set_title("periodic")
     
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
