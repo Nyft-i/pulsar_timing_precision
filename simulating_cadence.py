@@ -279,6 +279,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 4, 1000)
     for constant in constants:
+        print(constant)
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
@@ -298,6 +299,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 4, 1000)
     for constant in constants:
+        print(constant)
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
@@ -316,6 +318,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
+        print(constant)
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
@@ -334,6 +337,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 20, 1000)
     for constant in constants:
+        print(constant)
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
         
