@@ -277,7 +277,7 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.1, 4, 1000)
+    constants = np.linspace(0.1, 1.2, 1000)
     for constant in constants:
         print(constant)
         args = (0.5, 0, 20, constant)
