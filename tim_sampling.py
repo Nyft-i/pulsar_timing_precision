@@ -128,7 +128,7 @@ def main():
     elif sequence_type == 'geometric':
         multiplicative_increase = float(input("Enter the multiplicative increase: "))
         args = [cadence_start, marker_offset, max_gap, multiplicative_increase]
-    elif sequence_type == 'exponetial':
+    elif sequence_type == 'exponential':
         exp_increase = float(input("Enter the exponential increase: "))
         args = [cadence_start, marker_offset, max_gap, exp_increase]
     elif sequence_type == 'periodic':
