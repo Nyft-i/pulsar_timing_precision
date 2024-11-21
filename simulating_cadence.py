@@ -385,51 +385,62 @@ def diff_plot():
     const = 25.7197
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
-    results = results_averager(all_results)
-    # df0 and df1
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
-    
-    #plotting average results 
-    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "darkblue")
-    
-    # timescale on x and recovery df0
-    
+    all_results_log = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    results_log = results_averager(all_results_log)
     
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
-    results = results_averager(all_results)
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='orange', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "orange")
-    
-    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "goldenrod")
-    
+    all_results_geo = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    results_geo = results_averager(all_results_geo)
+   
     seq = 'periodic'
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
-    results = results_averager(all_results)
-    plt.scatter(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], facecolors='none', edgecolors='limegreen', s=all_results[:,7]*25, zorder=10, alpha = 0.3)
-    plt.errorbar(all_results[:,1]-master_traits[0], all_results[:,3]-master_traits[1], xerr=all_results[:,2], yerr=all_results[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "limegreen")
+    all_results_per = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    results_per = results_averager(all_results_per)
+
     
-    plt.errorbar(results[0]-master_traits[0], results[2] - master_traits[1], xerr = results[1], yerr = results[3],label = seq, zorder = 50, fmt = "x", color = "darkgreen")
+    fig = plt.figure(figsize=(9, 3))
+    gs = fig.add_gridspec(1, 3, wspace = 0)
+    axs = gs.subplots(sharey = True, sharex = True)
     
-    plt.scatter(0, 0, c='r', label="real parameters", zorder =100)
+    fig.suptitle(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
+    fig.supylabel(r'distance from true $\Delta \dot \nu$', y=0.5, x=0.06)
+    fig.supxlabel(r'distance from true $\Delta \nu$', y = -0.13)
     
-    plt.xlabel(r'distance from true $\Delta \nu$')
-    plt.ylabel(r'distance from true $\Delta \dot \nu$')
-    plt.title(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
-    plt.legend()
+    axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
+    axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "mediumorchid")    
+    axs[0].errorbar(results_log[0]-master_traits[0], results_log[2] - master_traits[1], xerr = results_log[1], yerr = results_log[3],label = seq, zorder = 50, fmt = "x", color = "darkmagenta")
+    
+    #axs[0].scatter(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results_arith[:,7]*25, zorder=10, alpha = 0.3)
+    #axs[0].errorbar(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], xerr=all_results_arith[:,2], yerr=all_results_arith[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
+    #axs[0].errorbar(results_arith[0]-master_traits[0], results_arith[2] - master_traits[1], xerr = results_arith[1], yerr = results_arith[3],label = seq, zorder = 50, fmt = "x", color = "darkblue")
+    
+    axs[2].scatter(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
+    axs[2].errorbar(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], xerr=all_results_geo[:,2], yerr=all_results_geo[:,4], fmt='x', zorder=1, alpha = 0.3, color = "orange")
+    axs[2].errorbar(results_geo[0]-master_traits[0], results_geo[2] - master_traits[1], xerr = results_geo[1], yerr = results_geo[3],zorder = 50, fmt = "x", color = "goldenrod")
+    
+    axs[1].scatter(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
+    axs[1].errorbar(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], xerr=all_results_per[:,2], yerr=all_results_per[:,4], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")
+    axs[1].errorbar(results_per[0]-master_traits[0], results_per[2] - master_traits[1], xerr = results_per[1], yerr = results_per[3], zorder = 50, fmt = "x", color = "darkgreen")
+    
+    axs[0].set_title("logarithmic")
+    #axs[0].set_title("arithmetic")
+    axs[2].set_title("geometric")
+    axs[1].set_title("periodic")
+    
+    axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    
+    axs[2].legend()
+    
     #set datetime in a format that can be used for saving the file
     datetime = time.strftime("%Y-%m-%d-%H:%M")
     plt.savefig("figures/diff_plot-"+datetime+".png", dpi=400, bbox_inches="tight")
-    plt.xlim(-0.5e-10, 0.5e-10)
-    plt.savefig("figures/diff_plot_zoomed-"+datetime+".png", dpi=400, bbox_inches="tight")
     
     #fig.savefig("figures/fadbos.png", dpi=400, bbox_inches="tight")
     
@@ -624,7 +635,7 @@ def diff_plot_recovery():
     
     
 def main():
-    constant_finder()
+    diff_plot()
 
     
     return
