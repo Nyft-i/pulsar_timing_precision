@@ -216,7 +216,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
-            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10]
+            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14]
             all_results = np.vstack((all_results, results))
         
         # clean up at the end also
