@@ -638,7 +638,7 @@ def data_output():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
     seq = "logarithmic"
-    iters = 25
+    iters = 100
     args = (0.5, 0, 20)
     const = 25.7197
     
