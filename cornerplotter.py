@@ -8,7 +8,7 @@ Created on Thu Nov 21 10:05:41 2024
 import numpy as np
 import corner as cn
 
-seq = "logarithmic"
+seq = "geometric"
 
 all_data = np.genfromtxt(seq+"_sim_data.txt", usecols=[1,3,8,13,15])
 
