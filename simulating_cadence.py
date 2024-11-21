@@ -649,7 +649,7 @@ def data_output():
     tim_name = "iteration_toas.tim"
     par_file = "master_file.par"
     tim_iters = 2
-    sub_iters = 300
+    sub_iters = 20
     args = (0.5, 0, 20)
     const = 25.7197
     curr_time = time.strftime("%H:%M")
@@ -672,7 +672,7 @@ def data_output():
         new_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
         os.rename(old_name, new_name)
         print("appended data to file: "+new_name)
-        new_name = old_name
+        old_name = new_name
     
     # note end time
     end_time = time.time()
