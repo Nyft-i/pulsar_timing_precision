@@ -170,7 +170,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     #print("running simulation for "+sequence_type+" sequence type\n[",end="")
     for number, offset in enumerate(start_randomiser):
-        print(number+".",end="")
+        print(str(number)+".",end="")
         # force python console to update
         sys.stdout.flush()
         # We need passed args to take the form: cadence_start, offset, maxgap, const
@@ -681,8 +681,12 @@ def data_output():
     hours = time_diff//3600
     minutes = (time_diff%3600)//60
     seconds = time_diff%60
-    print("all simulations complete! total time taken: "+str(hours)+" hours, "+str(minutes)+" minutes and "+str(seconds)+" seconds.")
-        
+    
+    print("all simulations complete! total time taken: " +f"{hours:.0f}h {minutes:.0f}m {seconds:.0f}s")
+          
+    #print the time to one 
+    print()
+    
     
             
 def main():
