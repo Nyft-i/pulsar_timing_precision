@@ -152,6 +152,8 @@ def gen_fresh_toas(parfile, output="output.tim"):
     with open("macro.txt", "r") as infile:
         proc = subprocess.Popen(command, stdin=infile, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
         out, err = proc.communicate()
+        print(out)
+        print(err)
     
 if __name__ == "__main__":
     main()
