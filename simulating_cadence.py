@@ -535,17 +535,17 @@ def diff_plot_recovery():
     
     axs[0].set_title("logarithmic")
     
-    seq = 'arithmetic'
-    const = 2.3744
-    passed_args = args[0], args[1], args[2], const
-    print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_arith = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    x_avg = np.mean(all_results_arith[:,11]) - master_traits[6]
-    y_avg = np.mean(all_results_arith[:,9]) - master_traits[5]
-    x_err = np.std(all_results_arith[:,11])
-    y_err = np.std(all_results_arith[:,9])
+    #seq = 'arithmetic'
+    #const = 2.3744
+    #passed_args = args[0], args[1], args[2], const
+    #print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
+    #all_results_arith = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
+    #x_avg = np.mean(all_results_arith[:,11]) - master_traits[6]
+    #y_avg = np.mean(all_results_arith[:,9]) - master_traits[5]
+    #x_err = np.std(all_results_arith[:,11])
+    #y_err = np.std(all_results_arith[:,9])
     
-    results_arith = results_averager(all_results_arith)
+    #results_arith = results_averager(all_results_arith)
     
     # df0 and df1
     #axs[0].scatter(all_results_arith[:,11]-master_traits[6], all_results_arith[:,9]-master_traits[5], facecolors='none', edgecolors='tab:blue', s=all_results_arith[:,7]*25, zorder=10, alpha = 0.3)
@@ -643,10 +643,10 @@ def diff_plot_recovery():
 def data_output():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
-    seq = "logarithmic"
+    seq = "periodic"
     iters = 1000
     args = (0.5, 0, 20)
-    const = 25.7197
+    const = 5
     
     all_results = single_simulate(toas, seq, args, const, False, num_sps = iters)
     
