@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import subprocess
 
 def find_sequence_period_info(sequence_type, args):
     if sequence_type == 'logarithmic':
@@ -143,6 +144,14 @@ def main():
     indexes, num_toas = sample_from_toas(toas, sequence_type, args, verbose=True)
     gen_new_tim(timfile, indexes, "new.tim")
     
+def gen_fresh_toas(parfile, output="output.tim"):
+    command = [
+        "tempo3", "-fake", parfile, output, "<", "macro.txt"
+    ]
+    
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
+    out, err = proc.communicate()
+    all_fields = out.split("\n")
 
 if __name__ == "__main__":
     main()
