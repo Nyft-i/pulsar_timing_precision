@@ -170,7 +170,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     #print("running simulation for "+sequence_type+" sequence type\n[",end="")
     for number, offset in enumerate(start_randomiser):
-        print(str(number)+".",end="")
+        print(str(number+1)+".",end="")
         # force python console to update
         sys.stdout.flush()
         # We need passed args to take the form: cadence_start, offset, maxgap, const
