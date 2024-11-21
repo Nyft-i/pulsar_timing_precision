@@ -12,6 +12,7 @@ import pandas
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import sys
+import os
 import time
 
 def compare_to_master(traits, master_traits):
@@ -165,13 +166,15 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     all_results = np.zeros((0,17))
     all_epochs = np.zeros(0)
     
+    print("[",end="")
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
     #print("running simulation for "+sequence_type+" sequence type\n[",end="")
     for number, offset in enumerate(start_randomiser):
+        print(number+".",end="")
+        # force python console to update
+        sys.stdout.flush()
         # We need passed args to take the form: cadence_start, offset, maxgap, const
         # const_args: start cadence, start offset, max_gap
-        print("starting pulsar: ",number)
-        #print("offset: ", offset, end=" ")
         passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
         
         indexes, num_toas = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose, strat_period=strategy_period)
@@ -225,7 +228,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0)
             
         #print("finished pulsar ", number)
-        
+    print("]")
     end_time = time.time()
     #print("]")
     print("done! took " + f"{(end_time - start_time):.3f} seconds")
@@ -641,17 +644,47 @@ def diff_plot_recovery():
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
 def data_output():
-    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
-    seq = "geometric"
-    iters = 1000
+    seq = "logarithmic"
+    tim_name = "iteration_toas.tim"
+    par_file = "master_file.par"
+    tim_iters = 2
+    sub_iters = 300
     args = (0.5, 0, 20)
-    const = 1.6394
+    const = 25.7197
+    curr_time = time.strftime("%H:%M")
+    old_name = tim_iters+"_tims_"+sub_iters+"_sims_"+curr_time+".txt"
+
+    # note start time
+    start_time = time.time()
+    # loop over all values lower than tim_iters
+    for curr_tim in range(tim_iters):
+        tim_sampling.gen_fresh_toas(par_file, tim_name)
+        print("tim file '"+tim_name+"' generated")
+        toas = np.genfromtxt(tim_name, skip_header=1, usecols=[2])
+        print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
+        all_results = single_simulate(toas, seq, args, const, False, num_sps = sub_iters)
+        print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
+        f=open(old_name,'a')
+        np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
+        f.close()
+        curr_time = time.strftime("%H:%M")
+        new_name = tim_iters+"_tims_"+sub_iters+"_sims_"+curr_time+".txt"
+        os.rename(old_name, new_name)
+        print("appended data to file: "+new_name)
+        new_name = old_name
     
-    all_results = single_simulate(toas, seq, args, const, False, num_sps = iters)
+    # note end time
+    end_time = time.time()
+    time_diff = end_time - start_time
+    # represetnt time taken in hours, minutes and seconds
+    hours = time_diff//3600
+    minutes = (time_diff%3600)//60
+    seconds = time_diff%60
+    print("all simulations complete! total time taken: "+str(hours)+" hours, "+str(minutes)+" minutes and "+str(seconds)+" seconds.")
+        
     
-    np.savetxt(seq + "_sim_data.txt", all_results, fmt = "%s", delimiter = " ")
-    
+            
 def main():
     data_output()
 
