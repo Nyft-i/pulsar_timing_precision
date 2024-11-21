@@ -643,10 +643,10 @@ def diff_plot_recovery():
 def data_output():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
-    seq = "periodic"
+    seq = "geometric"
     iters = 1000
     args = (0.5, 0, 20)
-    const = 5
+    const = 1.6394
     
     all_results = single_simulate(toas, seq, args, const, False, num_sps = iters)
     
