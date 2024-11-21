@@ -152,7 +152,7 @@ def gen_fresh_toas(parfile, output="output.tim"):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     print(out)
-    all_fields = out.split("\n")
-
+    print(err)
+    
 if __name__ == "__main__":
     main()
