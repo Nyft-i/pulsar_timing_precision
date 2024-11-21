@@ -138,7 +138,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     except UnboundLocalError:
         return None
  
-def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", temp_par = "noglitch.par", num_sps=1, epoch_finding_mode=False):
+def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose = False, master_tim="master_toas.tim", master_par="master_file.par", temp_par = "noglitch.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
     start_time = time.time()
     
@@ -187,7 +187,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
         editting_par(par, new_GLEP)
         
         # run tempo2
-        traits = run_fit(par, tim, recovery_mode=True)
+        traits = run_fit(par, tim, recovery_mode= recovery)
         print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
@@ -205,7 +205,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             editting_par(par, closest_MJD)
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
-            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = True)
+            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = recovery)
             print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
@@ -386,21 +386,21 @@ def diff_plot():
     const = 25.7197
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_log = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results_log = single_simulate(toas, seq, args, const,False, num_sps=iters, master_par=par, master_tim=tim)
     results_log = results_averager(all_results_log)
     
     seq = 'geometric'
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_geo = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results_geo = single_simulate(toas, seq, args, const,False, num_sps=iters, master_par=par, master_tim=tim)
     results_geo = results_averager(all_results_geo)
    
     seq = 'periodic'
     const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_per = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim)
+    all_results_per = single_simulate(toas, seq, args, const,False, num_sps=iters, master_par=par, master_tim=tim)
     results_per = results_averager(all_results_per)
 
     
@@ -455,19 +455,19 @@ def histogram_plot():
 
     # Logarithmic
     #args = (0.5, 0, 20, 1.0991)
-    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 25.7197, num_sps=numiters, epoch_finding_mode=True)
+    results = single_simulate(toas, 'logarithmic', (0.5, 0, 20), 25.7197, False, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[0].hist(results, bins=30)
     axs[0].set_ylabel("frequency")
     axs[0].set_title("logarithmic (const = 1.0991)")
     
-    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, num_sps=numiters, epoch_finding_mode=True)
+    results = single_simulate(toas, 'geometric', (0.5, 0, 20), 1.6394, False, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[1].hist(results, bins=30)
     axs[1].set_ylabel("frequency")
     axs[1].set_title("geometric (const = 1.6394)")
     
-    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, num_sps=numiters, epoch_finding_mode=True)
+    results = single_simulate(toas, 'periodic', (0.5, 0, 20), 5.000, False, num_sps=numiters, epoch_finding_mode=True)
     print(results)
     axs[2].hist(results, bins=30)
     axs[2].set_xlabel("epoch (MJD)")
@@ -514,7 +514,7 @@ def diff_plot_recovery():
     const = 25.7197
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_log = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
+    all_results_log = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_log[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_log[:,9]) - master_traits[5]
     x_err = np.std(all_results_log[:,11])
@@ -533,7 +533,7 @@ def diff_plot_recovery():
     const = 2.3744
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_arith = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
+    all_results_arith = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_arith[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_arith[:,9]) - master_traits[5]
     x_err = np.std(all_results_arith[:,11])
@@ -553,7 +553,7 @@ def diff_plot_recovery():
     const = 1.6394
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_geo = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
+    all_results_geo = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_geo[:,9]) - master_traits[5]
     x_err = np.std(all_results_geo[:,11])
@@ -572,7 +572,7 @@ def diff_plot_recovery():
     const = 10.0060
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
-    all_results_per = single_simulate(toas, seq, args, const, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
+    all_results_per = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_per[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_per[:,9]) - master_traits[5]
     x_err = np.std(all_results_per[:,11])
