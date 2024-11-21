@@ -645,13 +645,13 @@ def diff_plot_recovery():
     
 def data_output():
     
-    seq = "logarithmic"
+    seq = "periodic"
     tim_name = "iteration_toas.tim"
     par_file = "master_file.par"
-    tim_iters = 2
-    sub_iters = 20
+    tim_iters = 700
+    sub_iters = 15
     args = (0.5, 0, 20)
-    const = 25.7197
+    const = 5
     curr_time = time.strftime("%H:%M")
     old_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
 
