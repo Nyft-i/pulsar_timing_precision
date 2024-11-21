@@ -104,7 +104,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
-    print(command)
+    #print(command)
     
     f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0
     
@@ -156,7 +156,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-    print(master_traits)
+    #print(master_traits)
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
@@ -166,12 +166,12 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     all_epochs = np.zeros(0)
     
     # For each offset, we generate a new set of toas, run tempo2, and compare the results to the master file
-    print("running simulation for "+sequence_type+" sequence type\n[",end="")
+    #print("running simulation for "+sequence_type+" sequence type\n[",end="")
     for number, offset in enumerate(start_randomiser):
         # We need passed args to take the form: cadence_start, offset, maxgap, const
         # const_args: start cadence, start offset, max_gap
         print("starting pulsar: ",number)
-        print("offset: ", offset, end=" ")
+        #print("offset: ", offset, end=" ")
         passed_args = const_args[0], const_args[1]+offset, const_args[2], sim_arg
         
         indexes, num_toas = tim_sampling.sample_from_toas(toas, sequence_type, passed_args, verbose, strat_period=strategy_period)
@@ -189,12 +189,12 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
         #all_epochs = np.append(all_epochs, new_GLEP)        
-        print(new_GLEP)
+        #print(new_GLEP)
         editting_par(par, new_GLEP)
         
         # run tempo2
         traits = run_fit(par, tim, recovery_mode= recovery)
-        print(traits)
+        #print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
         
@@ -204,7 +204,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         closest_MJD = epochs[closest_MJD_index]
         all_epochs = np.append(all_epochs, closest_MJD)
         size = np.abs(closest_MJD - master_traits[4])
-        print("mjd used:",closest_MJD)
+        #print("mjd used:",closest_MJD)
         
         if (epoch_finding_mode == False):    
             # run tempo2 again with 0 phase MJD
@@ -644,7 +644,7 @@ def data_output():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
     seq = "logarithmic"
-    iters = 100
+    iters = 500
     args = (0.5, 0, 20)
     const = 25.7197
     
