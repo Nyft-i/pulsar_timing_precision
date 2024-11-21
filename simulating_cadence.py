@@ -106,7 +106,7 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     all_fields = out.split("\n")
     print(command)
     
-    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e = 0,0,0,0,0,0,0,0,0,0,0
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0
     
     for this_field in all_fields:
         fields = this_field.split()
@@ -126,15 +126,21 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             if fields[0] == "GLF0D_1" and recovered_F0 == 0:
                 recovered_F0 = fields[2]
                 recovered_F0_e = fields[3]
-            if fields[0] == "GLTD_1" and recovered_timescale ==0:
+            if fields[0] == "GLTD_1" and recovered_timescale == 0:
                 recovered_timescale = fields[2]
                 recovered_timescale_e = fields[3]
+            if fields[0] == "F0" and pulsar_f0 == 0:
+                pulsar_f0 = fields[3]
+                pulsar_f0_e = fields[4]
+            if fields[0] == "F1" and pulsar_f1 == 0:
+                pulsar_f1 = fields[3]
+                pulsar_f1_e = fields[4]
             
     try:
         if recovery_mode == True:
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e
         
-        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e
     except UnboundLocalError:
         return None
  
