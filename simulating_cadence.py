@@ -160,8 +160,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
-    start_randomiser = np.random.randint(0, strategy_period*10, (num_sps))
-    start_randomiser = start_randomiser/10
+    start_randomiser = np.random.randint(0, strategy_period*100, (num_sps))
+    start_randomiser = start_randomiser/100
     all_results = np.zeros((0,17))
     all_epochs = np.zeros(0)
     
@@ -644,7 +644,7 @@ def data_output():
     toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
     
     seq = "logarithmic"
-    iters = 500
+    iters = 1000
     args = (0.5, 0, 20)
     const = 25.7197
     
