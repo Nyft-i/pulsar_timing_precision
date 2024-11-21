@@ -146,7 +146,7 @@ def main():
     
 def gen_fresh_toas(parfile, output="output.tim"):
     command = [
-        "tempo3", "-fake", parfile, output, "<", "macro.txt"
+        "tempo3", "-fake", parfile, output
     ]
     
     with open("macro.txt", "r") as infile:
