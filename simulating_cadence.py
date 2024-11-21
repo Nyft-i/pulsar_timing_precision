@@ -212,7 +212,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             # TEMPORARY LINE - RESTRICT TO EXACT EPOCH
             #editting_par(par, 60000)
             traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = recovery)
-            print(traits)
+            #print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             
@@ -224,7 +224,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0, "GLF1_1")
         editting_par(par, 0)
             
-        print("finished pulsar ", number)
+        #print("finished pulsar ", number)
         
     end_time = time.time()
     #print("]")
