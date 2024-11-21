@@ -208,7 +208,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, verbose = False, m
             print(traits)
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
-            
+            # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10]
             all_results = np.vstack((all_results, results))
         
