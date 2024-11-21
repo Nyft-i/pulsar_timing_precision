@@ -634,9 +634,20 @@ def diff_plot_recovery():
     
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
+def data_output():
+    toas = np.genfromtxt("master_toas.tim", skip_header=1, usecols=[2])
+    
+    seq = "logarithmic"
+    iters = 25
+    args = (0.5, 0, 20)
+    const = 25.7197
+    
+    all_results = single_simulate(toas, seq, args, const, False, num_sps = iters)
+    
+    np.savetxt(seq + "_sim_data.txt", all_results, fmt = "%s", delimiter = " ")
     
 def main():
-    diff_plot()
+    data_output()
 
     
     return
