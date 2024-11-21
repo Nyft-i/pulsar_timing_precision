@@ -653,7 +653,7 @@ def data_output():
     args = (0.5, 0, 20)
     const = 25.7197
     curr_time = time.strftime("%H:%M")
-    old_name = tim_iters+"_tims_"+sub_iters+"_sims_"+curr_time+".txt"
+    old_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
 
     # note start time
     start_time = time.time()
@@ -669,7 +669,7 @@ def data_output():
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
         f.close()
         curr_time = time.strftime("%H:%M")
-        new_name = tim_iters+"_tims_"+sub_iters+"_sims_"+curr_time+".txt"
+        new_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
         os.rename(old_name, new_name)
         print("appended data to file: "+new_name)
         new_name = old_name
