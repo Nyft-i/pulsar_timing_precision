@@ -526,15 +526,23 @@ def diff_plot_recovery():
     all_results_log = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_log[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_log[:,9]) - master_traits[5]
+    
+    x_median_log = np.median(all_results_log[:,11]) - master_traits[6]
+    y_median_log = np.median(all_results_log[:,9]) - master_traits[5]
+    
     x_err = np.std(all_results_log[:,11])
     y_err = np.std(all_results_log[:,9])
     
     results_log = results_averager(all_results_log)
+    x_median_l_norm = np.median(all_results_log[:,1]) -master_traits[0]
+    y_median_l_norm = np.median(all_results_log[:,3]) -master_traits[1]
+    
     
     # df0 and df1
     axs[0].scatter(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], xerr=all_results_log[:,12], yerr=all_results_log[:,10], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "mediumorchid")    
     axs[0].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, label = seq, zorder = 50, fmt = "x", color = "darkmagenta")
+    axs[0].errorbar(x_median_log, y_median_log, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "darkmagenta")
     
     axs[0].set_title("logarithmic")
     
@@ -565,15 +573,22 @@ def diff_plot_recovery():
     all_results_geo = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_geo[:,9]) - master_traits[5]
+    
+    x_median_geo = np.median(all_results_geo[:,11]) - master_traits[6]
+    y_median_geo = np.median(all_results_geo[:,9]) - master_traits[5]
+    
     x_err = np.std(all_results_geo[:,11])
     y_err = np.std(all_results_geo[:,9])
     
     results_geo = results_averager(all_results_geo)
+    x_median_g_norm = np.median(all_results_geo[:,1]) -master_traits[0]
+    y_median_g_norm = np.median(all_results_geo[:,3]) -master_traits[1]
     
     # df0 and df1
     axs[2].scatter(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5], xerr=all_results_geo[:,12], yerr=all_results_geo[:,10], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
     axs[2].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_median_geo, y_median_geo, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "goldenrod")
     
     axs[2].set_title("geometric")
     
@@ -584,15 +599,22 @@ def diff_plot_recovery():
     all_results_per = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_avg = np.mean(all_results_per[:,11]) - master_traits[6]
     y_avg = np.mean(all_results_per[:,9]) - master_traits[5]
+    
+    x_median_per = np.median(all_results_per[:,11]) - master_traits[6]
+    y_median_per = np.median(all_results_per[:,9]) - master_traits[5]
+    
     x_err = np.std(all_results_per[:,11])
     y_err = np.std(all_results_per[:,9])
     
     results_per = results_averager(all_results_per)
+    x_median_p_norm = np.median(all_results_per[:,1]) -master_traits[0]
+    y_median_p_norm = np.median(all_results_per[:,3]) -master_traits[1]
     
     # df0 and df1
     axs[1].scatter(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5], xerr=all_results_per[:,12], yerr=all_results_per[:,10], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
     axs[1].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(x_median_per, y_median_per, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "darkgreen")
     
     axs[1].set_title("periodic")
     
@@ -617,6 +639,7 @@ def diff_plot_recovery():
     axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "mediumorchid")    
     axs[0].errorbar(results_log[0]-master_traits[0], results_log[2] - master_traits[1], xerr = results_log[1], yerr = results_log[3],label = seq, zorder = 50, fmt = "x", color = "darkmagenta")
+    axs[0].errorbar(x_median_l_norm, y_median_l_norm, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "darkmagenta")
     
     #axs[0].scatter(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results_arith[:,7]*25, zorder=10, alpha = 0.3)
     #axs[0].errorbar(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], xerr=all_results_arith[:,2], yerr=all_results_arith[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
@@ -625,10 +648,12 @@ def diff_plot_recovery():
     axs[2].scatter(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], xerr=all_results_geo[:,2], yerr=all_results_geo[:,4], fmt='x', zorder=1, alpha = 0.3, color = "orange")
     axs[2].errorbar(results_geo[0]-master_traits[0], results_geo[2] - master_traits[1], xerr = results_geo[1], yerr = results_geo[3],zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_median_g_norm, y_median_g_norm, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "goldenrod")
     
     axs[1].scatter(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], xerr=all_results_per[:,2], yerr=all_results_per[:,4], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")
     axs[1].errorbar(results_per[0]-master_traits[0], results_per[2] - master_traits[1], xerr = results_per[1], yerr = results_per[3], zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(x_median_p_norm, y_median_p_norm, xerr = x_err, yerr = y_err, zorder = 50, fmt = "X", color = "darkgreen")
     
     axs[0].set_title("logarithmic")
     #axs[0].set_title("arithmetic")
