@@ -645,13 +645,13 @@ def diff_plot_recovery():
     
 def data_output():
     
-    seq = "logarithmic"
+    seq = "geometric"
     tim_name = "iteration_toas.tim"
     par_file = "master_file.par"
-    tim_iters = 140
-    sub_iters = 75
+    tim_iters = 90
+    sub_iters = 120
     args = (0.5, 0, 20)
-    const = 25.7197
+    const = 1.6394
     curr_time = time.strftime("%H:%M")
     old_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
 
