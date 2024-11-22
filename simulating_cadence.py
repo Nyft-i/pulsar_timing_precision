@@ -715,7 +715,7 @@ def data_output():
     
             
 def main():
-    data_output()
+    diff_plot_recovery()
 
     
     return
