@@ -144,7 +144,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
     start_randomiser = np.random.randint(0, strategy_period*100, (num_sps))
     start_randomiser = start_randomiser/100
-    all_results = np.zeros((0,17))
+    all_results = np.zeros((0,21))
     all_epochs = np.zeros(0)
     
     print("[",end="")
