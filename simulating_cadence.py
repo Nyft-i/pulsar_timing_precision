@@ -288,22 +288,20 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(30, 80, 1000)
+    constants = np.linspace(30, 150, 1000)
     for constant in constants:
-        args = (0.5, 0, 30, constant)
+        args = (5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[0].plot(x, y)
-    axs[0].hlines(5, 18.9, 68.1, color = "deeppink", linestyles = "dashdot")
-    axs[0].hlines(10, 18.9, 68.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
-    axs[0].set_xlim(18.9, 68.1)
-    axs[0].set_ylim(0.4, 20)
-    print("log consts where adbo is 5")
+    axs[0].set_xlim(18.9, 100)
+    axs[0].set_ylim(0.4, 30)
+    print("log consts where ac is 20")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
         
@@ -311,15 +309,13 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 19, 1000)
     for constant in constants:
-        args = (0.5, 0, 50, constant)
+        args = (5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[1].plot(x, y)
-    axs[1].hlines(5, 0.4, 19.1, color = "deeppink", linestyles = "dashdot")
-    axs[1].hlines(10, 0.4, 19.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
     axs[1].set_xlim(0.4, 19.1)
@@ -331,19 +327,17 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
-        args = (0.5, 0, 50, constant)
+        args = (5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[2].plot(x, y)
-    axs[2].hlines(5, 0.4, 6.1, color = "deeppink", linestyles = "dashdot")
-    axs[2].hlines(10, 0.4, 6.1, color = "purple", linestyles = "dashdot",alpha = 0.9)
     axs[2].set_xlabel("multiplicative increase")
     axs[2].set_title("geometric")
     axs[2].set_xlim(0.4, 6.1)
-    print("geo consts where adbo is 5")
+    print("geo consts where ac is 20")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
@@ -351,23 +345,25 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 30, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
     axs[3].plot(x, y)
-    axs[3].hlines(5, 0.4, 20.1, color = "deeppink", linestyles = "dashdot")
-    axs[3].hlines(10, 0.4, 20.1, color = "purple", linestyles = "dashdot", alpha = 0.9)
     axs[3].set_xlabel("period (days)")
     axs[3].set_title("periodic")
     axs[3].set_xlim(0.4, 20.1)
-    print("peri consts where adbo is 5")
+    print("peri consts where ac is 20")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
     
+    for cur in axs:
+        cur.axhline(y = 20, color = 'xkcd:booger', linestyle = '--') 
+    
+    plt.plot()
     #datetime = time.strftime("%Y-%m-%d-%H:%M")
     #fig.savefig("figures/AC"+datetime+".png", dpi=400, bbox_inches="tight")
     
@@ -672,10 +668,10 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "periodic"
-    tim_iters = 350
-    sub_iters = 30
-    const = 10
+    seq = "geometric"
+    tim_iters = 90
+    sub_iters = 120
+    const = 1.6394
     
     #glitch params
     tim_name = "master_toas_exp.tim"
@@ -724,7 +720,7 @@ def data_output():
     
             
 def main():
-    constant_finder()
+    data_output()
 
     
     return
