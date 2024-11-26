@@ -116,6 +116,8 @@ def run_fit(par, tim, recovery_mode = False):
             if fields[0] == "GLTD_2" and recovered_timescale_2 == 0:
                 recovered_timescale_2 = fields[2]
                 recovered_timescale_2_e = fields[3]
+            else:
+                print("curr field has no params, skipping")
         
         
         print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
