@@ -195,7 +195,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             # run tempo2 again with 0 phase MJD
             editting_par(par, closest_MJD)
             editting_par(par, closest_MJD, "GLEP_2")
-            traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = recovery)
+            traits = run_fit(par, tim, recovery_mode = recovery)
             print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
