@@ -278,7 +278,7 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 10
+    desired_abdo = 20
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -288,7 +288,7 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(22.5, 68, 1000)
+    constants = np.linspace(30, 80, 1000)
     for constant in constants:
         args = (0.5, 0, 30, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
@@ -311,7 +311,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 19, 1000)
     for constant in constants:
-        args = (0.5, 0, 30, constant)
+        args = (0.5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -323,7 +323,7 @@ def constant_finder():
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
     axs[1].set_xlim(0.4, 19.1)
-    print("arith consts where adbo is 5")
+    print("arith consts where ac is 20")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
@@ -331,7 +331,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
-        args = (0.5, 0, 30, constant)
+        args = (0.5, 0, 50, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -724,7 +724,7 @@ def data_output():
     
             
 def main():
-    data_output()
+    constant_finder()
 
     
     return
