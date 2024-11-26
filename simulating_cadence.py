@@ -697,7 +697,7 @@ def data_output():
         print("tim file '"+tim_name+"' generated")
         toas = np.genfromtxt(tim_name, skip_header=1, usecols=[2])
         print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
-        all_results = single_simulate(toas, seq, args, const, False, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
+        all_results = single_simulate(toas, seq, args, const, True, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
