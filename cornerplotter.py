@@ -9,7 +9,7 @@ import numpy as np
 import corner as cn
 
 
-all_data = np.genfromtxt("700_tims_15_sims_18_41.txt", usecols=[1,3,8,13,15])
+all_data = np.genfromtxt("logarithmic_25.7197_glitchB_master_9800s_11_40.txt", usecols=[1,3,8,13,15])
 
 print(all_data)
 
