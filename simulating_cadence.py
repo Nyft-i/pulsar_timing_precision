@@ -671,17 +671,21 @@ def diff_plot_recovery():
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
 def data_output():
+    #simulation params
+    seq = "logarithmic"
+    tim_iters = 140
+    sub_iters = 70
+    const = 25.7197
     
-    seq = "periodic"
+    #glitch params
     tim_name = "master_toas_exp.tim"
     par_file = "glitchB_master.par"
     temp_file = "glitchB_temp.par"
-    par_file_no_fileext = par_file.split(".")[0]
-    tim_iters = 700
-    sub_iters = 15
-    total_sims = tim_iters*sub_iters
+    
+    #other params
     args = (0.5, 0, 20)
-    const = 5
+    par_file_no_fileext = par_file.split(".")[0]
+    total_sims = tim_iters*sub_iters
     curr_time = time.strftime("%H:%M")
     old_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
 
