@@ -138,7 +138,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-    #print(master_traits)
+    print(master_traits)
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
@@ -174,13 +174,13 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
         #all_epochs = np.append(all_epochs, new_GLEP)        
-        #print(new_GLEP)
+        print(new_GLEP)
         editting_par(par, new_GLEP)
         editting_par(par, new_GLEP, "GLEP_2")
         
         # run tempo2
         traits = run_fit(par, tim, recovery_mode= recovery)
-        #print(traits)
+        print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
         
@@ -197,6 +197,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             editting_par(par, closest_MJD)
             editting_par(par, closest_MJD, "GLEP_2")
             traits = run_fit(par, tim, no_phase_fit= False, recovery_mode = recovery)
+            print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14], traits[15], traits[16], traits[17], traits[18]
