@@ -71,7 +71,9 @@ def run_fit(par, tim, recovery_mode = False):
     
     if recovery_mode == True :
         command_rec = ["-fit", "GLF0D_1",
-                       "-fit", "GLTD_1"]
+                       "-fit", "GLTD_1",
+                       "-fit", "GLF0D_2",
+                       "-fit", "GLTD_2"]
         command = np.hstack((command,command_rec))
             
 
@@ -82,10 +84,10 @@ def run_fit(par, tim, recovery_mode = False):
     print(command)
 
     f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0                        
-    print(all_fields)
+
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1" and f0 == 0:
                 f0 = fields[2]
