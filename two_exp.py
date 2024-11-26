@@ -367,7 +367,7 @@ def diff_plot_recovery():
     axs[2].legend()
     axs[0].legend()
     
-    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
+    plt.savefig("figures/2recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
     
     plt.clf()
     
@@ -407,7 +407,7 @@ def diff_plot_recovery():
     axs[2].legend()
     axs[0].legend()
     
-    plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
+    plt.savefig("figures/2recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
     plt.clf()
     
@@ -442,7 +442,7 @@ def diff_plot_recovery():
     axs[2].legend()
     axs[0].legend()
     
-    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
+    plt.savefig("figures/2recovery_second_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
 
 
 
