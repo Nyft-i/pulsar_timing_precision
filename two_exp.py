@@ -115,19 +115,16 @@ def run_fit(par, tim, recovery_mode = False):
                 recovered_F0_2_e = fields[3]
             if fields[0] == "GLTD_2" and recovered_timescale_2 == 0:
                 recovered_timescale_2 = fields[2]
-                recovered_timescale_2_e = fields[3]
-            else:
-                print("curr field has no params, skipping")
+                recovered_timescale_2_e = fields[3]        
         
-        
-        print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
-        try:
-            if recovery_mode == True:
-                return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e
-    
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
-        except UnboundLocalError:
-            return None
+    print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
+    try:
+        if recovery_mode == True:
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e
+
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
+    except UnboundLocalError:
+        return None
 
 def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose = False, master_tim="master_toas_2exp.tim", master_par="glitchC_master.par", temp_par = "glitchC_temp.par", num_sps=1, epoch_finding_mode=False):
     # This function samples TOAs from the master TOA file to a specific cadence strategy, then runs tempo2 on the new TOAs and compares the results to the master file.
