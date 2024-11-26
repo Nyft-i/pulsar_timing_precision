@@ -239,7 +239,7 @@ def diff_plot_recoveries():
     toas = np.genfromtxt(tim, skip_header=1, usecols=[2])
     # Using pandas to read in the master file, probably a better way to do this but it works for now.
     cols = ["Element Name", "Value", "Fitting", "Error"]
-    master_properties = pandas.read_csv("master_file_exp.par", sep="\s+", names=cols)
+    master_properties = pandas.read_csv(par, sep="\s+", names=cols)
     master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
