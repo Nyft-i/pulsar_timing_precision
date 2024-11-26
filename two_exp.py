@@ -246,7 +246,9 @@ def diff_plot_recovery():
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLF0D_1"]['Value']),
-                    float(master_properties.loc[master_properties['Element Name'] == "GLTD_1"]['Value']))
+                    float(master_properties.loc[master_properties['Element Name'] == "GLTD_1"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLF0D_2"]['Value']),
+                    float(master_properties.loc[master_properties['Element Name'] == "GLTD_2"]['Value']))
     print(master_traits)
     
     iters = 50
@@ -265,12 +267,17 @@ def diff_plot_recovery():
     passed_args = args[0], args[1], args[2], const
     print("numtoas of log", tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results_log = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    x_avg = np.mean(all_results_log[:,11]) - master_traits[6]
-    y_avg = np.mean(all_results_log[:,9]) - master_traits[5]
+    x_first_exp_log = np.mean(all_results_log[:,11]) - master_traits[6]
+    y_first_exp_log = np.mean(all_results_log[:,9]) - master_traits[5]
     
+    x_second_exp_log = np.mean(all_results_log[:,19]) - master_traits[8]
+    y_second_exp_log = np.mean(all_results_log[:,17]) - master_traits[7]
     
-    x_err = np.std(all_results_log[:,11])
-    y_err = np.std(all_results_log[:,9])
+    x_err_first_log = np.std(all_results_log[:,11])
+    y_err_first_log = np.std(all_results_log[:,9])
+    
+    x_err_second_log = np.std(all_results_log[:,19])
+    y_err_second_log = np.std(all_results_log[:,17])
     
     results_log = results_averager(all_results_log)
     
@@ -279,7 +286,7 @@ def diff_plot_recovery():
     # df0 and df1
     axs[0].scatter(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], xerr=all_results_log[:,12], yerr=all_results_log[:,10], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
-    axs[0].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
+    axs[0].errorbar(x_first_exp_log, y_first_exp_log, xerr = x_err_first_log, yerr = y_err_first_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
 
     axs[0].set_title("logarithmic")
     
@@ -308,19 +315,24 @@ def diff_plot_recovery():
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results_geo = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    x_avg = np.mean(all_results_geo[:,11]) - master_traits[6]
-    y_avg = np.mean(all_results_geo[:,9]) - master_traits[5]
+    x_first_exp_geo = np.mean(all_results_geo[:,11]) - master_traits[6]
+    y_first_exp_geo = np.mean(all_results_geo[:,9]) - master_traits[5]
     
+    x_second_exp_geo = np.mean(all_results_geo[:,19]) - master_traits[8]
+    y_second_exp_geo = np.mean(all_results_geo[:,17]) - master_traits[7]
     
-    x_err = np.std(all_results_geo[:,11])
-    y_err = np.std(all_results_geo[:,9])
+    x_err_second_geo = np.std(all_results_geo[:,19])
+    y_err_second_geo = np.std(all_results_geo[:,17])
+    
+    x_err_first_geo = np.std(all_results_geo[:,11])
+    y_err_first_geo = np.std(all_results_geo[:,9])
     
     results_geo = results_averager(all_results_geo)
    
     # df0 and df1
     axs[2].scatter(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5], xerr=all_results_geo[:,12], yerr=all_results_geo[:,10], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
-    axs[2].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_first_exp_geo, x_first_exp_geo, xerr = x_err_first_geo, yerr = y_err_first_geo, zorder = 50, fmt = "x", color = "goldenrod")
 
     axs[2].set_title("geometric")
     
@@ -329,18 +341,24 @@ def diff_plot_recovery():
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results_per = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
-    x_avg = np.mean(all_results_per[:,11]) - master_traits[6]
-    y_avg = np.mean(all_results_per[:,9]) - master_traits[5]
-      
-    x_err = np.std(all_results_per[:,11])
-    y_err = np.std(all_results_per[:,9])
+    x_first_exp_per = np.mean(all_results_per[:,11]) - master_traits[6]
+    y_first_exp_per = np.mean(all_results_per[:,9]) - master_traits[5]
+    
+    x_second_exp_per = np.mean(all_results_per[:,19]) - master_traits[8]
+    y_second_exp_per = np.mean(all_results_per[:,17]) - master_traits[7]
+    
+    x_err_second_per = np.std(all_results_per[:,19])
+    y_err_second_per = np.std(all_results_per[:,17])
+    
+    x_err_first_per = np.std(all_results_per[:,11])
+    y_err_first_per = np.std(all_results_per[:,9])
     
     results_per = results_averager(all_results_per)
     
     # df0 and df1
     axs[1].scatter(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5], xerr=all_results_per[:,12], yerr=all_results_per[:,10], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
-    axs[1].errorbar(x_avg, y_avg, xerr = x_err, yerr = y_err, zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(x_first_exp_per, y_first_exp_per, xerr = x_err_first_per, yerr = y_err_first_per, zorder = 50, fmt = "x", color = "darkgreen")
     
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
@@ -391,6 +409,40 @@ def diff_plot_recovery():
     
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
+    plt.clf()
+    
+    fig = plt.figure(figsize=(9, 3))
+    gs = fig.add_gridspec(1, 3, wspace = 0)
+    axs = gs.subplots(sharey = True, sharex = True)
+    
+    fig.suptitle(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values for long recovery portion', x=0.5, y=1.05)
+    fig.supylabel(r'$\Delta \nu_d$ - ' + str(master_traits[7]), y=0.45, x=0.06)
+    fig.supxlabel(r'$\tau_r$ - ' + str(master_traits[8]), y = -0.05)
+    
+    axs[0].scatter(all_results_log[:,19]-master_traits[8], all_results_log[:,17]-master_traits[7], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
+    axs[0].errorbar(all_results_log[:,19]-master_traits[8], all_results_log[:,17]-master_traits[7], xerr=all_results_log[:,20], yerr=all_results_log[:,18], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
+    axs[0].errorbar(x_second_exp_log, y_second_exp_log, xerr = x_err_second_log, yerr = y_err_second_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
+
+    axs[0].set_title("logarithmic")
+    
+    axs[2].scatter(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
+    axs[2].errorbar(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7], xerr=all_results_geo[:,20], yerr=all_results_geo[:,18], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
+    axs[2].errorbar(x_second_exp_geo, x_second_exp_geo, xerr = x_err_second_geo, yerr = y_err_second_geo, zorder = 50, fmt = "x", color = "goldenrod")
+
+    axs[2].set_title("geometric")
+    
+    axs[1].scatter(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
+    axs[1].errorbar(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7], xerr=all_results_per[:,20], yerr=all_results_per[:,18], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
+    axs[1].errorbar(x_second_exp_per, y_second_exp_per, xerr = x_err_second_per, yerr = y_err_second_per, zorder = 50, fmt = "x", color = "darkgreen")
+    
+    axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    
+    axs[2].legend()
+    axs[0].legend()
+    
+    plt.savefig("figures/recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
 
 
 
