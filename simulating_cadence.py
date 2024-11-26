@@ -668,10 +668,10 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "periodic"
-    tim_iters = 350
-    sub_iters = 30
-    const = 10
+    seq = "geometric"
+    tim_iters = 90
+    sub_iters = 120
+    const = 1.6394
     
     #glitch params
     tim_name = "master_toas_exp.tim"
