@@ -675,8 +675,8 @@ def data_output():
     
     #glitch params
     tim_name = "master_toas_exp.tim"
-    par_file = "glitchA_master.par"
-    temp_file = "glitchA_temp.par"
+    par_file = "glitchB_master.par"
+    temp_file = "glitchB_temp.par"
     
     #other params
     args = (0.5, 0, 20)
@@ -720,7 +720,7 @@ def data_output():
     
             
 def main():
-    constant_finder()
+    data_output()
 
     
     return
