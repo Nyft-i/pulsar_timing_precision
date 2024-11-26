@@ -230,7 +230,7 @@ def results_averager(results):
     
     return avg_results
 
-def diff_plot_recovery():
+def diff_plot_recoveries():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
     
     par = "glitchC_master.par"
@@ -444,9 +444,14 @@ def diff_plot_recovery():
     
     plt.savefig("figures/2recovery_second_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
 
+          
+def main():
+    diff_plot_recoveries()
 
+    
+    return
 
-
+main()
 
 
 
