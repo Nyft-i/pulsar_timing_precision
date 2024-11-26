@@ -179,7 +179,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, new_GLEP, "GLEP_2")
         
         # run tempo2
-        traits = run_fit(par, tim, recovery_mode= recovery)
+        traits = run_fit(par, tim)
         print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
