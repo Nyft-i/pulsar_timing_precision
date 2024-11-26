@@ -648,12 +648,14 @@ def data_output():
     seq = "logarithmic"
     tim_name = "iteration_toas.tim"
     par_file = "master_file.par"
+    par_file_no_fileext = par_file.split(".")[0]
     tim_iters = 140
     sub_iters = 75
+    total_sims = tim_iters*sub_iters
     args = (0.5, 0, 20)
     const = 25.7197
     curr_time = time.strftime("%H:%M")
-    old_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
+    old_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
 
     # note start time
     start_time = time.time()
@@ -669,7 +671,7 @@ def data_output():
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
         f.close()
         curr_time = time.strftime("%H:%M")
-        new_name = str(tim_iters)+"_tims_"+str(sub_iters)+"_sims_"+str(curr_time)+".txt"
+        new_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
         os.rename(old_name, new_name)
         print("appended data to file: "+new_name)
         old_name = new_name
