@@ -100,14 +100,14 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
         command_rec = ["-fit", "GLF0D_1",
                        "-fit", "GLTD_1"]
         command = np.hstack((command,command_rec))
-            
+        
     #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
     #print(command)
     
-    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0                         
     
     for this_field in all_fields:
         fields = this_field.split()
@@ -139,9 +139,9 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             
     try:
         if recovery_mode == True:
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
         
-        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e
+        return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
     except UnboundLocalError:
         return None
  
@@ -516,8 +516,8 @@ def diff_plot_recovery():
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved recovery portion of $\Delta \nu$ and $\tau_r$ and actual values', x=0.5, y=1.05)
-    fig.supylabel(r'distance from true recovery portion of $\Delta \nu$', y=0.45, x=0.06)
-    fig.supxlabel(r'distance from true $\tau_r$', y = -0.05)
+    fig.supylabel(r'$\Delta \nu_d$ - ' + str(master_traits[5]), y=0.45, x=0.06)
+    fig.supxlabel(r'$\tau_r$ - ' + str(master_traits[6]), y = -0.05)
     
     seq = 'logarithmic'
     const = 25.7197
@@ -634,8 +634,8 @@ def diff_plot_recovery():
     axs = gs.subplots(sharey = True, sharex = True)
     
     fig.suptitle(r'difference in retrieved $\Delta \nu$ and $\Delta \dot \nu$ and actual values', x=0.5, y=1.05)
-    fig.supylabel(r'distance from true $\Delta \dot \nu$', y=0.5, x=0.06)
-    fig.supxlabel(r'distance from true $\Delta \nu$', y = -0.13)
+    fig.supylabel(r'$\Delta \dot \nu - $' + str(master_traits[1]), y=0.5, x=0.06)
+    fig.supxlabel(r'$\Delta \nu - $' + str(master_traits[0]), y = -0.13)
     
     axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
