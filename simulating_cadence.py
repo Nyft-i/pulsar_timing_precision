@@ -671,16 +671,21 @@ def diff_plot_recovery():
     plt.savefig("figures/recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
     
 def data_output():
-    
-    seq = "geometric"
-    tim_name = "iteration_toas.tim"
-    par_file = "master_file.par"
-    par_file_no_fileext = par_file.split(".")[0]
+    #simulation params
+    seq = "logarithmic"
     tim_iters = 140
-    sub_iters = 75
-    total_sims = tim_iters*sub_iters
+    sub_iters = 70
+    const = 25.7197
+    
+    #glitch params
+    tim_name = "master_toas_exp.tim"
+    par_file = "glitchB_master.par"
+    temp_file = "glitchB_temp.par"
+    
+    #other params
     args = (0.5, 0, 20)
-    const = 1.6394
+    par_file_no_fileext = par_file.split(".")[0]
+    total_sims = tim_iters*sub_iters
     curr_time = time.strftime("%H:%M")
     old_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
 
@@ -692,7 +697,7 @@ def data_output():
         print("tim file '"+tim_name+"' generated")
         toas = np.genfromtxt(tim_name, skip_header=1, usecols=[2])
         print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
-        all_results = single_simulate(toas, seq, args, const, False, num_sps = sub_iters)
+        all_results = single_simulate(toas, seq, args, const, False, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
@@ -719,7 +724,7 @@ def data_output():
     
             
 def main():
-    diff_plot_recovery()
+    data_output()
 
     
     return
