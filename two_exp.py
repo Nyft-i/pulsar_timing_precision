@@ -117,6 +117,8 @@ def run_fit(par, tim, recovery_mode = False):
                 recovered_timescale_2 = fields[2]
                 recovered_timescale_2_e = fields[3]
         
+        
+        print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
         try:
             if recovery_mode == True:
                 return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e
