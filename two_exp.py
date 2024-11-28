@@ -512,7 +512,7 @@ def data_output():
     print()       
 
 def main():
-    diff_plot_recoveries()
+    data_output()
 
     
     return
