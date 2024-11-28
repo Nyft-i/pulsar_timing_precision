@@ -342,7 +342,7 @@ def diff_plot_recoveries():
     # df0 and df1
     axs[2].scatter(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5], xerr=all_results_geo[:,12], yerr=all_results_geo[:,10], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
-    axs[2].errorbar(x_first_exp_geo, x_first_exp_geo, xerr = x_err_first_geo, yerr = y_err_first_geo, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_first_exp_geo, y_first_exp_geo, xerr = x_err_first_geo, yerr = y_err_first_geo, zorder = 50, fmt = "x", color = "goldenrod")
 
     axs[2].set_title("geometric")
     
@@ -373,6 +373,8 @@ def diff_plot_recoveries():
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
+    
+    axs[1].set_title("periodic")
     
     #axs[2].legend()
     axs[0].legend()
@@ -437,9 +439,11 @@ def diff_plot_recoveries():
     
     axs[2].scatter(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7], xerr=all_results_geo[:,20], yerr=all_results_geo[:,18], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
-    axs[2].errorbar(x_second_exp_geo, x_second_exp_geo, xerr = x_err_second_geo, yerr = y_err_second_geo, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_second_exp_geo, y_second_exp_geo, xerr = x_err_second_geo, yerr = y_err_second_geo, zorder = 50, fmt = "x", color = "goldenrod")
 
     axs[2].set_title("geometric")
+    
+    axs[1].set_title("periodic")
     
     axs[1].scatter(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7], xerr=all_results_per[:,20], yerr=all_results_per[:,18], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
