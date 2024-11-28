@@ -342,7 +342,7 @@ def diff_plot_recoveries():
     # df0 and df1
     axs[2].scatter(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,11]-master_traits[6], all_results_geo[:,9]-master_traits[5], xerr=all_results_geo[:,12], yerr=all_results_geo[:,10], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
-    #axs[2].errorbar(x_first_exp_geo, x_first_exp_geo, xerr = x_err_first_geo, yerr = y_err_first_geo, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_first_exp_geo, x_first_exp_geo, xerr = x_err_first_geo, yerr = y_err_first_geo, zorder = 50, fmt = "x", color = "goldenrod")
 
     axs[2].set_title("geometric")
     
@@ -391,7 +391,7 @@ def diff_plot_recoveries():
     
     axs[0].scatter(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,1]-master_traits[0], all_results_log[:,3]-master_traits[1], xerr=all_results_log[:,2], yerr=all_results_log[:,4], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
-    #axs[0].errorbar(results_log[0]-master_traits[0], results_log[2] - master_traits[1], xerr = results_log[1], yerr = results_log[3], zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
+    axs[0].errorbar(results_log[0]-master_traits[0], results_log[2] - master_traits[1], xerr = results_log[1], yerr = results_log[3], zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
    
     #axs[0].scatter(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], facecolors='none', edgecolors='tab:blue', s=all_results_arith[:,7]*25, zorder=10, alpha = 0.3)
     #axs[0].errorbar(all_results_arith[:,1]-master_traits[0], all_results_arith[:,3]-master_traits[1], xerr=all_results_arith[:,2], yerr=all_results_arith[:,4], fmt='x', label=seq, zorder=1, alpha = 0.3, color = "tab:blue")    
@@ -399,11 +399,11 @@ def diff_plot_recoveries():
     
     axs[2].scatter(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,1]-master_traits[0], all_results_geo[:,3]-master_traits[1], xerr=all_results_geo[:,2], yerr=all_results_geo[:,4], fmt='x', zorder=1, alpha = 0.3, color = "orange")
-    #axs[2].errorbar(results_geo[0]-master_traits[0], results_geo[2] - master_traits[1], xerr = results_geo[1], yerr = results_geo[3],zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(results_geo[0]-master_traits[0], results_geo[2] - master_traits[1], xerr = results_geo[1], yerr = results_geo[3],zorder = 50, fmt = "x", color = "goldenrod")
    
     axs[1].scatter(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,1]-master_traits[0], all_results_per[:,3]-master_traits[1], xerr=all_results_per[:,2], yerr=all_results_per[:,4], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")
-    #axs[1].errorbar(results_per[0]-master_traits[0], results_per[2] - master_traits[1], xerr = results_per[1], yerr = results_per[3], zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(results_per[0]-master_traits[0], results_per[2] - master_traits[1], xerr = results_per[1], yerr = results_per[3], zorder = 50, fmt = "x", color = "darkgreen")
  
     axs[0].set_title("logarithmic")
     #axs[0].set_title("arithmetic")
@@ -431,19 +431,19 @@ def diff_plot_recoveries():
     
     axs[0].scatter(all_results_log[:,19]-master_traits[8], all_results_log[:,17]-master_traits[7], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,19]-master_traits[8], all_results_log[:,17]-master_traits[7], xerr=all_results_log[:,20], yerr=all_results_log[:,18], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
-    #axs[0].errorbar(x_second_exp_log, y_second_exp_log, xerr = x_err_second_log, yerr = y_err_second_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
+    axs[0].errorbar(x_second_exp_log, y_second_exp_log, xerr = x_err_second_log, yerr = y_err_second_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
 
     axs[0].set_title("logarithmic")
     
     axs[2].scatter(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7],  facecolors='none', edgecolors='orange', s=all_results_geo[:,7]*25, zorder=10, alpha = 0.3)
     axs[2].errorbar(all_results_geo[:,19]-master_traits[8], all_results_geo[:,17]-master_traits[7], xerr=all_results_geo[:,20], yerr=all_results_geo[:,18], fmt='x', zorder=1, alpha = 0.3, color = "orange")    
-    #axs[2].errorbar(x_second_exp_geo, x_second_exp_geo, xerr = x_err_second_geo, yerr = y_err_second_geo, zorder = 50, fmt = "x", color = "goldenrod")
+    axs[2].errorbar(x_second_exp_geo, x_second_exp_geo, xerr = x_err_second_geo, yerr = y_err_second_geo, zorder = 50, fmt = "x", color = "goldenrod")
 
     axs[2].set_title("geometric")
     
     axs[1].scatter(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7], xerr=all_results_per[:,20], yerr=all_results_per[:,18], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
-    #axs[1].errorbar(x_second_exp_per, y_second_exp_per, xerr = x_err_second_per, yerr = y_err_second_per, zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(x_second_exp_per, y_second_exp_per, xerr = x_err_second_per, yerr = y_err_second_per, zorder = 50, fmt = "x", color = "darkgreen")
     
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
