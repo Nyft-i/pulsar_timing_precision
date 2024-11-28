@@ -289,7 +289,7 @@ def diff_plot_recoveries():
     # df0 and df1
     axs[0].scatter(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], facecolors='none', edgecolors='mediumorchid', s=all_results_log[:,7]*25, zorder=10, alpha = 0.3)
     axs[0].errorbar(all_results_log[:,11]-master_traits[6], all_results_log[:,9]-master_traits[5], xerr=all_results_log[:,12], yerr=all_results_log[:,10], fmt='x', zorder=1, alpha = 0.3, color = "mediumorchid")    
-    #axs[0].errorbar(x_first_exp_log, y_first_exp_log, xerr = x_err_first_log, yerr = y_err_first_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
+    axs[0].errorbar(x_first_exp_log, y_first_exp_log, xerr = x_err_first_log, yerr = y_err_first_log, zorder = 50, fmt = "x", color = "darkmagenta", label = "mean")
 
     axs[0].set_title("logarithmic")
     
@@ -320,6 +320,9 @@ def diff_plot_recoveries():
     all_results_geo = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
     x_first_exp_geo = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_first_exp_geo = np.mean(all_results_geo[:,9]) - master_traits[5]
+    
+    print(all_results_geo[:,11])
+    print(np.mean(all_results_geo[:,11]))
     
     x_second_exp_geo = np.mean(all_results_geo[:,19]) - master_traits[8]
     y_second_exp_geo = np.mean(all_results_geo[:,17]) - master_traits[7]
@@ -361,7 +364,7 @@ def diff_plot_recoveries():
     # df0 and df1
     axs[1].scatter(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,11]-master_traits[6], all_results_per[:,9]-master_traits[5], xerr=all_results_per[:,12], yerr=all_results_per[:,10], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
-    #axs[1].errorbar(x_first_exp_per, y_first_exp_per, xerr = x_err_first_per, yerr = y_err_first_per, zorder = 50, fmt = "x", color = "darkgreen")
+    axs[1].errorbar(x_first_exp_per, y_first_exp_per, xerr = x_err_first_per, yerr = y_err_first_per, zorder = 50, fmt = "x", color = "darkgreen")
     
     axs[0].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
