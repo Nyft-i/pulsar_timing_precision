@@ -324,6 +324,10 @@ def diff_plot_recoveries():
     print(all_results_geo[:,11])
     print(np.mean(all_results_geo[:,11]))
     
+    print(all_results_geo[:,9])
+    print(np.mean(all_results_geo[:,9]))
+    
+    
     x_second_exp_geo = np.mean(all_results_geo[:,19]) - master_traits[8]
     y_second_exp_geo = np.mean(all_results_geo[:,17]) - master_traits[7]
     
