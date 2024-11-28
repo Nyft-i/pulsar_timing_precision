@@ -460,17 +460,17 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "geometric"
-    tim_iters = 100
-    sub_iters = 100
-    const = 1.6693
-    max_gap = 30
-    start_cad = 2
+    seq = "periodic"
+    tim_iters = 700
+    sub_iters = 15
+    const = 5
+    max_gap = 20
+    start_cad = 0.5
     
     #glitch params
-    tim_name = "master_toas_2exp.tim"
-    par_file = "glitchC_master.par"
-    temp_file = "glitchC_temp.par"
+    tim_name = "master_toas_D.tim"
+    par_file = "glitchD_master.par"
+    temp_file = "glitchD_temp.par"
     
     #other params
     args = (start_cad, 0, max_gap)
