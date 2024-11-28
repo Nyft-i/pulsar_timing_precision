@@ -278,7 +278,7 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 15
+    desired_abdo = 5
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -290,7 +290,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(30, 100, 1000)
     for constant in constants:
-        args = (2, 0, 50, constant)
+        args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -307,9 +307,9 @@ def constant_finder():
         
     # Arithmetic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 19, 1000)
+    constants = np.linspace(0.5, 5, 1000)
     for constant in constants:
-        args = (2, 0, 30, constant)
+        args = (0.5, 0, 10, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -318,7 +318,7 @@ def constant_finder():
     axs[1].plot(x, y)
     axs[1].set_xlabel("sequential increase")
     axs[1].set_title("arithmetic")
-    axs[1].set_xlim(0.4, 19.1)
+    axs[1].set_xlim(0.4, 5)
     print("arith consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
@@ -327,7 +327,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
-        args = (2, 0, 50, constant)
+        args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -345,7 +345,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 30, 1000)
     for constant in constants:
-        args = (2, 0, 50, constant)
+        args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -361,7 +361,7 @@ def constant_finder():
     
     
     for cur in axs:
-        cur.axhline(y = 15, color = 'xkcd:booger', linestyle = '--') 
+        cur.axhline(y = desired_abdo, color = 'xkcd:booger', linestyle = '--') 
     
     plt.plot()
     #datetime = time.strftime("%Y-%m-%d-%H:%M")
@@ -668,12 +668,12 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "geometric"
+    seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
-    const = 1.66934
-    max_gap = 50
-    start_cad = 2
+    const = 1.5
+    max_gap = 10
+    start_cad = 0.5
     
     #glitch params
     tim_name = "master_toas_exp.tim"
@@ -722,7 +722,7 @@ def data_output():
     
             
 def main():
-    data_output()
+    constant_finder()
 
     
     return
