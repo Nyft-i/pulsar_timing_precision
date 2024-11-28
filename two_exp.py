@@ -374,6 +374,8 @@ def diff_plot_recoveries():
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
+    axs[1].set_title("periodic")
+    
     #axs[2].legend()
     axs[0].legend()
     
