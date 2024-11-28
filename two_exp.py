@@ -340,7 +340,7 @@ def diff_plot_recoveries():
     axs[2].set_title("geometric")
     
     seq = 'periodic'
-    const = 10.0060
+    const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results_per = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
