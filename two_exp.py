@@ -458,7 +458,59 @@ def diff_plot_recoveries():
     
     plt.savefig("figures/2recovery_second_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
 
+def data_output():
+    #simulation params
+    seq = "logarithmic"
+    tim_iters = 100
+    sub_iters = 100
+    const = 34.76476
+    max_gap = 50
+    start_cad = 2
+    
+    #glitch params
+    tim_name = "master_toas_2exp.tim"
+    par_file = "glitchC_master.par"
+    temp_file = "glitchC_temp.par"
+    
+    #other params
+    args = (start_cad, 0, max_gap)
+    par_file_no_fileext = par_file.split(".")[0]
+    total_sims = tim_iters*sub_iters
+    curr_time = time.strftime("%H:%M")
+    old_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
+
+    # note start time
+    start_time = time.time()
+    # loop over all values lower than tim_iters
+    for curr_tim in range(tim_iters):
+        tim_sampling.gen_fresh_toas(par_file, tim_name)
+        print("tim file '"+tim_name+"' generated")
+        toas = np.genfromtxt(tim_name, skip_header=1, usecols=[2])
+        print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
+        all_results = single_simulate(toas, seq, args, const, True, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
+        print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
+        f=open(old_name,'a')
+        np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
+        f.close()
+        curr_time = time.strftime("%H:%M")
+        new_name = seq+"_"+str(const)+"_"+par_file_no_fileext+"_"+str(total_sims)+"s_"+str(curr_time)+".txt"
+        os.rename(old_name, new_name)
+        print("appended data to file: "+new_name)
+        old_name = new_name
+    
+    # note end time
+    end_time = time.time()
+    time_diff = end_time - start_time
+    # represetnt time taken in hours, minutes and seconds
+    hours = time_diff//3600
+    minutes = (time_diff%3600)//60
+    seconds = time_diff%60
+    
+    print("all simulations complete! total time taken: " +f"{hours:.0f}h {minutes:.0f}m {seconds:.0f}s")
           
+    #print the time to one 
+    print()       
+
 def main():
     diff_plot_recoveries()
 
