@@ -71,21 +71,23 @@ def run_fit(par, tim, recovery_mode = False):
     
     if recovery_mode == True :
         command_rec = ["-fit", "GLF0D_1",
-                       "-fit", "GLTD_1"]
+                       "-fit", "GLTD_1",
+                       "-fit", "GLF0D_2",
+                       "-fit", "GLTD_2"]
         command = np.hstack((command,command_rec))
             
 
-#print(' '.join(command), file=sys.stderr)
+    #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")    
-    print(command)
+    #print(command)
 
     f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0                        
-    print(all_fields)
+
     for this_field in all_fields:
         fields = this_field.split()
-        print(fields)
+        
         if len(fields) > 2.0:
             if fields[0] == "GLF0_1" and f0 == 0:
                 f0 = fields[2]
@@ -117,7 +119,7 @@ def run_fit(par, tim, recovery_mode = False):
                 recovered_timescale_2 = fields[2]
                 recovered_timescale_2_e = fields[3]        
         
-    print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
+    #print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
     try:
         if recovery_mode == True:
             return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e
@@ -138,7 +140,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "PEPOCH"]['Value']),
                     float(master_properties.loc[master_properties['Element Name'] == "GLEP_1"]['Value']))
-    print(master_traits)
+    #print(master_traits)
     # adds some 5d random variation so that we dont run into issues with the sample being the same every time
     passed_args = const_args[0], const_args[1], const_args[2], sim_arg
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
@@ -180,7 +182,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         
         # run tempo2
         traits = run_fit(par, tim)
-        print(traits)
+        #print(traits)
         editting_par(par, traits[0], "GLF0_1")
         editting_par(par, traits[2], "GLF1_1")
         
@@ -319,6 +321,13 @@ def diff_plot_recoveries():
     x_first_exp_geo = np.mean(all_results_geo[:,11]) - master_traits[6]
     y_first_exp_geo = np.mean(all_results_geo[:,9]) - master_traits[5]
     
+    print(all_results_geo[:,11])
+    print(np.mean(all_results_geo[:,11]))
+    
+    print(all_results_geo[:,9])
+    print(np.mean(all_results_geo[:,9]))
+    
+    
     x_second_exp_geo = np.mean(all_results_geo[:,19]) - master_traits[8]
     y_second_exp_geo = np.mean(all_results_geo[:,17]) - master_traits[7]
     
@@ -338,7 +347,7 @@ def diff_plot_recoveries():
     axs[2].set_title("geometric")
     
     seq = 'periodic'
-    const = 10.0060
+    const = 5
     passed_args = args[0], args[1], args[2], const
     print("numtoas of "+seq, tim_sampling.sample_from_toas(toas, seq, passed_args, counting_mode=True)[1])
     all_results_per = single_simulate(toas, seq, args, const, True, num_sps=iters, master_par=par, master_tim=tim, temp_par = temppar)
@@ -365,7 +374,7 @@ def diff_plot_recoveries():
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
-    axs[2].legend()
+    #axs[2].legend()
     axs[0].legend()
     
     plt.savefig("figures/2recovery_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
@@ -405,7 +414,7 @@ def diff_plot_recoveries():
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
-    axs[2].legend()
+    #axs[2].legend()
     axs[0].legend()
     
     plt.savefig("figures/2recovery_normal_params_3d_w_average.png", dpi=400, bbox_inches="tight")
@@ -440,7 +449,7 @@ def diff_plot_recoveries():
     axs[1].scatter(0, 0, c='r', label="real parameters", zorder =100)
     axs[2].scatter(0, 0, c='r', label="real parameters", zorder =100)
     
-    axs[2].legend()
+    #axs[2].legend()
     axs[0].legend()
     
     plt.savefig("figures/2recovery_second_params_3d_w_average.png", dpi=400, bbox_inches="tight") 
