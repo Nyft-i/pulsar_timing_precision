@@ -668,11 +668,12 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "periodic"
-    tim_iters = 230
-    sub_iters = 45
-    const = 15
+    seq = "logarithmic"
+    tim_iters = 100
+    sub_iters = 100
+    const = 34.76476
     max_gap = 50
+    start_cad = 2
     
     #glitch params
     tim_name = "master_toas_exp.tim"
@@ -680,7 +681,7 @@ def data_output():
     temp_file = "glitchB_temp.par"
     
     #other params
-    args = (0.5, 0, max_gap)
+    args = (start_cad, 0, max_gap)
     par_file_no_fileext = par_file.split(".")[0]
     total_sims = tim_iters*sub_iters
     curr_time = time.strftime("%H:%M")
