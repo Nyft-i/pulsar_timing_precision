@@ -199,7 +199,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             editting_par(par, closest_MJD)
             editting_par(par, closest_MJD, "GLEP_2")
             traits = run_fit(par, tim, recovery_mode = recovery)
-            print(traits)
+            #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
             results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14], traits[15], traits[16], traits[17], traits[18]
