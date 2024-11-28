@@ -176,7 +176,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         # Residual loading glep finder code, put it in the par file
         new_GLEP = epoch_finder(par, tim, master_traits)
         #all_epochs = np.append(all_epochs, new_GLEP)        
-        print(new_GLEP)
+        #print(new_GLEP)
         editting_par(par, new_GLEP)
         editting_par(par, new_GLEP, "GLEP_2")
         
