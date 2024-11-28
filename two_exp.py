@@ -441,6 +441,8 @@ def diff_plot_recoveries():
 
     axs[2].set_title("geometric")
     
+    axs[1].set_title("periodic")
+    
     axs[1].scatter(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7],  facecolors='none', edgecolors='limegreen', s=all_results_per[:,7]*25, zorder=10, alpha = 0.3)
     axs[1].errorbar(all_results_per[:,19]-master_traits[8], all_results_per[:,17]-master_traits[7], xerr=all_results_per[:,20], yerr=all_results_per[:,18], fmt='x', zorder=1, alpha = 0.3, color = "limegreen")    
     axs[1].errorbar(x_second_exp_per, y_second_exp_per, xerr = x_err_second_per, yerr = y_err_second_per, zorder = 50, fmt = "x", color = "darkgreen")
