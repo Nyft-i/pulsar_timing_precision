@@ -460,12 +460,12 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "periodic"
-    tim_iters = 700
-    sub_iters = 15
-    const = 5
-    max_gap = 50
-    start_cad = 0
+    seq = "logarithmic"
+    tim_iters = 140
+    sub_iters = 75
+    const = 25.7197
+    max_gap = 20
+    start_cad = 0.5
     
     #glitch params
     tim_name = "master_toas_2exp.tim"
