@@ -671,8 +671,8 @@ def data_output():
     seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
-    const = 1.5
-    max_gap = 10
+    const = 1.8063
+    max_gap = 58
     start_cad = 0.5
     
     #glitch params
