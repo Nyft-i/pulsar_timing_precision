@@ -468,9 +468,9 @@ def data_output():
     start_cad = 0.5
     
     #glitch params
-    tim_name = "master_toas_D.tim"
-    par_file = "glitchD_master.par"
-    temp_file = "glitchD_temp.par"
+    tim_name = "master_toas_2exp.tim"
+    par_file = "glitchC_master.par"
+    temp_file = "glitchC_temp.par"
     
     #other params
     args = (start_cad, 0, max_gap)

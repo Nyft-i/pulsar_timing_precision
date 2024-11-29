@@ -278,7 +278,7 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 5
+    desired_abdo = 30
     fig = plt.figure(figsize=(16, 4))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
@@ -288,9 +288,9 @@ def constant_finder():
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(30, 100, 1000)
+    constants = np.linspace(33.7, 100, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (2, 0, 70, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -300,7 +300,7 @@ def constant_finder():
     axs[0].set_xlabel("logarithmic constant")
     axs[0].set_title("logarithmic")
     axs[0].set_xlim(18.9, 100)
-    axs[0].set_ylim(0.4, 30)
+    axs[0].set_ylim(0.4, 35)
     print("log consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
@@ -309,7 +309,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(0.5, 5, 1000)
     for constant in constants:
-        args = (0.5, 0, 10, constant)
+        args = (2, 0, 58, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -327,7 +327,7 @@ def constant_finder():
     adbos = np.empty((0,1))
     constants = np.linspace(1.01, 6, 1000)
     for constant in constants:
-        args = (0.5, 0, 20, constant)
+        args = (2, 0, 90, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
@@ -338,7 +338,7 @@ def constant_finder():
     axs[2].set_title("geometric")
     axs[2].set_xlim(0.4, 6.1)
     print("geo consts where ac is 15")
-    item = np.where(np.abs(y - desired_abdo) < 0.01,)
+    item = np.where(np.abs(y - desired_abdo) < 0.02,)
     print(x[item])
     
     # periodic
@@ -668,12 +668,18 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "arithmetic"
+    seq = "logarithmic"
     tim_iters = 100
     sub_iters = 100
+<<<<<<< HEAD
     const = 1.8063
     max_gap = 58
     start_cad = 0.5
+=======
+    const = 35.2264
+    max_gap = 70
+    start_cad = 2
+>>>>>>> 4255c0ac635ef918f5b1f55943c11cc3f54ae7b9
     
     #glitch params
     tim_name = "master_toas_exp.tim"
@@ -723,7 +729,6 @@ def data_output():
             
 def main():
     data_output()
-
     
     return
 
