@@ -47,7 +47,7 @@ fig = plt.figure(figsize=(7, 3))
 gs = fig.add_gridspec(3, hspace=1)
 axs = gs.subplots(sharex = True)
 
-args = (0.5, 0, 20, 2.3744)
+args = (0.5, 0, 10, 1.5)
 seq = 'arithmetic'
 print(tim_sampling.find_sequence_period_info(seq, args))
 
