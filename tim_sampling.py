@@ -88,9 +88,9 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='exponential': cadence = np.power(cadence,exp_increase)
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
-        elif sequence_type=='periodic': cadence = period
-        
         if(cadence > max_gap): cadence = cadence_start
+        
+        if sequence_type=='periodic': cadence = period # must occur after the max gap chekc
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
         num_toas += 1
