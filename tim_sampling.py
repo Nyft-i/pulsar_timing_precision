@@ -91,7 +91,7 @@ def sample_from_toas(toas, sequence_type, args, verbose=False, counting_mode = F
         if sequence_type=='periodic': cadence = period 
         
         #write a not statement for the periodic case
-        if(cadence > max_gap and not(sequence_type=='periodic')): cadence = cadence_start
+        if(cadence > max_gap and (sequence_type!='periodic')): cadence = cadence_start
         if verbose==True: print("current cadence: " + str(cadence))
         marker += cadence
         num_toas += 1
