@@ -460,11 +460,11 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "arithmetic"
+    seq = "geometric"
     tim_iters = 100
     sub_iters = 100
-    const = 1.8063
-    max_gap = 58
+    const = 3.5075
+    max_gap = 90
     start_cad = 2
     
     #glitch params
