@@ -2,9 +2,7 @@ import pandas
 import matplotlib.pyplot as plt
 import numpy as np
 from astropy.convolution import Gaussian2DKernel, convolve
-
-def true_series(parfile):
-  num_exps = find_num_exps(parfile)
+def true_series(parfile, num_exps):
   
   # create a df for the true values of the glitch
   par_read = pandas.read_csv = pandas.read_csv(parfile, names=["param", "value", "fitting", "error"], sep='\s+')
@@ -16,6 +14,7 @@ def true_series(parfile):
                   float(par_read.loc[par_read['param'] == "GLF1_1"]['value']))
   true_vals = pandas.DataFrame([master_traits], columns=["f0", "f1", "epoch", "phase", "df0", "df1"])
   
+  
   # recovery parameters if the par file is long enough
   if num_exps >= 1:
     master_traits = np.append(master_traits, (
@@ -23,13 +22,21 @@ def true_series(parfile):
                   float(par_read.loc[par_read['param'] == "GLTD_1"]['value'])
                   ))
     true_vals = pandas.DataFrame([master_traits], columns=["f0", "f1", "epoch", "phase", "df0", "df1", "df0d_1", "t_d_1"])
+    print("one exp. components found")
+                    
                               
-  elif num_exps >= 2:
+  if num_exps >= 2:
     master_traits = np.append(master_traits, (
                   float(par_read.loc[par_read['param'] == "GLF0D_2"]['value']),
                   float(par_read.loc[par_read['param'] == "GLTD_2"]['value'])
                   ))
     true_vals = pandas.DataFrame([master_traits], columns=["f0", "f1", "epoch", "phase", "df0", "df1", "df0d_1", "t_d_1", "df0d_2", "t_d_2"])
+    print("two exp. components found")
+  
+  else:
+    print("no exp. components found")
+    
+  
   
   # create the dataframe
   true_vals = true_vals.squeeze(axis=0)
@@ -72,24 +79,55 @@ def find_num_exps(parfile):
 19: t_d_2
 20: t_d_2_e
 """
-master_par = "glitchB_master.par"
 
-arith_at_5 = "Glitch B @ 5\\arithmetic_1.5_glitchB_master_10000s_22_00.txt"
-arith_at_15 = "Glitch B @ 15\\arithmetic_4.33333_glitchB_master_10000s_13_42.txt"
-arith_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+glitch = 'c'
 
-geo_at_5 = "Glitch B @ 5\geometric_1.6394_glitchB_master_10800s_18_25.txt"
-geo_at_15 = "Glitch B @ 15\geometric_1.66934_glitchB_master_10000s_15_38.txt"
-geo_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+if glitch == 'b':
 
-log_at_5 = "Glitch B @ 5\logarithmic_25.7197_glitchB_master_10500s_13_31.txt"
-log_at_15 = "Glitch B @ 15\logarithmic_34.76476_glitchB_master_10000s_12_17.txt"
-log_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+  master_par = "glitchB_master.par"
 
-peri_at_5 = "Glitch B @ 5\periodic_5_glitchB_master_10500s_13_31.txt"
-peri_at_15 = "Glitch B @ 15\periodic_15_glitchB_master_10350s_12_58.txt"
-peri_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+  arith_at_5 = "Glitch B @ 5\\arithmetic_1.5_glitchB_master_10000s_22_00.txt"
+  arith_at_15 = "Glitch B @ 15\\arithmetic_4.33333_glitchB_master_10000s_13_42.txt"
+  arith_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
 
+  geo_at_5 = "Glitch B @ 5\geometric_1.6394_glitchB_master_10800s_18_25.txt"
+  geo_at_15 = "Glitch B @ 15\geometric_1.66934_glitchB_master_10000s_15_38.txt"
+  geo_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+
+  log_at_5 = "Glitch B @ 5\logarithmic_25.7197_glitchB_master_10500s_13_31.txt"
+  log_at_15 = "Glitch B @ 15\logarithmic_34.76476_glitchB_master_10000s_12_17.txt"
+  log_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+
+  peri_at_5 = "Glitch B @ 5\periodic_5_glitchB_master_10500s_13_31.txt"
+  peri_at_15 = "Glitch B @ 15\periodic_15_glitchB_master_10350s_12_58.txt"
+  peri_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
+  
+  num_exps = 1
+
+elif glitch == 'c':
+  master_par = "glitch c\glitch c @ 5\glitchC_master.par"
+
+  arith_at_5 = "glitch c\glitch c @ 5\\arithmetic_1.5_glitchC_master_10000s_12_41.txt"
+  arith_at_15 = "glitch c\glitch c @ 15\\arithmetic_4.33333_glitchC_master_10000s_16_04.txt"
+  arith_at_30 = "glitch c\glitch c @ 15\\arithmetic_4.33333_glitchC_master_10000s_16_04.txt"
+
+  geo_at_5 = "glitch c\glitch c @ 5\geometric_1.6394_glitchC_master_10800s_14_35.txt"
+  geo_at_15 = "glitch c\glitch c @ 15\geometric_1.6693_glitchC_master_10000s_18_15.txt"
+  geo_at_30 = "glitch c\glitch c @ 15\geometric_1.6693_glitchC_master_10000s_18_15.txt"
+  
+  log_at_5 = "glitch c\glitch c @ 5\logarithmic_25.7197_glitchC_master_10500s_14_35.txt"
+  log_at_15 = "glitch c\glitch c @ 15\logarithmic_34.76476_glitchC_master_10000s_15_57.txt"
+  log_at_30 = "glitch c\glitch c @ 15\logarithmic_34.76476_glitchC_master_10000s_15_57.txt"
+  
+  peri_at_5 = "glitch c\glitch c @ 5\periodic_5_glitchC_master_10500s_13_53.txt"
+  peri_at_15 = "glitch c\glitch c @ 15\periodic_15_glitchC_master_10350s_15_38.txt"
+  peri_at_30 = "glitch c\glitch c @ 15\periodic_15_glitchC_master_10350s_15_38.txt"
+
+  num_exps = 2
+
+
+res2d = 20
+contours= (0.02, 0.33)
 cols = ["const", "df0", "df0_e", "df1", "df1_e", "ph", "numtoas", "size", "epoch", "df0d_1", "df0d_e_1", "t_d_1", "t_d_e_1", "f0", "f0_e", "f1", "f1_e", "df0d_2", "df0d_2_e", "t_d_2", "t_d_2_e"]
 
 data_arithmetic = [pandas.read_csv(arith_at_5, names=cols, sep='\s+'), 
@@ -108,10 +146,10 @@ data_periodic = [pandas.read_csv(peri_at_5, names=cols, sep='\s+'),
                           pandas.read_csv(peri_at_15, names=cols, sep='\s+'),
                           pandas.read_csv(peri_at_30, names=cols, sep='\s+')]
 
-num_exps = find_num_exps(master_par)
+
 
 # create a true values data series
-true_vals = true_series(master_par)
+true_vals = true_series(master_par, num_exps)
 
 cadences = [5, 15, 30]
 
@@ -140,7 +178,7 @@ for row, cadence in enumerate(cadences):
   plt.scatter(0, 0, color="red", label="True Value", zorder = 5) # plot the true value
 
 
-  colours = ["green", "purple", "black", "blue"]
+  colours = ["tab:blue", "orange", "mediumorchid", "limegreen"]
   seq = ["arithmetic", "geometric", "logarithmic", "periodic"]
 
   # loop through the data array, df0 and df1
@@ -158,18 +196,23 @@ for row, cadence in enumerate(cadences):
     
     
     # create a 2d histogram from numpy to retrieve heights for a contour plot
-    hist, xedges, yedges = np.histogram2d(data["df0"]-true_vals["df0"], data["df1"]-true_vals["df1"], bins=40)
+    hist, xedges, yedges = np.histogram2d(data["df0"]-true_vals["df0"], data["df1"]-true_vals["df1"], bins=res2d)
     # numpy meshgrid
     xmesh, ymesh = np.meshgrid(xedges[:-1], yedges[:-1])
 
     # astropy gaussian kernel smoothing (makes it not jagged and weird)
-    kernel = Gaussian2DKernel(x_stddev=2)
+    kernel = Gaussian2DKernel(x_stddev=1)
     hist = convolve(hist, kernel)
     
+    # rescale hist to be from 0 to 1
+    hist = hist/np.max(hist)
     
     # plot the contour plot, the levels + contours surround the bins which contain more than that number of points i.e. where the density of points is higher than 10800/40^2
-    cs = plt.contour(xmesh, ymesh, hist.T, levels=(10,40), colors=colours[i], alpha=0.5, zorder = 1) 
-    plt.clabel(cs, inline=True, fontsize=10) # add labels to the contour lines
+    cs = plt.contour(xmesh, ymesh, hist.T, levels=contours, colors=colours[i], alpha=0.5, zorder = 1) 
+    fmt = {}
+    for b in contours:
+      fmt[b] = str(int((1-b)*100))+"%"
+    #plt.clabel(cs, inline=True, fontsize=10, fmt=fmt) # add labels to the contour lines
     
     # plot the average and standard deviation
     plt.errorbar(df0_avg, df1_avg, fmt='x', color=colours[i], label=seq[i], zorder = 10)
@@ -199,14 +242,20 @@ for row, cadence in enumerate(cadences):
       # removes all values which are more than 20 standard deviations away from the mean
       data = data[(data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)] < 20*df0d_std) & (data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)] > -20*df0d_std)]
       
-      hist, xedges, yedges = np.histogram2d(data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)], data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)], bins=40)
+      hist, xedges, yedges = np.histogram2d(data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)], data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)], bins=res2d)
       xmesh, ymesh = np.meshgrid(xedges[:-1], yedges[:-1])
-      kernel = Gaussian2DKernel(x_stddev=2)
+      kernel = Gaussian2DKernel(x_stddev=1)
       hist = convolve(hist, kernel)
       
+      # rescale hist to be from 0 to 1
+      hist = hist/np.max(hist)
+      
       # plotting
-      cs = plt.contour(xmesh, ymesh, hist.T, levels=(10,40), colors=colours[j], alpha=0.5, zorder = 1)
-      plt.clabel(cs, inline=True, fontsize=10)
+      cs = plt.contour(xmesh, ymesh, hist.T, levels=contours, colors=colours[j], alpha=0.5, zorder = 1)
+      fmt = {}
+      for b in contours:
+        fmt[b] = str(int((1-b)*100))+"%"
+      #plt.clabel(cs, inline=True, fontsize=10, fmt = fmt)
       plt.scatter(0, 0, color="red", label="True Value")
       
       # plot the average and standard deviation
@@ -215,10 +264,12 @@ for row, cadence in enumerate(cadences):
       # plot each point with low alpha
       #plt.scatter(data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)], data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)], marker = ",", s = 1, alpha=0.1, color=colours[j], zorder = 0)
       
-      
       # set the labels
       plt.xlabel(r"$\tau_{{d}}$("+str(i+1)+") (days)")
       plt.ylabel(r"$\Delta \nu_{{d}}$("+str(i+1)+") (Hz)")
+      
+      if i == num_exps-1 and row == len(cadences)-1:
+        plt.legend()
 
 
 # groups for labels
