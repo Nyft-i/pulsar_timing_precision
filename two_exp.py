@@ -463,9 +463,9 @@ def data_output():
     seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
-    const = 1.5
+    const = 30
     max_gap = 10
-    start_cad = 0.5
+    start_cad = 2
     
     #glitch params
     tim_name = "master_toas_2exp.tim"
