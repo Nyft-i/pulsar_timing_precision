@@ -460,7 +460,7 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "arithmetic"
+    seq = "periodic"
     tim_iters = 100
     sub_iters = 100
     const = 30
