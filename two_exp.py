@@ -22,7 +22,7 @@ def tempo_nofit(par,tim):
         "-f", par, tim,
         "-nofit",
         "noWarnings", ">&", "/dev/null",
-        "-residuals"
+        "-newpar"
         ]
     #print(' '.join(command_nofit), file=sys.stderr)
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
@@ -73,17 +73,21 @@ def run_fit(par, tim, recovery_mode = False):
         command_rec = ["-fit", "GLF0D_1",
                        "-fit", "GLTD_1",
                        "-fit", "GLF0D_2",
-                       "-fit", "GLTD_2"]
+                       "-fit", "GLTD_2",
+                       "-newpar"]
         command = np.hstack((command,command_rec))
             
 
     #print(' '.join(command), file=sys.stderr)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
-    all_fields = out.split("\n")    
+    all_fields = out.split("\n")
+    if True:
+        for field in all_fields:
+            print(field)
     #print(command)
 
-    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0                        
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e, chisq_r = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
     for this_field in all_fields:
         fields = this_field.split()
@@ -117,12 +121,14 @@ def run_fit(par, tim, recovery_mode = False):
                 recovered_F0_2_e = fields[3]
             if fields[0] == "GLTD_2" and recovered_timescale_2 == 0:
                 recovered_timescale_2 = fields[2]
-                recovered_timescale_2_e = fields[3]        
+                recovered_timescale_2_e = fields[3]
+            if fields[1] == "Chisq" and chisq_r == 0:
+                chisq_r = fields[8]
         
     #print(f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e)
     try:
         if recovery_mode == True:
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e, chisq_r
 
         return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
     except UnboundLocalError:
@@ -146,7 +152,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
     start_randomiser = np.random.randint(0, strategy_period*100, (num_sps))
     start_randomiser = start_randomiser/100
-    all_results = np.zeros((0,21))
+    all_results = np.zeros((0,22))
     all_epochs = np.zeros(0)
     
     print("[",end="")
@@ -202,7 +208,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
-            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14], traits[15], traits[16], traits[17], traits[18]
+            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14], traits[15], traits[16], traits[17], traits[18], traits[19]
             all_results = np.vstack((all_results, results))
         
         # clean up at the end also
@@ -210,6 +216,12 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0, "GLF1_1")
         editting_par(par, 0)
         editting_par(par, 0, "GLEP_2")
+        
+        # rename temptim to save it from being overwritten
+        if number == 0:
+            os.rename(temp_tim, "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".tim")
+            os.rename("new.par", "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".par")
+            
             
         #print("finished pulsar ", number)
     print("]")
@@ -460,10 +472,10 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "logarithmic"
-    tim_iters = 100
-    sub_iters = 100
-    const = 35.2264
+    seq = "periodic"
+    tim_iters = 1
+    sub_iters = 1
+    const = 30
     max_gap = 70
     start_cad = 2
     
@@ -489,6 +501,7 @@ def data_output():
         print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
         all_results = single_simulate(toas, seq, args, const, True, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
+        print("chis:", all_results[:,21])
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
         f.close()
