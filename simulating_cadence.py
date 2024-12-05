@@ -105,9 +105,12 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
+    if True:
+        for field in all_fields:
+            print(field)
     #print(command)
     
-    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0                         
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, chisq_r = 0,0,0,0,0,0,0,0,0,0,0,0,0,0                      
     
     for this_field in all_fields:
         fields = this_field.split()
@@ -136,10 +139,12 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             if fields[0] == "F1" and pulsar_f1 == 0:
                 pulsar_f1 = fields[3]
                 pulsar_f1_e = fields[4]
+            if fields[1] == "Chisq" and chisq_r == 0:
+                chisq_r = fields[8]
             
     try:
         if recovery_mode == True:
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0,chisq_r
         
         return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
     except UnboundLocalError:
