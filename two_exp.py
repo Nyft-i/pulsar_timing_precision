@@ -493,9 +493,7 @@ def data_output():
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
         print("chis:", all_results[:,21])
         # if any value of chi is above 4, store the timfile.
-        if np.any(all_results[:,21] > 4):
-            print("chisq_r above 4, storing tim file")
-            os.rename(tim_name, "chisq_r_"+tim_name)
+        os.rename(tim_name, "tims\\"+"tim_"+str(curr_tim)+".tim")
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
         f.close()
