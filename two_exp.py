@@ -171,6 +171,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         temp_tim = sequence_type+"_toas.tim"
         #print(indexes)
         tim_sampling.gen_new_tim(master_tim, indexes, temp_tim)
+        os.copy(temp_tim, "tims/first_eg.tim")
+        os.copy(temp_par, "tims/first_eg.par")
         
         par, tim = temp_par, temp_tim
         # Ensure the par file is clean
