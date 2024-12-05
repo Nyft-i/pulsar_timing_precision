@@ -105,9 +105,9 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
-    #if True:
-     #   for field in all_fields:
-      #      print(field)
+    if True:
+        for field in all_fields:
+            print(field)
     #print(command)
     
     f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, chisq_r = 0,0,0,0,0,0,0,0,0,0,0,0,0,0                      
