@@ -74,7 +74,7 @@ def run_fit(par, tim, recovery_mode = False):
                        "-fit", "GLTD_1",
                        "-fit", "GLF0D_2",
                        "-fit", "GLTD_2",
-                       "-newpar"]
+                       "-newpar", "-residuals"]
         command = np.hstack((command,command_rec))
             
 
