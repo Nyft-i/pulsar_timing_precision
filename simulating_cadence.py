@@ -307,7 +307,7 @@ def constant_finder():
         
     # Arithmetic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 5, 1000)
+    constants = np.linspace(0.5, 20, 1000)
     for constant in constants:
         args = (2, 0, 58, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
@@ -669,16 +669,16 @@ def diff_plot_recovery():
 def data_output():
     #simulation params
     seq = "periodic"
-    tim_iters = 100
-    sub_iters = 100
-    const = 30
+    tim_iters = 230
+    sub_iters = 45
+    const = 15
     max_gap = 90
     start_cad = 2
     
     #glitch params
-    tim_name = "master_toas_exp.tim"
-    par_file = "glitchB_master.par"
-    temp_file = "glitchB_temp.par"
+    tim_name = "master_toas_2exp.tim"
+    par_file = "glitchC_master.par"
+    temp_file = "glitchC_temp.par"
     
     #other params
     args = (start_cad, 0, max_gap)
