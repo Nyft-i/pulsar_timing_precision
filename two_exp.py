@@ -212,6 +212,10 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0, "GLF1_1")
         editting_par(par, 0)
         editting_par(par, 0, "GLEP_2")
+        
+        # rename temptim to save it from being overwritten
+        if number == 1:
+            os.rename(temp_tim, "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".tim")
             
         #print("finished pulsar ", number)
     print("]")
@@ -492,8 +496,6 @@ def data_output():
         all_results = single_simulate(toas, seq, args, const, True, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
         print("chis:", all_results[:,21])
-        # if any value of chi is above 4, store the timfile.
-        os.rename(tim_name, "tims\\"+"tim_"+str(curr_tim)+".tim")
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
         f.close()
