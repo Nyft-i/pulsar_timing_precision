@@ -61,62 +61,62 @@ def contour_plotter_5(data_name, no_of_exp, shade, master_traits, width,name):
     
     sns.kdeplot(x=(data[:, 1] - master_traits[0] ), y= (data[:, 3] - master_traits[1]), levels=[0.01,0.33], ax = axs[0,0], color = shade, linestyles = width, alpha = [0.25,1])
     
-    axs[0,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]))
-    axs[0,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]))
+    axs[0,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]), labelpad=15)
+    axs[0,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]), labelpad=15)
     
     
     if no_of_exp >= 1 :
         sns.kdeplot(x=(data[:, 11] - master_traits[6]), y=(data[:, 9] - master_traits[5]), levels=[0.01,0.33], ax = axs[0,1], color = shade, linestyles = width, alpha = [0.25,1])
         
-        axs[0,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)")
-        axs[0,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)")
+        axs[0,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)", labelpad=15)
+        axs[0,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)", labelpad=15)
         
         if no_of_exp == 2 :
             sns.kdeplot(x=(data[:, 19] - master_traits[8]), y=(data[:, 17] - master_traits[7]), levels=[0.01,0.33], ax = axs[0,2], color = shade, linestyles = width, alpha = [0.25,1],label = name)
             
-            axs[0,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)")
-            axs[0,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)")
+            axs[0,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)", labelpad=15)
+            axs[0,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)", labelpad=15)
 
 def contour_plotter_15(data_name, no_of_exp, shade, master_traits,width):
     data = np.genfromtxt(data_name)
     
     sns.kdeplot(x=(data[:, 1] - master_traits[0] ), y= (data[:, 3] - master_traits[1]), levels=[0.01,0.33], ax = axs[1,0], color = shade, linestyles = width, alpha = [0.25,1])
     
-    axs[1,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]))
-    axs[1,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]))
+    axs[1,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]), labelpad=15)
+    axs[1,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]), labelpad=15)
    
     
     if no_of_exp >= 1 :
         sns.kdeplot(x=(data[:, 11] - master_traits[6]), y=(data[:, 9] - master_traits[5]), levels=[0.01,0.33], ax = axs[1,1], color = shade, linestyles = width, alpha = [0.25,1])
         
-        axs[1,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)")
-        axs[1,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)")
+        axs[1,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)", labelpad=15)
+        axs[1,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)", labelpad=15)
         
         if no_of_exp == 2 :
             sns.kdeplot(x=(data[:, 19] - master_traits[8]), y=(data[:, 17] - master_traits[7]), levels=[0.01,0.33], ax = axs[1,2], color = shade, linestyles = width, alpha = [0.25,1])
             
-            axs[1,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)")
-            axs[1,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)")
+            axs[1,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)", labelpad=15)
+            axs[1,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)", labelpad=15)
             
 def contour_plotter_30(data_name, no_of_exp, shade, master_traits,width):
     data = np.genfromtxt(data_name)
     
     sns.kdeplot(x=(data[:, 1] - master_traits[0] ), y= (data[:, 3] - master_traits[1]), levels=[0.01,0.33], ax = axs[2,0], color = shade, linestyles = width, alpha = [0.25,1])
     
-    axs[2,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]))
-    axs[2,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]))
+    axs[2,0].set_xlabel(r"$\Delta \nu$ (Hz) - " + str(master_traits[1]), labelpad=15)
+    axs[2,0].set_ylabel(r"$\Delta \dot \nu$ (Hz/s) - " + str(master_traits[3]), labelpad=15)
     
     if no_of_exp >= 1 :
         sns.kdeplot(x=(data[:, 11] - master_traits[6]), y=(data[:, 9] - master_traits[5]), levels=[0.01,0.33], ax = axs[2,1], color = shade, linestyles = width, alpha = [0.25,1])
         
-        axs[2,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)")
-        axs[2,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)")
+        axs[2,1].set_xlabel(r"$\tau_{{d}}$("+str(1)+") - " + str(master_traits[6]) + "(days)", labelpad=15)
+        axs[2,1].set_ylabel(r"$\Delta \nu_{{d}}$("+str(1)+") - " + str(master_traits[5]) + "(Hz)", labelpad=15)
         
         if no_of_exp == 2 :
             sns.kdeplot(x=(data[:, 19] - master_traits[8]), y=(data[:, 17] - master_traits[7]), levels=[0.01,0.33], ax = axs[2,2], color = shade, linestyles = width, alpha = [0.25,1])
             
-            axs[2,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)")
-            axs[2,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)")
+            axs[2,2].set_xlabel(r"$\tau_{{d}}$("+str(2)+") - " + str(master_traits[8]) + "(days)", labelpad=15)
+            axs[2,2].set_ylabel(r"$\Delta \nu_{{d}}$("+str(2)+") - " + str(master_traits[7]) + "(Hz)", labelpad=15)
 
 
 
@@ -180,10 +180,6 @@ data_list_log = [log_at_5,log_at_15,log_at_30]
 data_list_geo = [geo_at_5,geo_at_15,geo_at_30]
 data_list_peri = [peri_at_5,peri_at_15,peri_at_30]
 
-
-
-cadences = [5, 15, 30]
-
 #creating figure
 fig = plt.figure(figsize=(8, 8))
 gs = fig.add_gridspec(len(cadences), 1+num_exps, wspace = 0.5, hspace = 0.6)
@@ -194,19 +190,19 @@ par = "glitch c @ 5\glitchC_master.par"
 master = true_series(par,num_exps)
 
 contour_plotter_5(arith_at_5,num_exps,colours[0],master,linestyles[0],name[0])
-contour_plotter_5(geo_at_5,num_exps,colours[1],master,linestyles[1],name[2])
-contour_plotter_5(peri_at_5,num_exps,colours[3],master,linestyles[2],name[3])
-contour_plotter_5(log_at_5,num_exps,colours[2],master,linestyles[3],name[1])
+#contour_plotter_5(geo_at_5,num_exps,colours[1],master,linestyles[1],name[2])
+#contour_plotter_5(peri_at_5,num_exps,colours[3],master,linestyles[2],name[3])
+#contour_plotter_5(log_at_5,num_exps,colours[2],master,linestyles[3],name[1])
 
-contour_plotter_15(arith_at_15,num_exps,colours[0],master,linestyles[0])
-contour_plotter_15(geo_at_15,num_exps,colours[1],master,linestyles[1])
-contour_plotter_15(peri_at_15,num_exps,colours[3],master,linestyles[2])
-contour_plotter_15(log_at_15,num_exps,colours[2],master,linestyles[3])
+#contour_plotter_15(arith_at_15,num_exps,colours[0],master,linestyles[0])
+#contour_plotter_15(geo_at_15,num_exps,colours[1],master,linestyles[1])
+#contour_plotter_15(peri_at_15,num_exps,colours[3],master,linestyles[2])
+#contour_plotter_15(log_at_15,num_exps,colours[2],master,linestyles[3])
 
-contour_plotter_30(arith_at_30,num_exps,colours[0],master,linestyles[0])
-contour_plotter_30(geo_at_30,num_exps,colours[1],master,linestyles[1])
-contour_plotter_30(peri_at_30,num_exps,colours[3],master,linestyles[2])
-contour_plotter_30(log_at_30,num_exps,colours[2],master,linestyles[3])
+#contour_plotter_30(arith_at_30,num_exps,colours[0],master,linestyles[0])
+#contour_plotter_30(geo_at_30,num_exps,colours[1],master,linestyles[1])
+#contour_plotter_30(peri_at_30,num_exps,colours[3],master,linestyles[2])
+#contour_plotter_30(log_at_30,num_exps,colours[2],master,linestyles[3])
 
 while counter <= 2:
     while counter_2 <= 2:
@@ -250,6 +246,6 @@ sustaingrp.set_title("Sustained Changes", pad=30, size=10)
 recoverygrp.tick_params(labeltop=True, labelbottom=False, bottom=False, top = True)
 recoverygrp.set_title("Recovery Components", pad=30, size=10)
 
-plt.legend(name,bbox_to_anchor=(1.05, 1.0), loc='upper left')
+#plt.legend(name,bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
 plt.show()
