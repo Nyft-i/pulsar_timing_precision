@@ -214,7 +214,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0, "GLEP_2")
         
         # rename temptim to save it from being overwritten
-        if number == 1:
+        if number == 0:
             os.rename(temp_tim, "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".tim")
             
         #print("finished pulsar ", number)
