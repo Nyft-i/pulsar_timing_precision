@@ -105,9 +105,10 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
+    
     #print(command)
     
-    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1 = 0,0,0,0,0,0,0,0,0,0,0,0,0                         
+    f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, chisq_r = 0,0,0,0,0,0,0,0,0,0,0,0,0,0                      
     
     for this_field in all_fields:
         fields = this_field.split()
@@ -136,10 +137,12 @@ def run_fit(par, tim, recovery_mode = False, no_phase_fit = False):
             if fields[0] == "F1" and pulsar_f1 == 0:
                 pulsar_f1 = fields[3]
                 pulsar_f1_e = fields[4]
+            if fields[1] == "Chisq" and chisq_r == 0:
+                chisq_r = fields[8]
             
     try:
         if recovery_mode == True:
-            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
+            return f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0,chisq_r
         
         return f0, f0_e, f1, f1_e, ph, epochs, epoch_e,0,0,0,0, pulsar_f0, pulsar_f0_e, pulsar_f1, pulsar_f1_e,0,0,0,0
     except UnboundLocalError:
@@ -163,7 +166,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
     strategy_period, strat_toas = tim_sampling.find_sequence_period_info(sequence_type, passed_args)
     start_randomiser = np.random.randint(0, strategy_period*100, (num_sps))
     start_randomiser = start_randomiser/100
-    all_results = np.zeros((0,17))
+    all_results = np.zeros((0,18))
     all_epochs = np.zeros(0)
     
     print("[",end="")
@@ -219,7 +222,7 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
             #print(traits)
             # traits takes the form of f0, f0_e, f1, f1_e, ph, epochs, epoch_e
             # results takes the form sim_arg, df0, df0e, df1, df1e, phase, numtoas, size, closestmjd, recoveryf0, recoveryf0e, recoveryt, recoveryte
-            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14]
+            results = sim_arg, traits[0], traits[1], traits[2], traits[3], traits[4], num_toas, size, closest_MJD, traits[7], traits[8], traits[9], traits[10], traits[11], traits[12], traits[13], traits[14], traits[15]
             all_results = np.vstack((all_results, results))
         
         # clean up at the end also
@@ -307,7 +310,7 @@ def constant_finder():
         
     # Arithmetic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 5, 1000)
+    constants = np.linspace(0.5, 20, 1000)
     for constant in constants:
         args = (2, 0, 58, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
@@ -668,16 +671,16 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "periodic"
+    seq = "logarithmic"
     tim_iters = 100
     sub_iters = 100
-    const = 30
-    max_gap = 90
+    const = 35.2264
+    max_gap = 70
     start_cad = 2
     
     #glitch params
-    tim_name = "master_toas_exp.tim"
-    par_file = "glitchB_master.par"
+    tim_name = "master_toas_2exp.tim"
+    par_file = "glitchC_master.par"
     temp_file = "glitchB_temp.par"
     
     #other params
