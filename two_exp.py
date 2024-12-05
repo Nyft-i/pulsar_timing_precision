@@ -22,7 +22,7 @@ def tempo_nofit(par,tim):
         "-f", par, tim,
         "-nofit",
         "noWarnings", ">&", "/dev/null",
-        "-residuals"
+        "-newpar"
         ]
     #print(' '.join(command_nofit), file=sys.stderr)
     proc = subprocess.Popen(command_nofit, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
@@ -67,7 +67,8 @@ def run_fit(par, tim, recovery_mode = False):
         "-fit", "GLF1_1",
         "-fit", "GLPH_1",
         "-fit", "F1",
-        "-fit", "F0"]
+        "-fit", "F0",
+        "-newpar"]
     
     if recovery_mode == True :
         command_rec = ["-fit", "GLF0D_1",
@@ -216,6 +217,8 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         # rename temptim to save it from being overwritten
         if number == 0:
             os.rename(temp_tim, "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".tim")
+            os.rename("new.par", "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".par")
+            
             
         #print("finished pulsar ", number)
     print("]")
