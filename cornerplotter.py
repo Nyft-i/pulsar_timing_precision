@@ -8,6 +8,10 @@ Created on Thu Nov 21 10:05:41 2024
 import numpy as np
 import corner as cn
 import matplotlib.ticker as ticker
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 #from matplotlib import rcParams
 import pandas
 
@@ -21,6 +25,12 @@ import pandas
 
 
 all_data = np.genfromtxt("Glitch C @ 5/geometric_1.6394_glitchC_master_10800s_14_35.txt", usecols=[1,3,8,9,11,13,15,17,19])
+all_data = np.vstack((all_data, np.genfromtxt("Glitch C @ 5/arithmetic_1.5_glitchC_master_10000s_12_41.txt", usecols=[1,3,8,9,11,13,15,17,19])))
+all_data = np.vstack((all_data, np.genfromtxt("Glitch C @ 5/periodic_5_glitchC_master_10500s_13_53.txt", usecols=[1,3,8,9,11,13,15,17,19])))
+all_data = np.vstack((all_data, np.genfromtxt("Glitch C @ 5/logarithmic_25.7197_glitchC_master_10500s_14_35.txt", usecols=[1,3,8,9,11,13,15,17,19])))
+
+#all_data = np.genfromtxt("glitch c @ 15/arithmetic_4.33333_glitchC_master_10000s_16_04.txt", usecols=[1,3,8,9,11,13,15,17,19])
+
 
 cols = ["Element Name", "Value", "Fitting", "Error"]
 master_properties = pandas.read_csv("glitchC_master.par", sep="\s+", names=cols)
@@ -39,13 +49,13 @@ master_traits = (float(master_properties.loc[master_properties['Element Name'] =
 print(all_data[:,1]-master_traits[1])
 
 all_data = np.array([
+            all_data[:,5]-master_traits[7],
+            all_data[:,6]-master_traits[8],
             all_data[:,0]-master_traits[0],
             all_data[:,1]-master_traits[1],
             all_data[:,2]-master_traits[4],
             all_data[:,3]-master_traits[5],
             all_data[:,4]-master_traits[6],
-            all_data[:,5]-master_traits[7],
-            all_data[:,6]-master_traits[8],
             all_data[:,7]-master_traits[9],
             all_data[:,8]-master_traits[10]
             ])
@@ -54,22 +64,29 @@ all_data = np.transpose(all_data)
             
 print(all_data[1])
 
-fig = cn.corner(all_data, labels=(r"$\Delta \nu \minus$"+str(master_traits[0]), 
-                                  r"$\Delta \nu \minus$"+str(master_traits[1]),
-                                  r"epoch$_g\minus$"+str(master_traits[3]), 
-                                  r"$\Delta \nu_{{d,s}}\minus$"+str(master_traits[5]), 
-                                  r"$\tau_{{d,s}}\minus$"+str(master_traits[6]), 
+fig = cn.corner(all_data, labels=(
                                   r"$\nu \minus$"+str(master_traits[7]), 
                                   r"$\dot \nu \minus$"+str(master_traits[8]),
-                                  r"$\Delta \nu_{{d,l}}\minus$"+str(master_traits[9]),
-                                  r"$\tau_{{d,s}}\minus$"+str(master_traits[10])))
+                                  r"$\Delta \nu \minus$"+str(master_traits[0]), 
+                                  r"$\Delta \dot \nu \minus$"+str(master_traits[1]),
+                                  r"epoch$_g \minus$"+str(master_traits[3]), 
+                                  r"$\Delta \nu_s \minus$"+str(master_traits[5]), 
+                                  r"$\tau _s \minus$"+str(master_traits[6]), 
+                                  r"$\Delta \nu_l \minus$"+str(master_traits[9]),
+                                  r"$\tau_l \minus$ "+str(master_traits[10])), labelpad=0.012)
 
 
 # get the axis
 axes = np.array(fig.axes).reshape((9,9))
 for i in range(9):
     for j in range(9):
-      axes[i, j].set_xlabel(axes[i, j].get_xlabel(), fontsize=14)
-      axes[i, j].set_ylabel(axes[i, j].get_ylabel(), fontsize=14)
+      axes[i, j].set_xlabel(axes[i, j].get_xlabel(), fontsize=14,labelpad=15)
+      axes[i, j].set_ylabel(axes[i, j].get_ylabel(), fontsize=14,labelpad=15)
       
+#fig._gridspecs
+#gs=fig.axes.get_gridspec()
+#gs.update(hspace=0.1, wspace=0.1)
+
+plt.subplots_adjust(wspace=0.16, hspace=0.16)
+plt.show()
 fig.savefig("corner_plot.png", dpi=300)
