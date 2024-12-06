@@ -82,9 +82,9 @@ def run_fit(par, tim, recovery_mode = False):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
     out, err = proc.communicate()
     all_fields = out.split("\n")
-    if True:
-        for field in all_fields:
-            print(field)
+    #if True:
+        #for field in all_fields:
+            #print(field)
     #print(command)
 
     f0, f0_e, f1, f1_e, ph, epochs, epoch_e, recovered_F0, recovered_F0_e, recovered_timescale, recovered_timescale_e, pulsar_f0, pulsar_f1, recovered_F0_2, recovered_F0_2_e, recovered_timescale_2, recovered_timescale_2_e, chisq_r = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -474,11 +474,11 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "periodic"
-    tim_iters = 1
-    sub_iters = 1
-    const = 30
-    max_gap = 70
+    seq = "arithmetic"
+    tim_iters = 100
+    sub_iters = 100
+    const = 11.1967
+    max_gap = 58
     start_cad = 2
     
     #glitch params

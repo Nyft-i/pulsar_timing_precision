@@ -671,16 +671,16 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "logarithmic"
+    seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
-    const = 35.2264
-    max_gap = 70
+    const =  11.1967
+    max_gap = 58
     start_cad = 2
     
     #glitch params
-    tim_name = "master_toas_2exp.tim"
-    par_file = "glitchC_master.par"
+    tim_name = "master_toas_exp.tim"
+    par_file = "glitchB_master.par"
     temp_file = "glitchB_temp.par"
     
     #other params
