@@ -33,12 +33,13 @@ def event_maker(sequence_type, args):
         elif sequence_type=='arithmetic': cadence = cadence + sequential_increase
         elif sequence_type=='exponential': cadence = np.power(cadence,exp_increase)
         elif sequence_type=='geometric': cadence = cadence * multiplicative_increase
-        elif sequence_type=='periodic': cadence = period
+        elif sequence_type=='periodic': cadence = period 
         
-        if(cadence > max_gap): 
-            endpoints = np.append(endpoints, marker)
+        #write a not statement for the periodic case
+        if(cadence > max_gap and (sequence_type!='periodic')):  b b
             cadence = cadence_start
-
+            endpoints = np.append(endpoints, marker)
+        
         marker += cadence
         
     return all_obs, endpoints
@@ -47,13 +48,13 @@ fig = plt.figure(figsize=(7, 3))
 gs = fig.add_gridspec(3, hspace=1)
 axs = gs.subplots(sharex = True)
 
-args = (0.5, 0, 10, 1.5)
+args = (2, 0, 58, 11.1966967)
 seq = 'arithmetic'
 print(tim_sampling.find_sequence_period_info(seq, args))
 
 
     
-args = (0.5, 0, 20, 5)
+args = (0.5, 0, 20, 30)
 seq = 'periodic'
 print(tim_sampling.find_sequence_period_info(seq, args))
 
