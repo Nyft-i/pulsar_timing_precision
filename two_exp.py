@@ -477,14 +477,14 @@ def data_output():
     seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
-    const = 11.1967
-    max_gap = 58
-    start_cad = 2
+    const = 1.5
+    max_gap = 10
+    start_cad = 0.5
     
     #glitch params
-    tim_name = "master_toas_2exp.tim"
-    par_file = "glitchC_master.par"
-    temp_file = "glitchC_temp.par"
+    tim_name = "glitchE_master_toas.tim"
+    par_file = "glitchE_master.par"
+    temp_file = "glitchE_temp.par"
     
     #other params
     args = (start_cad, 0, max_gap)
