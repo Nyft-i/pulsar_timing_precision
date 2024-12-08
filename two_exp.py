@@ -73,8 +73,7 @@ def run_fit(par, tim, recovery_mode = False):
         command_rec = ["-fit", "GLF0D_1",
                        "-fit", "GLTD_1",
                        "-fit", "GLF0D_2",
-                       "-fit", "GLTD_2",
-                       "-newpar", "-residuals"]
+                       "-fit", "GLTD_2"]
         command = np.hstack((command,command_rec))
             
 
@@ -220,10 +219,11 @@ def single_simulate(toas, sequence_type, const_args, sim_arg, recovery, verbose 
         editting_par(par, 0, "GLEP_2")
         
         # rename temptim to save it from being overwritten
+        """
         if number == 0:
             os.rename(temp_tim, "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".tim")
             os.rename("new.par", "tims/"+sequence_type+"_"+str(sim_arg)+"_"+str(offset)+".par")
-            
+           """ 
             
         #print("finished pulsar ", number)
     print("]")
@@ -476,15 +476,15 @@ def data_output():
     #simulation params
     seq = "arithmetic"
     tim_iters = 100
-    sub_iters = 100
+    sub_iters = 10
     const = 1.5
     max_gap = 10
     start_cad = 0.5
     
     #glitch params
-    tim_name = "glitchE_master_toas.tim"
-    par_file = "glitchE_master.par"
-    temp_file = "glitchE_temp.par"
+    tim_name = "master_toas_2exp.tim"
+    par_file = "glitchC_master.par"
+    temp_file = "glitchC_temp.par"
     
     #other params
     args = (start_cad, 0, max_gap)
