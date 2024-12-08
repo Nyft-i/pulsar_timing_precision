@@ -476,7 +476,7 @@ def data_output():
     #simulation params
     seq = "arithmetic"
     tim_iters = 100
-    sub_iters = 10
+    sub_iters = 100
     const = 1.5
     max_gap = 10
     start_cad = 0.5
