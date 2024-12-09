@@ -474,7 +474,7 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "arithmetirc"
+    seq = "arithmetic"
     tim_iters = 100
     sub_iters = 100
     const = 4.33333
