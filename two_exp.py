@@ -474,10 +474,10 @@ def diff_plot_recoveries():
 
 def data_output():
     #simulation params
-    seq = "geometric"
+    seq = "periodic"
     tim_iters = 100
     sub_iters = 100
-    const = 3.5075
+    const = 30
     max_gap = 90
     start_cad = 2
     
