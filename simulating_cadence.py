@@ -681,12 +681,12 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "arithmetic"
+    seq = "geometric"
     tim_iters = 100
     sub_iters = 100
-    const =  1.5
-    max_gap = 10
-    start_cad = 0.5
+    const =  3.5075
+    max_gap = 90
+    start_cad = 2
     
     #glitch params
     tim_name = "master_toas.tim"
