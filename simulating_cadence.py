@@ -685,7 +685,7 @@ def data_output():
     tim_iters = 100
     sub_iters = 100
     const =  1.5
-    max_gap = 90
+    max_gap = 10
     start_cad = 0.5
     
     #glitch params
