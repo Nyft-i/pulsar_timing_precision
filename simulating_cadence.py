@@ -281,72 +281,78 @@ def find_const(toas, sequence_type, const_args, sim_args, desired_toas, leeway):
 
 def constant_finder():
     # Code which plots out the average time between observations for a given constant, for all three of the cadence strategies  (at 20days max gap)   
-    desired_abdo = 30
-    fig = plt.figure(figsize=(16, 4))
+    desired_abdo = 5
+    fig = plt.figure(figsize=(15, 2))
     gs = fig.add_gridspec(1, 4, wspace=0)
     axs = gs.subplots(sharey=True)
-    fig.suptitle("average days between observations for a given constant and strategy")
-    fig.supylabel("average days between observations (AC) ", y=0.5, x=0.09)
+    #fig.suptitle("average days between observations for a given constant and strategy")
+    fig.supylabel("Average Cadence (AC)", y=0.5, x=0.09)
 
 
     # Logarithmic
     adbos = np.empty((0,1))
-    constants = np.linspace(33.7, 100, 1000)
+    constants = np.linspace(19, 100, 10000)
     for constant in constants:
-        args = (2, 0, 70, constant)
+        args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('logarithmic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    axs[0].plot(x, y)
-    axs[0].set_xlabel("logarithmic constant")
-    axs[0].set_title("logarithmic")
-    axs[0].set_xlim(18.9, 100)
-    axs[0].set_ylim(0.4, 35)
+    axs[2].plot(x, y, color="k")
+    axs[2].set_xlabel(r"logarithmic constant, $k_l$")
+    axs[2].set_title(r"logarithmic, $T_{max}=20$d")
+    axs[2].set_xlim(18.9, 60)
+    axs[2].set_ylim(2.5, 7.5)
+    axs[2].plot(25.7197, 5, marker="o", color="magenta", zorder=500)
+
     print("log consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
         
     # Arithmetic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 20, 1000)
+    constants = np.linspace(1, 20, 10000)
     for constant in constants:
-        args = (2, 0, 58, constant)
+        args = (0.5, 0, 10, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('arithmetic', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    axs[1].plot(x, y)
-    axs[1].set_xlabel("sequential increase")
-    axs[1].set_title("arithmetic")
-    axs[1].set_xlim(0.4, 5)
+    axs[0].plot(x, y, color="k")
+    axs[0].set_xlabel(r"sequential increase, $k_a$")
+    axs[0].set_title(r"arithmetic, $T_{max}=10$d")
+    axs[0].set_xlim(1, 4.1)
+    axs[0].plot(1.5, 5, marker="o", color="magenta" ,zorder=500)
+
     print("arith consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
     # geometric
     adbos = np.empty((0,1))
-    constants = np.linspace(1.01, 6, 1000)
+    constants = np.linspace(1.01, 6, 10000)
     for constant in constants:
-        args = (2, 0, 90, constant)
+        args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('geometric', args))
         
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    axs[2].plot(x, y)
-    axs[2].set_xlabel("multiplicative increase")
-    axs[2].set_title("geometric")
-    axs[2].set_xlim(0.4, 6.1)
+    axs[1].plot(x, y, color="k")
+    axs[1].set_xlabel(r"multiplicative increase, $k_g$")
+    axs[1].set_title(r"geometric, $T_{max} = 20$d")
+    axs[1].set_xlim(1.1, 3.2)
+    axs[1].plot(1.6394, 5, marker="o", color="magenta", zorder=500)
+
     print("geo consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.02,)
     print(x[item])
     
     # periodic
     adbos = np.empty((0,1))
-    constants = np.linspace(0.5, 30, 1000)
+    constants = np.linspace(0.5, 30, 10000)
     for constant in constants:
         args = (0.5, 0, 20, constant)
         adbos = np.append(adbos, tim_sampling.fadbo('periodic', args))
@@ -354,21 +360,25 @@ def constant_finder():
     pos = np.where(np.abs(np.diff(adbos)) >= 0.5)[0]+1
     x = np.insert(constants, pos, np.nan)
     y = np.insert(adbos, pos, np.nan)    
-    axs[3].plot(x, y)
-    axs[3].set_xlabel("period (days)")
+    axs[3].plot(x, y, color="k")
+    axs[3].set_xlabel(r"period, $k_p$")
     axs[3].set_title("periodic")
-    axs[3].set_xlim(0.4, 20.1)
+    axs[3].set_xlim(0.4, 10)
+    axs[3].scatter(5, 5, marker="o", color="magenta", zorder=500, label="chosen k")
+
     print("peri consts where ac is 15")
     item = np.where(np.abs(y - desired_abdo) < 0.01,)
     print(x[item])
     
     
     for cur in axs:
-        cur.axhline(y = desired_abdo, color = 'xkcd:booger', linestyle = '--') 
+        cur.axhline(y = desired_abdo, color = 'pink', linestyle = '--', label="AC = 5") 
     
+    axs[3].legend(loc="lower right")
     plt.plot()
+    plt.show()
     #datetime = time.strftime("%Y-%m-%d-%H:%M")
-    #fig.savefig("figures/AC"+datetime+".png", dpi=400, bbox_inches="tight")
+    fig.savefig("ac_plot.png", dpi=400, bbox_inches="tight")
     
 def diff_plot():
     # Plots our DDnu and DDnudot results for each of the cadence strategies
@@ -671,17 +681,17 @@ def diff_plot_recovery():
     
 def data_output():
     #simulation params
-    seq = "arithmetic"
+    seq = "periodic"
     tim_iters = 100
     sub_iters = 100
-    const =  11.1967
-    max_gap = 58
+    const =  15
+    max_gap = 30
     start_cad = 2
     
     #glitch params
-    tim_name = "master_toas_exp.tim"
-    par_file = "glitchB_master.par"
-    temp_file = "glitchB_temp.par"
+    tim_name = "master_toas.tim"
+    par_file = "master_file.par"
+    temp_file = "noglitch.par"
     
     #other params
     args = (start_cad, 0, max_gap)
@@ -698,7 +708,7 @@ def data_output():
         print("tim file '"+tim_name+"' generated")
         toas = np.genfromtxt(tim_name, skip_header=1, usecols=[2])
         print("starting sub-simulations for tim file "+str(curr_tim+1)+".")
-        all_results = single_simulate(toas, seq, args, const, True, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
+        all_results = single_simulate(toas, seq, args, const, False, num_sps = sub_iters, temp_par=temp_file, master_par=par_file, master_tim=tim_name)
         print("finished sub-simulations for tim file "+str(curr_tim+1)+".")
         f=open(old_name,'a')
         np.savetxt(f, all_results, fmt = "%s", delimiter = " ")
@@ -725,7 +735,7 @@ def data_output():
     
             
 def main():
-    data_output()
+    constant_finder()
     
     return
 
