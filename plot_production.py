@@ -103,6 +103,7 @@ if glitch == 'b':
   peri_at_30 = "Glitch B @ 30\logarithmic_35.2264_glitchB_master_10000s_14_15.txt"
   
   num_exps = 1
+  
 
 elif glitch == 'c':
   master_par = "glitch c\glitch c @ 5\glitchC_master.par"
@@ -241,6 +242,9 @@ for row, cadence in enumerate(cadences):
       
       # removes all values which are more than 20 standard deviations away from the mean
       data = data[(data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)] < 20*df0d_std) & (data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)] > -20*df0d_std)]
+      
+      # prints out the values where the timescale is close to 5
+      print(data[(data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)] < 0.1) & (data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)] > -0.1)])
       
       hist, xedges, yedges = np.histogram2d(data["t_d_"+str(i+1)]-true_vals["t_d_"+str(i+1)], data["df0d_"+str(i+1)]-true_vals["df0d_"+str(i+1)], bins=res2d)
       xmesh, ymesh = np.meshgrid(xedges[:-1], yedges[:-1])
