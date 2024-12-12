@@ -20,10 +20,10 @@ import pandas
 #"""
 
 
-all_data = np.genfromtxt("Glitch C @ 5/geometric_1.6394_glitchC_master_10800s_14_35.txt", usecols=[1,3,8,9,11,13,15,17,19])
+all_data = np.genfromtxt("Glitch C @ 5/geometric_1.6394_glitchC_master_10800s_14_35.txt", usecols=[1,3,8,9,11,13,15,17,19,7])
 
 cols = ["Element Name", "Value", "Fitting", "Error"]
-master_properties = pandas.read_csv("glitchC_master.par", sep="\s+", names=cols)
+master_properties = pandas.read_csv("master files/glitchC_master.par", sep="\s+", names=cols)
 master_traits = (float(master_properties.loc[master_properties['Element Name'] == "GLF0_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLF1_1"]['Value']), 
                     float(master_properties.loc[master_properties['Element Name'] == "GLPH_1"]['Value']),
@@ -47,7 +47,7 @@ all_data = np.array([
             all_data[:,5]-master_traits[7],
             all_data[:,6]-master_traits[8],
             all_data[:,7]-master_traits[9],
-            all_data[:,8]-master_traits[10]
+            all_data[:,8]-master_traits[10],
             ])
 
 all_data = np.transpose(all_data)
